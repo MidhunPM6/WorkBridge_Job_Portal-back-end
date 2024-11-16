@@ -1,0 +1,53 @@
+const User =require('../Models/User')
+const bcrypt=require('bcrypt')
+
+exports.registerUser=(req,res)=>{
+
+User.findOne({email:req.body.email}).then((existingUser)=>{
+    if(existingUser){
+        return res.status(400).json({message:'User Already Registered'})
+    }
+    return bcrypt.hash(req.body.password,10)
+}).then((hashedPassword)=>{
+    const user=new User({
+        name:req.body.name,
+        email:req.body.email,
+        password:hashedPassword,
+    })
+    return user.save()
+
+}).then((result)=>{
+   res.status(201).json({
+    message:"User Successfully Registered",
+    User:{id:result._id,name:result.name,email:result.email}
+
+   })
+}).catch(err=>{
+
+    console.log(err+'Not Registered')
+
+
+})
+}
+
+
+exports.LoginUser=async(req,res)=>{
+
+   const {email,password}=req.body
+   
+   const user=await User.findOne({email})
+
+   if(user && await bcrypt.compare(password,user.password)){
+    res.status(200).json({ message: "Login Successful!" });
+   }else{
+    res.status(400).json({ message: "Invalid Credentials." });
+   }
+   
+
+   }
+
+
+
+
+
+

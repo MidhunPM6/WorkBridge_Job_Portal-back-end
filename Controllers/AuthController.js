@@ -1,8 +1,8 @@
 const User =require('../Models/User')
 const bcrypt=require('bcrypt')
 
+//User Register
 exports.registerUser=(req,res)=>{
-
 User.findOne({email:req.body.email}).then((existingUser)=>{
     if(existingUser){
         return res.status(400).json({message:'User Already Registered'})
@@ -24,13 +24,13 @@ User.findOne({email:req.body.email}).then((existingUser)=>{
    })
 }).catch(err=>{
 
-    console.log(err+'Not Registered')
+    console.log(err)
 
 
 })
 }
 
-
+//User Login
 exports.LoginUser=async(req,res)=>{
 
    const {email,password}=req.body
@@ -44,10 +44,10 @@ exports.LoginUser=async(req,res)=>{
    }
    
 
-   }
+   } 
 
 
-
+       
 
 
 

@@ -16,11 +16,10 @@ cors({
   credentials: true
 })
 app.use("/api/auth", authRouter);
-
-
+      
+ 
  
 //Port Configuration
 app.listen(dotenv.SERVER_PORT, () => {
   console.log(`Port Running on ${dotenv.SERVER_PORT}`);
 });
- 

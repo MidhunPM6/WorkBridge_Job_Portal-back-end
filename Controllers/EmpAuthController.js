@@ -39,7 +39,7 @@ exports.empLogin=async(req,res)=>{
 
     const user=await EmpUser.findOne({email})
     if(user && await bcrypt.compare(password,user.password)){
-        res.status(200).json({message : " Login Successfully"})
+        res.status(200).json({message : " Login Successfully",username:user.name})
     }else{
         res.status(400).json({message: "Invalid Credentials"})
     } 

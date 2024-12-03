@@ -1,6 +1,7 @@
 const dotenv = require("dotenv").config().parsed;
 const ConnectDB = require("./dbconfig");
-const authRouter =  require('./Routers/AuthRouter')
+const AuthRouters =  require('./Routers/AuthRouter')
+const JobPostRouter =require('./Routers/PostjobRouter')
 
 const express = require("express");
 const cors = require("cors");
@@ -15,7 +16,10 @@ cors({
   origin: dotenv.FRONTEND_URL,
   credentials: true
 })
-app.use("/api/auth", authRouter);
+app.use("/api/auth", AuthRouters);
+
+app.use("/api/jobposting",JobPostRouter);
+
       
  
  

@@ -1,5 +1,5 @@
 const express = require('express')
-const {jobPost} =require('../Controllers/JobPost')
+const {jobPost} =require('../Controllers/JobPostController')
 
 
 const router=express.Router();

@@ -8,7 +8,7 @@ exports.jobPost=async(req,res)=>{
     console.log(req.body);
     
     try {
-        const Newjob=new PostedJobs({
+        const StoreJobDetails=new PostedJobs({
             tittle:tittle,
             comapany_name:comapany_name,
             location:location,
@@ -16,10 +16,10 @@ exports.jobPost=async(req,res)=>{
             job_description:job_description,
             job_type:job_type,
         })
-        await Newjob.save()
-        res.status(200).json({message:"Successfully Posted"})
+        await StoreJobDetails.save()
+        res.status(200).json({message:"Successfully Posted",StoreJobDetails})
     } catch (error) {
         console.log("Error creating job post:", error);
         res.status(400).json({message:"Something went wrong"})
     }
-}
+}      

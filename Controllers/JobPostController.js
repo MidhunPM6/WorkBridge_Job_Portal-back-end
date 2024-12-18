@@ -22,4 +22,4 @@ exports.jobPost=async(req,res)=>{
         console.log("Error creating job post:", error);
         res.status(400).json({message:"Something went wrong"})
     }
-}      
+}          

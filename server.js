@@ -22,10 +22,11 @@ app.use("/api/auth", AuthRouters);
 app.use("/api/jobposting",JobPostRouter);
 app.use('/api/jobdetails',JobDetailsRouter)
 
-      
+       
  
  
 //Port Configuration
 app.listen(dotenv.SERVER_PORT, () => {
   console.log(`Port Running on ${dotenv.SERVER_PORT}`);
 });
+ 

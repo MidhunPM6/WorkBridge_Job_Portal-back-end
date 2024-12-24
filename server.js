@@ -4,6 +4,8 @@ const AuthRouters =  require('./Routers/AuthRouter')
 const JobPostRouter =require('./Routers/PostjobRouter')
 const JobDetailsRouter = require('./Routers/JobDetailsRouter')
 const AppliedJob =require('./Routers/AppiledJobRouter')
+const RecivedApplication = require('./Routers/RecivedApplication')
+
 
 const express = require("express");
 const cors = require("cors");
@@ -23,6 +25,7 @@ app.use("/api/auth", AuthRouters);
 app.use("/api/jobposting",JobPostRouter);
 app.use('/api/jobdetails',JobDetailsRouter)
 app.use('/api/jobapplication',AppliedJob)
+app.use('/api/recivedjob',RecivedApplication)
 
        
  

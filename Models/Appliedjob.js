@@ -11,6 +11,11 @@ const AppliedJobScehma=new mongoose.Schema({
       required:true
 
     }
+,
+    empid:{
+        type:mongoose.Schema.Types.ObjectId,
+        require:true,
+    }
 })
 
 const AppliedJobs=mongoose.model('AppliedJobs',AppliedJobScehma)

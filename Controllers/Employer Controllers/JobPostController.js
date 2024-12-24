@@ -1,10 +1,10 @@
-const PostedJobs = require("../Models/JobPostSchema")
+const PostedJobs = require("../../Models/JobPostSchema")
 
 
 
 exports.jobPost=async(req,res)=>{
   
-    const { tittle,comapany_name,location,salary,job_description,job_type}=req.body
+    const { tittle,comapany_name,location,salary,job_description,job_type,EmpID}=req.body
     console.log(req.body);
     
     try {
@@ -15,6 +15,7 @@ exports.jobPost=async(req,res)=>{
             salary:salary,
             job_description:job_description,
             job_type:job_type,
+            EmpID:EmpID,
         })
         await StoreJobDetails.save()
         res.status(200).json({message:"Successfully Posted",StoreJobDetails})

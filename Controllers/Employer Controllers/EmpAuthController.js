@@ -1,4 +1,4 @@
-const EmpUser=require('../Models/EmpUser')
+const EmpUser=require('../../Models/EmpUser')
 const bcrypt =require('bcrypt')
 
 //Register
@@ -39,7 +39,7 @@ exports.empLogin=async(req,res)=>{
 
     const user=await EmpUser.findOne({email})
     if(user && await bcrypt.compare(password,user.password)){
-        res.status(200).json({message : " Login Successfully",username:user.name})
+        res.status(200).json({message : " Login Successfully",user:user})
     }else{
         res.status(400).json({message: "Invalid Credentials"})
     } 

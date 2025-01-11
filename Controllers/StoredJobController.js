@@ -10,4 +10,4 @@ exports.storedJob=async(req,res)=>{
         res.status(400).json({message:"Failed to fetch Jobs"})
     }
 
-}
+} 

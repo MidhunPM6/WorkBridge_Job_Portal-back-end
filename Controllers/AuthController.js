@@ -12,6 +12,7 @@ User.findOne({email:req.body.email}).then((existingUser)=>{
     const user=new User({
         name:req.body.name,
         email:req.body.email,
+        mobile:req.body.mobile,
         password:hashedPassword,
     })
     return user.save()

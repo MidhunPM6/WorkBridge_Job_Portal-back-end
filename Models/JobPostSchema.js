@@ -27,7 +27,7 @@ const jobPostSchema = new mongoose.Schema(
     EmpID:{
         type:String,
         required:true
-    },
+    }, 
   },
   { timestamps: true }
 );

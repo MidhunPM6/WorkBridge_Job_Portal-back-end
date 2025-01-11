@@ -24,8 +24,20 @@ const AppliedJobScehma=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         require:true,
         ref :'EmpUser'
+    },
+    AppliedDate:{
+        type:String,
+        required:true,
+    },
+
+    AppliedTime:{
+        type:String,
+        required:true,
+
     }
-})
+},
+{timestamps:true}
+)
 
 const AppliedJobs=mongoose.model('AppliedJobs',AppliedJobScehma)
 AppliedJobs.createIndexes()

@@ -10,7 +10,8 @@ exports.fetchRecivedApplication = async (req, res) => {
       return res.status(400).json({ message: 'Invalid Employer ID provided.' })
     }
     const Application = await AppliedJobs.find({ empid: currentEmpID })
-      .populate('jobid', 'tittle comapany_name')
+      .populate('jobid', 'tittle location ' )
+      .populate('userid', 'name email mobile')
       .exec()
 
     console.log(Application)

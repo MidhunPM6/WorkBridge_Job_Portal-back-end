@@ -24,8 +24,9 @@ exports.AppliedJob = async (req, res) => {
     const AppliedJob = new AppliedJobs({
       jobid: JobID,
       userid: UserID,
-      empid:EmpID
-    })
+      empid:EmpID,
+      AppliedDate :new Date().toLocaleDateString(),
+      AppliedTime:new Date().toLocaleTimeString(),    })
 
     await AppliedJob.save()
 

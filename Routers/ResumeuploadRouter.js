@@ -9,4 +9,4 @@ const router=express.Router();
 
 router.post('/fileupload',upload.single("pdf"),resumeUpload)
 
-module.exports=router
+module.exports=router       

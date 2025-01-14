@@ -1,7 +1,5 @@
 const mongoose =require('mongoose')
-const PostedJobs = require('./JobPostSchema')
-const User = require('./User')
-const EmpUser = require('./EmpUser')
+
 
 
 
@@ -22,9 +20,16 @@ const AppliedJobScehma=new mongoose.Schema({
 ,
     empid:{
         type:mongoose.Schema.Types.ObjectId,
-        require:true,
+        required:true,
         ref :'EmpUser'
     },
+    resume:{
+
+        type: mongoose.Schema.Types.ObjectId,
+        required:true,
+        ref:'Resume'
+    },
+    
     AppliedDate:{
         type:String,
         required:true,
@@ -34,7 +39,8 @@ const AppliedJobScehma=new mongoose.Schema({
         type:String,
         required:true,
 
-    }
+    },
+   
 },
 {timestamps:true}
 )

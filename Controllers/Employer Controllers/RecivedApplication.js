@@ -11,7 +11,7 @@ exports.fetchRecivedApplication = async (req, res) => {
     }
     const Application = await AppliedJobs.find({ empid: currentEmpID })
       .populate('jobid', 'tittle location ' )
-      .populate('userid', 'name email mobile')
+      .populate('userid', 'name email mobile ')
       .exec()
 
     console.log(Application)

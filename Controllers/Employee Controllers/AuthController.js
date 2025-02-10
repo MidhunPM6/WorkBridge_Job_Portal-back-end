@@ -47,13 +47,15 @@ exports.LoginUser=async(req,res)=>{
             console.log(secretKey)
 
             const token = jwt.sign({UserID:user._id},secretKey,{
-                expiresIn:"30m"
+                expiresIn:"1h"
             })
 
             res.cookie('jwt',token,{
                 httpOnly:true,
                 secure: false,
-                sameSite:"Strict"
+                sameSite:"Strict",
+                path:'/',
+                maxAge: 24 * 60 * 60 * 1000 
 
             })
             res.status(200).json({ message: "Login Successful!",username:user.name,user:user,});
@@ -68,7 +70,17 @@ exports.LoginUser=async(req,res)=>{
 }
 
 
+exports.LogoutUser=(req,res)=>{
 
+    res.clearCookie('jwt',{
+        httpOnly:true,
+        secure: false,
+        sameSite:"Strict",
+        path:'/'
+    })
+    res.status(200).json({message:"Logout Successfully"})
+
+}
 
 
        

@@ -1,5 +1,5 @@
 const express = require('express')
-const {registerUser,LoginUser}=require('../Controllers/AuthController') 
+const {registerUser,LoginUser}=require('../Controllers/Employee Controllers/AuthController') 
 const {empSignup, empLogin}=require('../Controllers/Employer Controllers/EmpAuthController');
 
 

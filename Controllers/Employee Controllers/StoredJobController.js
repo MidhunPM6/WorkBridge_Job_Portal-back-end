@@ -1,4 +1,4 @@
-const PostedJobs = require("../Models/JobPostSchema")
+const PostedJobs = require("../../Models/JobPostSchema")
 
 exports.storedJob=async(req,res)=>{
     try {

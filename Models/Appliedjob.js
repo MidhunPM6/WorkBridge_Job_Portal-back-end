@@ -23,15 +23,10 @@ const AppliedJobScehma=new mongoose.Schema({
         required:true,
         ref :'EmpUser'
     },
-    resume:{
-
-        type: mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref:'Resume'
-    },
+    
     
     AppliedDate:{
-        type:String,
+        type:String, 
         required:true,
     },
 

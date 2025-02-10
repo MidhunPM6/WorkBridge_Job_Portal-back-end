@@ -1,5 +1,5 @@
-const Resume = require("../Models/ResumeUpload");
-const User =require("../Models/User")
+const Resume = require("../../Models/ResumeUpload");
+const User =require("../../Models/User")
 
 exports.resumeUpload=async(req,res)=>{
 
@@ -19,7 +19,7 @@ exports.resumeUpload=async(req,res)=>{
         })
         await resume.save()
 
-        res.status(200).json({message:"File Upload successfully"})
+        res.status(200).json({message:"File Upload successfully" ,resume:resume})
 
         const user =await User.findById(userid)
    

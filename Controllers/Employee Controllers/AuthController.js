@@ -1,5 +1,6 @@
-const User =require('../Models/User')
+const User =require('../../Models/User')
 const bcrypt=require('bcrypt')
+const jwt = require ('jsonwebtoken')
 
 //User Register
 exports.registerUser=(req,res)=>{
@@ -33,21 +34,38 @@ User.findOne({email:req.body.email}).then((existingUser)=>{
 
 //User Login
 exports.LoginUser=async(req,res)=>{
+    const secretKey=process.env.JWT_TOKEN
 
    const {email,password}=req.body
    
    const user=await User.findOne({email})
+    try {
+        if(!user ){
+            return res.status(400).json({ message: "Invalid Credentials." });
+           }
+            await bcrypt.compare(password,user.password)
+            console.log(secretKey)
 
-   if(user && await bcrypt.compare(password,user.password)){
-    res.status(200).json({ message: "Login Successful!",username:user.name,user:user});
-    
-   }else{
-    res.status(400).json({ message: "Invalid Credentials." });
-   }
+            const token = jwt.sign({UserID:user._id},secretKey,{
+                expiresIn:"30m"
+            })
+
+            res.cookie('jwt',token,{
+                httpOnly:true,
+                secure: false,
+                sameSite:"Strict"
+
+            })
+            res.status(200).json({ message: "Login Successful!",username:user.name,user:user,});
+ 
+    } catch (error) {
+       
+        console.log(error);
+        return res.status(500).json({ message: "Server Error" });
+        
+    }
    
-
-   } 
-
+}
 
 
 

@@ -24,7 +24,7 @@ const UserSchema=new mongoose.Schema({
     resume: {
          type: mongoose.Schema.Types.ObjectId, 
          required:true,
-         ref: 'Resume' 
+         
         }
 
 })

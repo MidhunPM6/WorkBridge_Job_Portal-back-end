@@ -14,7 +14,7 @@ exports.fetchRecivedApplication = async (req, res) => {
       .populate('userid', 'name email mobile ')
       .exec()
 
-    console.log(Application)
+    console.log(Application)  
 
     if (Application.length === 0) {
       return res

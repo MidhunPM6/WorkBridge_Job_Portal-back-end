@@ -21,11 +21,7 @@ const UserSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    resume: {
-         type: mongoose.Schema.Types.ObjectId, 
-         required:true,
-         
-        }
+    
 
 })
 

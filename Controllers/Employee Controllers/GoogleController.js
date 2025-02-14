@@ -4,7 +4,7 @@ const User = require('../../Models/User')
 const jwt = require('jsonwebtoken')
 
 const client = new OAuth2Client(
-  '283509074295-2c14a2o5saenni3ri9qgjl0l61rm47or.apps.googleusercontent.com'
+  process.env.GOOGLE_CLIENT_ID
 )
 exports.googleAuth = async (req, res) => {
   const { token } = req.body
@@ -13,8 +13,7 @@ exports.googleAuth = async (req, res) => {
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience:
-        '283509074295-2c14a2o5saenni3ri9qgjl0l61rm47or.apps.googleusercontent.com'
+      audience:process.env.GOOGLE_CLIENT_ID
     })
 
     const payload = ticket.getPayload()

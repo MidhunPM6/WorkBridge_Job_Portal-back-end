@@ -46,6 +46,7 @@ exports.AppliedJob = async (req, res) => {
     res.status(201).json({ message: 'Application submitted successfully!',AppliedJob:AppliedJob })
   
   } catch (error) {
+    
     res.status(404).json({ error })
   }
 }

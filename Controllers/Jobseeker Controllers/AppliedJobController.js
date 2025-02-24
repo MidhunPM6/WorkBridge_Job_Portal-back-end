@@ -23,7 +23,7 @@ exports.AppliedJob = async (req, res) => {
   
       
 
-  try {
+  try { 
    
     
     const job = await PostedJob.findById(JobID)  

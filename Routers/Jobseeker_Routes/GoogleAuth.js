@@ -1,5 +1,5 @@
 const express =require('express');
-const { googleAuth } = require('../../Controllers/Employee Controllers/GoogleController');
+const { googleAuth } = require('../../Controllers/Jobseeker Controllers/GoogleController');
 
 
 const router = express.Router();

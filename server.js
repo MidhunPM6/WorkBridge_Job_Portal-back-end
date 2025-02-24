@@ -2,17 +2,17 @@ const dotenv = require("dotenv").config().parsed;
 const ConnectDB = require("./dbconfig");
 const AuthRouters =  require('./Routers/AuthRouter')
 const JobPostRouter =require('./Routers/Employer_Routes/PostjobRouter')
-const JobDetailsRouter = require('./Routers/Employee_Routes/JobDetailsRouter')
-const AppliedJob =require('./Routers/Employee_Routes/AppiledJobRouter')
+const JobDetailsRouter = require('./Routers/Jobseeker_Routes/JobDetailsRouter')
+const AppliedJob =require('./Routers/Jobseeker_Routes/AppiledJobRouter')
 const RecivedApplication = require('./Routers/Employer_Routes/RecivedApplication')
-const ResumeUploadRouter =require('./Routers/Employee_Routes/ResumeuploadRouter')
-const GoogleAuth =require ('./Routers/Employee_Routes/GoogleAuth')
+const ResumeUploadRouter =require('./Routers/Jobseeker_Routes/ResumeuploadRouter')
+const GoogleAuth =require ('./Routers/Jobseeker_Routes/GoogleAuth')
 const helmet = require('helmet');
 const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const cookieParser =require('cookie-parser');
-const { googleAuth } = require("./Controllers/Employee Controllers/GoogleController");
+const { googleAuth } = require("./Controllers/Jobseeker Controllers/GoogleController");
 
 
 

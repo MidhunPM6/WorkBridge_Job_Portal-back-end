@@ -15,13 +15,13 @@ exports.googleAuth = async (req, res) => {
       idToken: token,
       audience:process.env.GOOGLE_CLIENT_ID
     })
-
+ 
     const payload = ticket.getPayload()
     const { email, name, picture ,sub} = payload
 
     
-
-    //Save data to Database
+  
+    //Saving data
 
     let user = await User.findOne({ email })
     if (!user) {
@@ -36,7 +36,7 @@ exports.googleAuth = async (req, res) => {
       await user.save()
     }
 
-    
+               
 
     // creating jwt token and cookie session
 

@@ -75,3 +75,9 @@ exports.LogoutUser = (req, res) => {
   })
   res.status(200).json({ message: 'Logout Successfully' })
 }
+
+exports.testConsole=(req,res)=>{
+  const {name,email,mobile,location,designation,linkedin,wesite,about} = req.body
+  console.log(name)
+  res.status(200).json({message:"successfull"})
+}

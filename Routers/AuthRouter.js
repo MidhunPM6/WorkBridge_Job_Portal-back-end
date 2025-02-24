@@ -1,5 +1,5 @@
 const express = require('express')
-const {registerUser,LoginUser, LogoutUser}=require('../Controllers/Employee Controllers/AuthController') 
+const {registerUser,LoginUser, LogoutUser, testConsole}=require('../Controllers/Jobseeker Controllers/AuthController') 
 const {empSignup, empLogin}=require('../Controllers/Employer Controllers/EmpAuthController');
 
 
@@ -9,6 +9,8 @@ const router=express.Router();
 router.post('/register',registerUser)
 router.post('/login',LoginUser)
 router.post('/logout',LogoutUser)
+router.post('/test',testConsole)
+
 
 
 //Employer Routes

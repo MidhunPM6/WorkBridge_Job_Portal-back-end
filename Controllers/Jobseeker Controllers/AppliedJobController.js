@@ -14,17 +14,16 @@ exports.AppliedJob = async (req, res) => {
 
   const existingAppliedJob = await AppliedJobs.findOne({
     jobid: JobID,
-    userid: UserID
-  })
+    userid:  UserID})
   
-  if (existingAppliedJob) {
-    return res.status(400).json({ message: 'Already applied' })
-  }
+
   
       
 
   try { 
-   
+    if (existingAppliedJob) {
+      return res.status(400).json({ message: 'Already applied' })
+    }
     
     const job = await PostedJob.findById(JobID)  
     if (!job) {

@@ -12,8 +12,8 @@ const ConnectDB = () => {
     .catch((error) =>
       console.error("MongoDB Connection failed:", error.message)
     );
-
-};
+ 
+}; 
 ConnectDB(); 
 
 

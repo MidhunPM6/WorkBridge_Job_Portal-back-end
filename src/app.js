@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import connectDB from './infrastucture/database/db.js'
-import userAuthRoute from '../src/interface-adapter/routes/canditate/userAuthRoute.js'
+import userAuthRoute from './interface-adapter/routes/candidate/userAuthRoute.js'
 
 
 export const  app = express()
@@ -14,7 +14,7 @@ app.use(cors({
    credentials : true
 }))
 
-app.use('/api/signup',userAuthRoute)
+app.use('/api/auth',userAuthRoute)
 
 
 

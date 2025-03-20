@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const UserSchema = mongoose.Schema({
+const CandidateSchema = mongoose.Schema({
   name: {
     type: String,
     require: true
@@ -12,7 +12,8 @@ const UserSchema = mongoose.Schema({
   password: {
     type: String,
     require: true
-  }
-})
+  },
+ 
+}, { timestamps: true })
 
-export const  User = mongoose.model('User',UserSchema)
+export const  Candidate = mongoose.model('canditate',CandidateSchema)

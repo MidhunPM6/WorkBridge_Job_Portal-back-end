@@ -1,7 +1,6 @@
 
 import {app} from './app.js'
 
-
 const port = 5002
 
 app.listen(port,()=>{

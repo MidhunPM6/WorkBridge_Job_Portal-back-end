@@ -1,12 +1,13 @@
 import express from 'express'
 import cors from 'cors'
 import connectDB from './infrastucture/database/db.js'
-import userAuthRoute from './interface-adapter/routes/candidate/userAuthRoute.js'
-
+import AuthRoute from './interface-adapter/routes/candidate/AuthRoute.js'
+import cookieParser from 'cookie-parser'
 
 export const  app = express()
 
 app.use(express.json())
+app.use(cookieParser())
 
 app.use(cors({
    origin : "http://localhost:3000",
@@ -14,7 +15,7 @@ app.use(cors({
    credentials : true
 }))
 
-app.use('/api/auth',userAuthRoute)
+app.use('/api/auth',AuthRoute)
 
 
 

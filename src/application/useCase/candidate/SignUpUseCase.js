@@ -4,7 +4,7 @@ export default class SignInUseCase {
   constructor (candidateRepository) {
     this.candidateRepository = candidateRepository
   }
-  excute = async data => {
+  execute = async data => {
     try {
       // Checking the existing user
       const existingUser = await this.candidateRepository.findByEmail(data.email)
@@ -16,7 +16,7 @@ export default class SignInUseCase {
         }
       }
 
-      //Creating new user
+      //Creating new user 
       const candidateEntity = new CandidateEntity(data)
       const newUser = await this.candidateRepository.create(candidateEntity)
 

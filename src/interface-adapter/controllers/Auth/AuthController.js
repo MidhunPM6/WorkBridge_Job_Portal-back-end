@@ -55,11 +55,21 @@ export const OAuthController=async(req,res)=>{
     try {
       const response = await OAuthUsecase.execute(code,codeVerifier)
       console.log(response)
-      res.status(200).json({response : response})
-    } catch (error) {
+      const {user,jwtToken} = response
+
+      
+      res.cookie('jwt',jwtToken,{
+        httpOnly :true,
+        secure : false,
+        sameSite :'Strict',
+        maxAge: 120000 
+      })
+
+      res.status(200).json({user})
+    } catch (error) {     
       console.error(error);
       res.status(404).json(error.message)
-      
+       
     }
      
 

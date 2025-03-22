@@ -11,9 +11,8 @@ const CandidateSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    require: true
   },
  
 }, { timestamps: true })
 
-export const  Candidate = mongoose.model('canditate',CandidateSchema)
+export const  Candidate = mongoose.model('candidate',CandidateSchema)

@@ -1,16 +1,18 @@
+import OAuthUseCase from '../../application/useCase/commomUseCase/OAuthUseCase.js'
+import CandidateRepository from '../repositories/candidateRepository.js'
+import { generateToken } from '../services/jwtService.js'
+import { handleOAuthServices } from '../services/OAuthService.js'
 
-import OAuthUseCase from "../../application/useCase/commomUseCase/OAuthUseCase.js"
-import { handleOAuthServices } from "../services/OAuthService.js"
-
-
-
-const OAuthContainer = () =>{
+const OAuthContainer = () => {
+  const candidateRepository = new CandidateRepository()
+  return{
     
-    return{
-  
-      OAuthUsecase: new OAuthUseCase(handleOAuthServices) , 
-   
-    }
-}  
+    OAuthUsecase: new OAuthUseCase(
+      handleOAuthServices,
+      candidateRepository,
+      generateToken
+    )
+  }
+}
 
 export default OAuthContainer

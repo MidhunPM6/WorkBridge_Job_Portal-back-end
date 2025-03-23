@@ -11,6 +11,7 @@ const candidateContainer =() =>{
 
     signUpUseCase : new SignUpUseCase(candidateRepository) , 
     logInUseCase : new LoginUseCase(candidateRepository,generateToken)
+
   }
 }
 export default candidateContainer

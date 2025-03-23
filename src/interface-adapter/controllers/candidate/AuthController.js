@@ -60,9 +60,9 @@ export const OAuthController=async(req,res)=>{
       
       res.cookie('jwt',jwtToken,{
         httpOnly :true,
-        secure : false,
+        secure : false,  
         sameSite :'Strict',
-        maxAge: 120000 
+        maxAge: 120000  
       })
 
       res.status(200).json({user})
@@ -75,3 +75,4 @@ export const OAuthController=async(req,res)=>{
 
   
 }
+ 

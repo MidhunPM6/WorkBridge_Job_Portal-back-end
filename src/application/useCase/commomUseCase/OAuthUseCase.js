@@ -8,6 +8,7 @@ export default class OAuthUseCase {
   }
   async execute (code, codeVerifier) {
     try {
+      // Fetching the google user from the OAuth Service
       if (!code || !codeVerifier) {
         throw new Error('Code and codeVerifier is missing')
       }
@@ -15,35 +16,37 @@ export default class OAuthUseCase {
       if (!googleUser) {
         throw new Error('Failed to retrive user info')
       }
-      const { email,name } = googleUser.user
-      console.log(email)
-      
-
+      const { email, name } = googleUser.user
       let User = await this.candidateRepository.findByEmail(email)
 
+      //  If existing user, update with current data from OAuth
       if (User) {
-          User.email =email;
-          User.name = name;
-          await this.candidateRepository.updateByEmail(email,User)
+        const updateData = {
+          email: email,
+          name: name
+        }
+        const updateUser = CandidateEntity.createPartial(updateData)
+        const toDTOUser = updateUser.toDTO()
+        await this.candidateRepository.updateByEmail(toDTOUser.email, toDTOUser)
       } else {
-        const candidateEntity = CandidateEntity.create({email,name})
+        // User not exist create a new user in db
+        const candidateEntity = CandidateEntity.create({ email, name }) 
+        const user = candidateEntity.toDTO()
 
-         User = await this.candidateRepository.create(candidateEntity)
-      }
+        User = await this.candidateRepository.create(user)
+      } 
 
-      const token =  await this.generateToken(User._id)
-      console.log("JWT" + token  )
-
-
-
+      //  Generate token for the user  through httpOnly cookie
+      const token = await this.generateToken(User._id)
+      console.log('JWT' + token)
       return {
         success: true,
         user: User,
-        jwtToken :token
+        jwtToken: token
       }
     } catch (error) {
-        console.error(error);
-        
+      console.error(error)
+      throw new Error('Server Error or Data not found')
     }
   }
 }

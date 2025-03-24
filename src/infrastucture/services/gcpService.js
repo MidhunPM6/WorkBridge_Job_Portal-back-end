@@ -34,7 +34,7 @@ export const uploadToGCP = async file => {
       action: 'read',
       expires: Date.now() + 15 * 60 * 1000
     })
-    console.log(url)
+   
 
     return url
   } catch (error) {

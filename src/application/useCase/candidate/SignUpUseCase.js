@@ -17,7 +17,7 @@ export default class SignInUseCase {
       }
 
       //Creating new user 
-      const candidateEntity = new CandidateEntity(data)
+      const candidateEntity = CandidateEntity.create(data)
       const newUser = await this.candidateRepository.create(candidateEntity)
 
       return {

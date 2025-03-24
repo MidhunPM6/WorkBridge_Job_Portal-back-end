@@ -26,7 +26,7 @@ export default class OAuthUseCase {
           User.name = name;
           await this.candidateRepository.updateByEmail(email,User)
       } else {
-        const candidateEntity = new CandidateEntity({email,name})
+        const candidateEntity = CandidateEntity.create({email,name})
 
          User = await this.candidateRepository.create(candidateEntity)
       }

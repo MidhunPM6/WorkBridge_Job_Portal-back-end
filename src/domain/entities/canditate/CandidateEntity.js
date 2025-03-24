@@ -28,10 +28,38 @@ export default class CandidateEntity {
     }
   }
 
+  validatePartial(data) {
+    if (data.name && data.name.length < 3) {
+      throw new Error("Name must be at least 3 characters long.");
+    }
+
+    if (data.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(data.email)) {
+        throw new Error("Invalid email format.");
+      }
+    }
+
+    if (data.password && data.password.length < 6) {
+      throw new Error("Password must be at least 6 characters long.");
+    }
+
+    if (data.profilePic && !data.profilePic.startsWith("http")) {
+      throw new Error("Invalid profile picture URL.");
+    }
+  }
+
   //   Creating new user data and validate
   static create (data) {
     const user = new CandidateEntity(data)
     user.validate()
+    return user
+  }
+
+//   This function is used to update the user data partially 
+  static createPartial(data){
+    const user = new CandidateEntity(data)
+    user.validatePartial(data)
     return user
   }
 
@@ -47,6 +75,8 @@ export default class CandidateEntity {
       updatedAt: data.updatedAt
     })
   }
+
+
 
   toDTO () {
     return {

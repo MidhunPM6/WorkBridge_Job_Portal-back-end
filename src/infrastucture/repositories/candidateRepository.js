@@ -4,17 +4,11 @@ import bcrypt from 'bcrypt'
 
 export default class CandidateReposistory extends ICandidateRepository {
   async create (candidateEntity) {
-    let hashedPassword = null
-
     
-    if (candidateEntity.password) {
-      hashedPassword = await bcrypt.hash(candidateEntity.password, 10)
-    }
-
     const candidate = new Candidate({
       name: candidateEntity.name,
       email: candidateEntity.email,
-      password: hashedPassword || null
+      password: candidateEntity.password
     })
 
     return await candidate.save()

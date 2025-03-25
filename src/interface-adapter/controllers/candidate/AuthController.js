@@ -7,9 +7,10 @@ const { OAuthUsecase} = OAuthContainer()
 
 // Creating new user to the database
 export const signUpController = async (req, res) => {
+  const {name,email,password} = req.body
   try {
     console.log(req.body)
-    const user = await signUpUseCase.execute(req.body)
+    const user = await signUpUseCase.execute(name,email,password)
 
     if (user.message === 'User already exists') {
       return res.status(400).json({
@@ -30,8 +31,11 @@ export const signUpController = async (req, res) => {
 //Login the user from the database
 
 export const loginController = async (req, res) => {
+  const {email,password} = req.body
+
+  
   try {
-    const candidateData = await logInUseCase.execute(req.body)
+    const candidateData = await logInUseCase.execute(email,password)
 
     const { token, candidate } = candidateData
 
@@ -39,7 +43,7 @@ export const loginController = async (req, res) => {
       httpOnly: true,
       secure: false,
       sameSite: 'Strict',
-      maxAge : "120000"
+      maxAge : 12000000
     })
     res.status(200).json({ message: 'Login Successfull', candidate })
   } catch (error) {
@@ -49,7 +53,7 @@ export const loginController = async (req, res) => {
   }
 }
 
-
+// Google authentication using PKCE + OAuth 2.0
 export const OAuthController=async(req,res)=>{
    const {code,codeVerifier} =req.body 
     try {
@@ -62,13 +66,13 @@ export const OAuthController=async(req,res)=>{
         httpOnly :true,
         secure : false,  
         sameSite :'Strict',
-        maxAge: 120000  
+        maxAge: 12000000 
       })
 
       res.status(200).json({user})
     } catch (error) {     
       console.error(error);
-      res.status(404).json(error.message)
+      res.status(404).json(error)
        
     }
      

@@ -1,7 +1,7 @@
 import OAuthUseCase from '../../application/useCase/commomUseCase/OAuthUseCase.js'
 import CandidateRepository from '../repositories/candidateRepository.js'
-import { generateToken } from '../services/jwtService.js'
 import { handleOAuthServices } from '../services/OAuthService.js'
+
 
 const OAuthContainer = () => {
   const candidateRepository = new CandidateRepository()
@@ -10,7 +10,6 @@ const OAuthContainer = () => {
     OAuthUsecase: new OAuthUseCase(
       handleOAuthServices,
       candidateRepository,
-      generateToken
     )
   }
 }

@@ -12,6 +12,10 @@ const CandidateSchema = mongoose.Schema({
   password: {
     type: String,
   },
+  profilePic:{
+    type:String,
+    default : null 
+  }
  
 }, { timestamps: true })
 

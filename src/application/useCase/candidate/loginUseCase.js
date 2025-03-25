@@ -1,31 +1,33 @@
-import { generateToken } from '../../../infrastucture/services/jwtService.js'
-import { comparePassword } from '../../../infrastucture/services/passwordfService.js'
+
 
 export default class LoginUseCase {
-  constructor (candidateRepository,generateToken) {
+  constructor (candidateRepository, passwordServices,tokenService) {
     this.candidateRepository = candidateRepository
-    this.generateToken = generateToken
+    this.passwordServices = passwordServices
+    this.tokenService = tokenService
+    
   }
-  async execute (data) {
-    console.log(data.email)
+  async execute (email,password) {
+     console.log(email);
+     
     try {
-      const candidate = await this.candidateRepository.findByEmail(data.email)
-      console.log(candidate)
+      const candidate = await this.candidateRepository.findByEmail(email)
       if (!candidate) {
         throw new Error('Invalid Username or Password ')
       }
-
-      //   Comparing the password from request
-      const isPasswordValid = await comparePassword(
-        data.password,
+      console.log(candidate);
+      //   Comparing the password
+      const isPasswordValid = await this.passwordServices.comparePassword(
+        password,
         candidate.password
       )
 
       if (!isPasswordValid) {
         throw new Error('Password Invalid')
       }
-
-      const token = this.generateToken(candidate._id)
+     
+      
+      const token = await this.tokenService.generateToken(candidate._id)
 
       return {
         token,
@@ -33,8 +35,7 @@ export default class LoginUseCase {
       }
     } catch (error) {
       console.error(error)
-      throw new Error("Something went wrong");
-      
+      throw new Error('Something went wrong')
     }
   }
 }

@@ -1,12 +1,14 @@
 export default class CandidateEntity {
-  constructor ({ id, name, email, password, profilePic, createdAt, updatedAt }) {
+  constructor ({ id, name, email, password, profilePic, createdAt, updatedAt }={},skipValidation=false) {
     this.id = id || null 
-    this.name = name,
-    this.email = email.toLowerCase()
-    this.password = password || null
+    this.name = name
+    this.email =  email ? email.toLowerCase() : null
+    this.password = password
     this.profilePic = profilePic || null
     this.createdAt = createdAt || new Date().toString()
     this.updatedAt = updatedAt || new Date()
+
+    if(!skipValidation)
     this.validate()
   }
 
@@ -14,15 +16,18 @@ export default class CandidateEntity {
     if (!this.name || !this.name.length > 3) {
       throw new Error('Name must atleast 3 character long')
     }
-
+ 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(this.email)) {
       throw new Error('Check the email format')
     }
 
-    if (this.password && this.password.length < 6) {
-      throw new Error('Password need atleast 6 characters')
+    if (this.password && !this.password.startsWith("$2b$")) {  
+      if (this.password.length < 6) {
+        throw new Error("Password must be at least 6 characters long.");
+      }
     }
+
     if (this.profilePic && !this.profilePic.startsWith('http')) {
       throw new Error(' Invalid profile picture URL')
     }
@@ -58,7 +63,13 @@ export default class CandidateEntity {
 
 //   This function is used to update the user data partially 
   static createPartial(data){
-    const user = new CandidateEntity(data)
+    const user = new CandidateEntity({},true)
+    if (data.id) user.id = data.id
+    if (data.name) user.name = data.name;
+    if (data.email) user.email = data.email;
+    if (data.password) user.password = data.password;
+    if (data.profilePic) user.profilePic = data.profilePic;
+
     user.validatePartial(data)
     return user
   }
@@ -69,7 +80,7 @@ export default class CandidateEntity {
       id: data.id,
       name: data.name,
       email: data.email,
-      password : data.passsword,
+      password : data.hashedPassword,
       profilePic: data.profilePic,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt

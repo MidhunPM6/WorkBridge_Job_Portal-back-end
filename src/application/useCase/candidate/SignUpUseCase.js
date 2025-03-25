@@ -1,13 +1,14 @@
 import CandidateEntity from '../../../domain/entities/canditate/CandidateEntity.js'
 
 export default class SignInUseCase {
-  constructor (candidateRepository) {
+  constructor (candidateRepository,passwordServices) {
     this.candidateRepository = candidateRepository
+    this.passwordServices= passwordServices
   }
-  execute = async data => {
+  execute = async (name,email,password) => {
     try {
       // Checking the existing user
-      const existingUser = await this.candidateRepository.findByEmail(data.email)
+      const existingUser = await this.candidateRepository.findByEmail(email)
 
       if (existingUser) {
         return {
@@ -15,10 +16,15 @@ export default class SignInUseCase {
           user : existingUser,
         }
       }
+      
+       const hashedPassword=await this.passwordServices.hash(password)
+       console.log(hashedPassword)
 
       //Creating new user 
-      const candidateEntity = CandidateEntity.create(data)
-      const newUser = await this.candidateRepository.create(candidateEntity)
+      const candidateEntity = CandidateEntity.create({name,email,password:hashedPassword})
+      const newUser = await this.candidateRepository.create(candidateEntity.toDTO())
+      console.log(newUser);
+      
 
       return {
         success: true,

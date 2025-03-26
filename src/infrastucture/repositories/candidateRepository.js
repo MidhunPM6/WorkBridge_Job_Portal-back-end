@@ -1,10 +1,10 @@
+import { profile } from 'console'
 import ICandidateRepository from '../../domain/repositories/ICandidateRepository.js'
 import { Candidate } from '../database/candidateModel.js'
 import bcrypt from 'bcrypt'
 
 export default class CandidateReposistory extends ICandidateRepository {
   async create (candidateEntity) {
-    
     const candidate = new Candidate({
       name: candidateEntity.name,
       email: candidateEntity.email,
@@ -18,9 +18,17 @@ export default class CandidateReposistory extends ICandidateRepository {
     return await Candidate.findOne({ email })
   }
 
-  async updateByEmail (email,User) {
-    return await Candidate.findOneAndUpdate(  
-      {email : email},
-       {$set : User})
+  async updateByEmail (email, User) {
+    return await Candidate.findOneAndUpdate({ email: email }, { $set: User })
+  }
+  async findByID (userID) {
+    return await Candidate.findById(userID)
+  }
+  async updateByID (id, updateData) {
+    return await Candidate.findByIdAndUpdate(
+      id,
+      { $set: updateData },
+      { new: true, timestamps: false }
+    )
   }
 }

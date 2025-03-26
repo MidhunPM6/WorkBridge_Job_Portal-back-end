@@ -1,10 +1,10 @@
 import CandidateEntity from '../../../domain/entities/canditate/CandidateEntity.js'
 
 export default class OAuthUseCase {
-  constructor (handleOAuthServices, candidateRepository, generateToken) {
+  constructor (handleOAuthServices, candidateRepository) {
     this.candidateRepository = candidateRepository
     this.handleOAuthServices = handleOAuthServices
-    this.generateToken = generateToken
+    
   }
   async execute (code, codeVerifier) {
     try {
@@ -16,14 +16,17 @@ export default class OAuthUseCase {
       if (!googleUser) {
         throw new Error('Failed to retrive user info')
       }
-      const { email, name } = googleUser.user
+      console.log(googleUser);
+      
+      const { email, name ,picture} = googleUser.user
       let User = await this.candidateRepository.findByEmail(email)
 
       //  If existing user, update with current data from OAuth
       if (User) {
         const updateData = {
           email: email,
-          name: name
+          name: name,
+          profilePic : picture
         }
         const updateUser = CandidateEntity.createPartial(updateData)
         const toDTOUser = updateUser.toDTO()

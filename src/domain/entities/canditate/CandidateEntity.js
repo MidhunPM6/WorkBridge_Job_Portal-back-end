@@ -2,7 +2,7 @@ export default class CandidateEntity {
   constructor ({ id, name, email, password, profilePic, createdAt, updatedAt }={},skipValidation=false) {
     this.id = id || null 
     this.name = name
-    this.email =  email ? email.toLowerCase() : null
+    this.email =  email
     this.password = password
     this.profilePic = profilePic || null
     this.createdAt = createdAt || new Date().toString()
@@ -20,9 +20,9 @@ export default class CandidateEntity {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(this.email)) {
       throw new Error('Check the email format')
-    }
+    } 
 
-    if (this.password && !this.password.startsWith("$2b$")) {  
+    if (this.password && !this.password.startsWith("$2b$")) {   
       if (this.password.length < 6) {
         throw new Error("Password must be at least 6 characters long.");
       }

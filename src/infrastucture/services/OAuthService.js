@@ -1,62 +1,72 @@
 import axios from 'axios'
-import dotenv from 'dotenv'
-dotenv.config()
-
-export const handleOAuthServices = async (code, codeVerifier) => {
-  const {
-    GOOGLE_CLIENT_SECRET,
-    REDIRECT_URI,
-    GOOGLE_CLIENT_ID,
-    OAUTH_TOKEN_URL
-  } = process.env
-
-  if (!code || !codeVerifier) {
-    throw new Error('code or codeVerifier is missing ')
+class OAuthService {
+  constructor(env = process.env) {
+    this.clientSecret = env.GOOGLE_CLIENT_SECRET;
+    this.redirectUri = env.REDIRECT_URI;
+    this.clientId = env.GOOGLE_CLIENT_ID;
+    this.tokenUrl = env.OAUTH_TOKEN_URL;
   }
-  try {
-    const response = await axios.post(
-      OAUTH_TOKEN_URL,
-      new URLSearchParams({
-        grant_type: 'authorization_code',
-        client_id: GOOGLE_CLIENT_ID,
-        client_secret: GOOGLE_CLIENT_SECRET,
-        code,
-        redirect_uri: REDIRECT_URI,
-        code_verifier: codeVerifier
-      }),
-      {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      }
-    )
 
-    const { access_token } = response.data
-
-    if (!access_token) {
-      throw new Error('Failed to retrieve access token')
+  async handleOAuth(code, codeVerifier) {
+    if (!code || !codeVerifier) {
+      throw new Error("Code or codeVerifier is missing");
     }
 
-    const userInfoResponse = await axios.get(
-      'https://www.googleapis.com/oauth2/v3/userinfo',
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`
+    try {
+      
+      const tokenResponse = await axios.post(
+        this.tokenUrl,
+        new URLSearchParams({
+          grant_type: "authorization_code",
+          client_id: this.clientId,
+          client_secret: this.clientSecret,
+          code,
+          redirect_uri: this.redirectUri,
+          code_verifier: codeVerifier,
+        }),
+        {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
         }
-      }
-    )
+      );
 
-    const userInfo = userInfoResponse.data
+      const { access_token } = tokenResponse.data;
 
-    return {
-      access_token,
-      user: {
-        id: userInfo.sub,
-        name: userInfo.name,
-        email: userInfo.email,
-        picture: userInfo.picture
+      if (!access_token) {
+        throw new Error("Failed to retrieve access token");
       }
+
+   
+      const userInfoResponse = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      const userInfo = userInfoResponse.data;
+
+      if (!userInfo) {
+        throw new Error("Failed to retrieve user info");
+      }
+
+ 
+      return {
+        access_token,
+        user: {
+          id: userInfo.sub,
+          name: userInfo.name,
+          email: userInfo.email,
+          picture: userInfo.picture,
+        },
+      };
+
+    } catch (error) {
+      console.error("OAuth service error:", error.message);
+      throw new Error("Failed to handle OAuth process");
     }
-  } catch (error) {
-    console.error('OAuth service error:', error.message)
-    throw new Error('Failed to exchange token or fetch user info')
   }
 }
+
+export default OAuthService;

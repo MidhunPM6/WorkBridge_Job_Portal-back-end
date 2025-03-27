@@ -1,4 +1,3 @@
-
 import LoginUseCase from '../../application/useCase/candidate/loginUseCase.js'
 import ProfileUploadUseCase from '../../application/useCase/candidate/profileUploadUseCase.js'
 import SignUpUseCase from '../../application/useCase/candidate/signUpUseCase.js'
@@ -7,25 +6,28 @@ import GCPStorageService from '../services/gcpService.js'
 import PasswordServices from '../services/passwordfService.js'
 import TokenService from '../../infrastucture/services/jwtService.js'
 import CandidateEntity from '../../domain/entities/canditate/CandidateEntity.js'
+import LogoutUseCase from '../../application/useCase/candidate/logoutUseCase.js'
 
-
- 
-  
-const candidateContainer =() =>{
+const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
   const gcpStorageService = new GCPStorageService()
-  const passwordServices =new PasswordServices()
-  const tokenService =new TokenService()
-  const candidateEntity=CandidateEntity
- 
-  return{
+  const passwordServices = new PasswordServices()
+  const tokenService = new TokenService()
+  const candidateEntity = CandidateEntity
 
-    signUpUseCase : new SignUpUseCase(candidateRepository,passwordServices) , 
-    logInUseCase : new LoginUseCase(candidateRepository,passwordServices,tokenService),
-    profileUploadUseCase : new ProfileUploadUseCase(candidateRepository,gcpStorageService,candidateEntity)
-
-  } 
+  return {
+    signUpUseCase: new SignUpUseCase(candidateRepository, passwordServices),
+    logInUseCase: new LoginUseCase(
+      candidateRepository,
+      passwordServices,
+      tokenService
+    ),
+    logoutUseCase: new LogoutUseCase(),
+    profileUploadUseCase: new ProfileUploadUseCase(
+      candidateRepository,
+      gcpStorageService,
+      candidateEntity
+    )
+  }
 }
 export default candidateContainer
-
- 

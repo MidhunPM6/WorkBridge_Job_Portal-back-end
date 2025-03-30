@@ -12,16 +12,18 @@ export default class ProfileUseCase {
     about,
     skills
   ) {
+    console.log(linkedin);
+    
     const profileEntity = this.profileEntity.create(
       designation,
       mobile,
       location,
       portfolio,
       linkedin,
-      about,
+      about, 
       skills
     )
 
-    console.log(location)
+    console.log(profileEntity)
   }
 }

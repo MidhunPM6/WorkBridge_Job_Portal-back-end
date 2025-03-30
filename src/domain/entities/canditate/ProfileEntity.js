@@ -31,17 +31,17 @@ export default class CandidateProfileEntity {
         throw new Error("Provide a valid numeric string for the mobile");
     }
 
-    if(!this.linkedin || !this.linkedin.startsWith('http')){
+    if(this.linkedin && !this.linkedin.startsWith('http')){
       throw new Error("Provide a proper URL for the LinkedIn");
       
     }
 
     if(this.portfolio  && !this.portfolio.startsWith('http')){
         throw new Error("Provide a proper URL for the portfolio ");
-        
+         
     }
-    if (!Array.isArray(skills)) {
-        this.skills = [skills];  
+    if (!Array.isArray(this.skills)) { 
+        this.skills = [skills];   
     }
     this.skills.forEach((skill, index) => {
         if (typeof skill !== "string" || skill.trim() === "") {

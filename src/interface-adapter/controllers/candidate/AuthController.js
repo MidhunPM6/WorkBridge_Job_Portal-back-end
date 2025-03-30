@@ -55,7 +55,7 @@ export const OAuthController = async (req, res) => {
   const { code, codeVerifier } = req.body
   try {
     const response = await OAuthUsecase.execute(code, codeVerifier)
-   
+
     const { user, jwtToken } = response
 
     res.cookie('jwt', jwtToken, {
@@ -84,10 +84,13 @@ export const logoutController = async (req, res) => {
 
     const response = await logoutUseCase.execute()
     console.log(response.message)
-    res.clearCookie("jwt", { httpOnly: true, secure: false, sameSite: "Strict" });
+    res.clearCookie('jwt', {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'Strict'
+    })
 
     return res.status(200).json(response.message)
-
   } catch (error) {
     console.error(error.message)
     return res.status(500).json({ message: 'Server Error' })

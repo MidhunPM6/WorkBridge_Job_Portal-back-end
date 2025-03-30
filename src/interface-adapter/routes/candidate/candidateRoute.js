@@ -1,5 +1,5 @@
 import express from 'express'
-import { profileFileUpload } from '../../controllers/candidate/fileUploadController.js'
+import { profileFileUpload,personalProfile } from '../../controllers/candidate/profileController.js'
 import upload from '../../../infrastucture/storage/multerStorage.js'
 import { verifyToken } from '../../../infrastucture/middleware/jwtVerifyMiddle.js'
 
@@ -9,6 +9,7 @@ import { verifyToken } from '../../../infrastucture/middleware/jwtVerifyMiddle.j
 const router =express.Router()
 
 
-router.post('/profile',verifyToken,upload.single('file'),profileFileUpload)
+router.post('/fileupload',verifyToken,upload.single('file'),profileFileUpload)
+router.post('/profile',verifyToken,personalProfile)
 
 export default router   

@@ -3,6 +3,7 @@ export default class LoginUseCase {
     this.candidateRepository = candidateRepository
     this.passwordServices = passwordServices
     this.tokenService = tokenService
+    
   }
   async execute (email, password) {
     console.log(email)

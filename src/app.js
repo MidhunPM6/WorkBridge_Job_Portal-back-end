@@ -3,7 +3,7 @@ import cors from 'cors'
 import connectDB from './infrastucture/database/db.js'
 import AuthRoute from './interface-adapter/routes/candidate/authRoute.js'
 import cookieParser from 'cookie-parser'
-import fileUploadRoute from './interface-adapter/routes/candidate/fileUploadRoute.js'
+import candidateRoute from './interface-adapter/routes/candidate/candidateRoute.js'
 export const  app = express()
 
 app.use(express.json())
@@ -16,9 +16,8 @@ app.use(cors({
 }))
 
 app.use('/api/auth',AuthRoute)
-app.use('/api/fileupload',fileUploadRoute)
+app.use('/api/candidate',candidateRoute)
 
-  
 
 
 

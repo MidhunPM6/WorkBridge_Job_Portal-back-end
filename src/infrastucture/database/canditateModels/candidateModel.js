@@ -3,14 +3,16 @@ import mongoose from 'mongoose'
 const CandidateSchema = mongoose.Schema({
   name: {
     type: String,
-    require: true
+    required: true,
   },
   email: {
     type: String,
-    require: true
+    required: true,
+    unique : true,
   },
   password: {
     type: String,
+    required : false,
   },
   profilePic:{
     type:String,

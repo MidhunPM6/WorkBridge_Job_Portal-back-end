@@ -1,7 +1,7 @@
 import candidateContainer from '../../../infrastucture/containers/candidateContainer.js'
 import OAuthContainer from '../../../infrastucture/containers/OAuthContainer.js'
 
-const { signUpUseCase, logInUseCase, logoutUseCase } = candidateContainer()
+const { signupUseCase, loginUseCase, logoutUseCase } = candidateContainer()
 const { OAuthUsecase } = OAuthContainer()
 
 // Creating new user to the database
@@ -9,7 +9,7 @@ export const signUpController = async (req, res) => {
   const { name, email, password } = req.body
   try {
     console.log(req.body)
-    const user = await signUpUseCase.execute(name, email, password)
+    const user = await signupUseCase.execute(name, email, password)
 
     if (user.message === 'User already exists') {
       return res.status(400).json({
@@ -32,7 +32,7 @@ export const loginController = async (req, res) => {
   const { email, password } = req.body
 
   try {
-    const candidateData = await logInUseCase.execute(email, password)
+    const candidateData = await loginUseCase.execute(email, password)
 
     const { token, candidate } = candidateData
 
@@ -55,7 +55,7 @@ export const OAuthController = async (req, res) => {
   const { code, codeVerifier } = req.body
   try {
     const response = await OAuthUsecase.execute(code, codeVerifier)
-    console.log(response)
+   
     const { user, jwtToken } = response
 
     res.cookie('jwt', jwtToken, {

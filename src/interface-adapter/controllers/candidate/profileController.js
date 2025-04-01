@@ -28,14 +28,25 @@ export const profileFileUpload = async (req, res) => {
 export const personalProfile = async (req, res) => {
   const { designation, mobile, location, portfolio, linkedin, about, skills } =
     req.body
-  console.log(req.userID)
-  const response = await profileUseCase.execute(
-    designation,
-    mobile,
-    location,
-    portfolio,
-    linkedin,
-    about,
-    skills,
-  )
+
+  if (!req.userID) {
+    return res.status(401).json({ message: 'Unauthorized to Access' })
+  }
+
+  try {
+    const response = await profileUseCase.execute(
+      designation,
+      mobile,
+      location,
+      portfolio,
+      linkedin,
+      about,
+      skills,
+      req.userID
+    )
+    return res.status(200).json({ message: 'Successfully updated', response:response })
+  } catch (error) {
+    console.error(error.message)
+    return res.status(500).json({ message: 'Server Error' })
+  }
 }

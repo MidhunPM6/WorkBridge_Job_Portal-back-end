@@ -1,13 +1,19 @@
-export default class CandidateProfileEntity {
-  constructor ({
-    designation,
-    mobile,
-    location,
-    portfolio,
-    linkedin,
-    about,
-    skills=[]
-  }) {
+export default class ProfileEntity {
+  constructor (
+    {
+      designation,
+      mobile,
+      location,
+      portfolio,
+      linkedin,
+      about,
+      skills=[],
+      userID,
+      createdAt,
+      updatedAt
+    } = {},
+    
+  ) {
     this.location = location
     this.designation = designation
     this.mobile = mobile
@@ -15,61 +21,42 @@ export default class CandidateProfileEntity {
     this.portfolio = portfolio
     this.about = about
     this.skills = skills
+    this.userID = userID
+    this.createdAt = createdAt || new Date().toString()
+    this.updatedAt = updatedAt || new Date()
 
-    this.validate()
+   
   }
 
-  validate () {
-    if (!this.location || typeof this.location !== "string" || this.location.trim().length < 3){
+  
 
-      throw new Error('Provide atleast 3 characters for location ')
-    }
-    if (!this.designation || typeof this.designation !== "string" || this.designation.trim().length < 3) {
-      throw new Error('Provide atleast 3 characters for designation')
-    }
-    if (!this.mobile || !/^\d+$/.test(this.mobile)) {
-        throw new Error("Provide a valid numeric string for the mobile");
-    }
+  //  Updating the partial data from the request
+  static createPartial (data) {
+    const profile = new ProfileEntity({})
+    if (data.designation) profile.designation = data.designation
+    if (data.location) profile.location = data.location
+    if (data.mobile) profile.mobile = data.mobile
+    if (data.linkedin) profile.linkedin = data.linkedin
+    if (data.portfolio) profile.portfolio = data.portfolio
+    if(data.skills) profile.skills = data.skills
+    if (data.about) profile.about = data.about
+    if (data.userID) profile.userID = data.userID
 
-    if(this.linkedin && !this.linkedin.startsWith('http')){
-      throw new Error("Provide a proper URL for the LinkedIn");
-      
-    }
-
-    if(this.portfolio  && !this.portfolio.startsWith('http')){
-        throw new Error("Provide a proper URL for the portfolio ");
-         
-    }
-    if (!Array.isArray(this.skills)) { 
-        this.skills = [skills];   
-    }
-    this.skills.forEach((skill, index) => {
-        if (typeof skill !== "string" || skill.trim() === "") {
-            throw new Error(`Skill at index ${index} must be a non-empty string`);
-        }
-    })
-
-    if (!this.about || this.about.length <= 20) {
-      throw new Error('Provide at least 20 characters for about');
-  }
-  } 
-
-  static create (designation,
-    mobile,
-    location,
-    portfolio,
-    linkedin,
-    about,
-    skills,) 
-    {
-    const profile = new CandidateProfileEntity({designation,
-    mobile,
-    location,
-    portfolio,
-    linkedin,
-    about,
-    skills,})
-    profile.validate()
     return profile
+  }
+
+  toDTO () { 
+    return {
+      designation: this.designation,
+      location: this.location,
+      mobile: this.mobile,
+      linkedin: this.linkedin,
+      portfolio: this.portfolio,
+      skills: this.skills,
+      about: this.about,
+      userID: this.userID,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
+    }
   }
 }

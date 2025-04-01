@@ -1,11 +1,12 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 const ProfileSchema = new mongoose.Schema({
   designation: {
     type: String
   },
   mobile: {
-    type: String
+    type: String,
+    required :false
   },
   location: {
     type: String
@@ -19,10 +20,14 @@ const ProfileSchema = new mongoose.Schema({
   about :{
     type : String,
   },
-  skills: {
-    type : String,
-    default : []
+  skills: 
+    [{type : String}],
+     
+  userID : {  
+    type: Schema.Types.ObjectId,
+    ref : 'Candidate'
   }
+ 
 },{timestamps : true})
 
 export const ProfileModel = mongoose.model('profile', ProfileSchema)

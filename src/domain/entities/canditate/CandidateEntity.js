@@ -13,7 +13,7 @@ export default class CandidateEntity {
   }
 
   validate () {
-    if (!this.name || !this.name.length < 3) {
+    if (!this.name || this.name.length < 3) {
       throw new Error('Name must atleast 3 character long')
     }
  
@@ -97,7 +97,8 @@ export default class CandidateEntity {
       password: this.password,
       profilePic: this.profilePic,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      updatedAt: this.updatedAt,
+      
     }
   }
 }

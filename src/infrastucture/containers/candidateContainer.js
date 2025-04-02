@@ -10,7 +10,9 @@ import LogoutUseCase from '../../application/useCase/candidate/logoutUseCase.js'
 import ProfileUseCase from '../../application/useCase/candidate/profileUseCase.js'
 import ProfileEntity from '../../domain/entities/canditate/ProfileEntity.js'
 import ProfileRepository from '../repositories/candidate/profileRepository.js'
-
+import ExperienceUseCase from '../../application/useCase/candidate/experienceUseCase.js'
+import ExperienceEntity from '../../domain/entities/canditate/ExperienceEntity.js'
+import ExperienceRepository from '../repositories/candidate/experienceRepository.js'
 
 
 
@@ -20,9 +22,12 @@ const candidateContainer = () => {
   const gcpStorageService = new GCPStorageService()
   const passwordServices = new PasswordServices()
   const tokenService = new TokenService()
-  const profileRepository =new ProfileRepository()
+  const profileRepository = new ProfileRepository()
+  const experienceRepository = new ExperienceRepository()
+
   const candidateEntity = CandidateEntity
   const profileEntity = ProfileEntity
+  const experienceEntity =ExperienceEntity
 
   return {
     signupUseCase: new SignUpUseCase(
@@ -46,9 +51,9 @@ const candidateContainer = () => {
       candidateEntity
     ),
 
-    profileUseCase  : new ProfileUseCase(profileEntity,profileRepository)
+    profileUseCase: new ProfileUseCase(profileEntity, profileRepository),
 
-
+    experienceUseCase : new ExperienceUseCase(experienceEntity,experienceRepository)
   }
 }
 export default candidateContainer

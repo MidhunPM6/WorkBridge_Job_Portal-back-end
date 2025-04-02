@@ -1,6 +1,7 @@
 import candidateContainer from '../../../infrastucture/containers/candidateContainer.js'
 
-const { profileUploadUseCase, profileUseCase } = candidateContainer()
+const { profileUploadUseCase, profileUseCase, experienceUseCase } =
+  candidateContainer()
 
 // Profile file upload controller
 export const profileFileUpload = async (req, res) => {
@@ -44,9 +45,32 @@ export const personalProfile = async (req, res) => {
       skills,
       req.userID
     )
-    return res.status(200).json({ message: 'Successfully updated', response:response })
+    return res
+      .status(200)
+      .json({ message: 'Successfully updated', response: response })
   } catch (error) {
     console.error(error.message)
     return res.status(500).json({ message: 'Server Error' })
+  }
+}
+
+// Posting experiance details
+export const experienceController = async (req, res) => {
+  if (!req.userID) {
+    return res
+      .status(401)
+      .json({ message: 'The user ID is required for authorization' })
+  }
+  if (req.body === null) {
+    return res.status(401).json({ message: 'The data passed may be null' })
+  }
+  try {
+    const response = await experienceUseCase.execute(req.body, req.userID)
+    return res.status(200).json({ message: 'Updated data', response })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    })
   }
 }

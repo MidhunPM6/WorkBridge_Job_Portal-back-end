@@ -13,9 +13,7 @@ import ProfileRepository from '../repositories/candidate/profileRepository.js'
 import ExperienceUseCase from '../../application/useCase/candidate/experienceUseCase.js'
 import ExperienceEntity from '../../domain/entities/canditate/ExperienceEntity.js'
 import ExperienceRepository from '../repositories/candidate/experienceRepository.js'
-
-
-
+import FetchExperienceUseCase from '../../application/useCase/candidate/FetchExperienceUseCase.js'
 
 const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
@@ -27,7 +25,7 @@ const candidateContainer = () => {
 
   const candidateEntity = CandidateEntity
   const profileEntity = ProfileEntity
-  const experienceEntity =ExperienceEntity
+  const experienceEntity = ExperienceEntity
 
   return {
     signupUseCase: new SignUpUseCase(
@@ -53,7 +51,13 @@ const candidateContainer = () => {
 
     profileUseCase: new ProfileUseCase(profileEntity, profileRepository),
 
-    experienceUseCase : new ExperienceUseCase(experienceEntity,experienceRepository)
+    experienceUseCase: new ExperienceUseCase(
+      experienceEntity,
+      experienceRepository
+    ),
+
+    fetchExperienceUseCase : new FetchExperienceUseCase(experienceRepository)
+
   }
 }
 export default candidateContainer

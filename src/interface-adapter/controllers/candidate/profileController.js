@@ -1,7 +1,11 @@
 import candidateContainer from '../../../infrastucture/containers/candidateContainer.js'
 
-const { profileUploadUseCase, profileUseCase, experienceUseCase } =
-  candidateContainer()
+const {
+  profileUploadUseCase,
+  profileUseCase,
+  experienceUseCase,
+  fetchExperienceUseCase
+} = candidateContainer()
 
 // Profile file upload controller
 export const profileFileUpload = async (req, res) => {
@@ -72,5 +76,21 @@ export const experienceController = async (req, res) => {
       success: false,
       message: error.message
     })
+  }
+}
+
+// Get all the experience data by the user ID
+export const getExperience = async (req, res) => {
+  const { userID } = req
+
+  if (!userID) {
+    return res.status(401).json({ message: 'User ID not received or invalid ' })
+  }
+  try {
+    const response = await fetchExperienceUseCase.execute(userID)
+    return res.status(200).json({success : true , data : response})
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({success : false ,message :"Server Error"})
   }
 }

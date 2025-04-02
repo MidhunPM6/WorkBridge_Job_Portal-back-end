@@ -17,4 +17,8 @@ export default class ExperienceRepository extends IExperienceRepository {
     return newExperience.save()
 
    }
+
+   async getByUserId(userID){
+    return ExperienceModel.find({userID})
+   }
 }

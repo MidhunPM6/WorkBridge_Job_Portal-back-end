@@ -4,7 +4,8 @@ const {
   profileUploadUseCase,
   profileUseCase,
   experienceUseCase,
-  fetchExperienceUseCase
+  fetchExperienceUseCase,
+  educationUseCase
 } = candidateContainer()
 
 // Profile file upload controller
@@ -70,7 +71,7 @@ export const experienceController = async (req, res) => {
   }
   try {
     const response = await experienceUseCase.execute(req.body, req.userID)
-    return res.status(200).json({ success:true, data :response })
+    return res.status(200).json({ success: true, data: response })
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -88,9 +89,43 @@ export const getExperience = async (req, res) => {
   }
   try {
     const response = await fetchExperienceUseCase.execute(userID)
-    return res.status(200).json({success : true , data : response})
+    return res.status(200).json({ success: true, data: response })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({success : false ,message :"Server Error"})
+    return res.status(500).json({ success: false, message: 'Server Error' })
   }
+}
+
+// Education Controller to store candidate education data
+export const educationController = async (req, res) => {
+  const { college, field, StartDate, Passed } = req.body
+  const userID = req.userID
+
+  const educationData = {
+    college,
+    field,
+    StartDate,
+    Passed,
+    userID
+  }
+
+  if (!college || !field || !StartDate || !Passed || !userID) {
+    return res.status(401).json({ message: 'Data not found' })
+  }
+  if (!userID) {
+    return res
+      .status(401)
+      .json({ message: 'User ID required or Unauthorized user' })
+  }
+
+  try {
+    const response = await educationUseCase.execute(educationData)
+    if (!response) {
+      return res.status(400).json({ message: 'Something went wrong ' })
+    }
+    return res.status(200).json({ success: true, data: response })
+  } catch (error) {
+    console.error(error.message)
+    return res.status(500).json(error.message)
+  } 
 }

@@ -26,19 +26,17 @@ export default class ExperienceEntity {
     if (!this.company || this.company.length < 3) {
       throw new Error('The company must be at least 3 characters')
     }
-    if (!this.StartDate || !this.EndDate) {
-      throw new Error('Start date or End date is missing');
-    }
-    if (this.StartDate <= this.EndDate) {
-      throw new Error('The date before the end date')
-    } else {
-      console.log('Valid dates')
+    const startDate = new Date(`01 ${this.StartDate}`);
+    const endDate = new Date(`01 ${this.EndDate}`);
+
+    if (startDate >= endDate) {
+        throw new Error("Start date must be before the Passed out date ");
     }
     if (!this.tasks || this.tasks.length < 3) {
       throw new Error('The tasks must be at least 3 characters')
     }
     if (!this.userID ) {
-      throw new Error('The User ID is required')
+      throw new Error('The User ID is required') 
     }
   }
 

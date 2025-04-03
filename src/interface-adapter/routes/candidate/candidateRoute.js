@@ -1,5 +1,5 @@
 import express from 'express'
-import { profileFileUpload,personalProfile,experienceController,getExperience } from '../../controllers/candidate/profileController.js'
+import { profileFileUpload,personalProfile,experienceController,getExperience,educationController } from '../../controllers/candidate/profileController.js'
 import upload from '../../../infrastucture/storage/multerStorage.js'
 import { verifyToken } from '../../../infrastucture/middleware/jwtVerifyMiddle.js'
 
@@ -13,6 +13,7 @@ router.post('/fileupload',verifyToken,upload.single('file'),profileFileUpload)
 router.post('/profile',verifyToken,personalProfile)
 router.post('/experience',verifyToken,experienceController)
 router.get('/experience',verifyToken,getExperience)
+router.post('/education',verifyToken,educationController)
 
  
 export default router   

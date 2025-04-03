@@ -14,5 +14,5 @@ router.post('/profile',verifyToken,personalProfile)
 router.post('/experience',verifyToken,experienceController)
 router.get('/experience',verifyToken,getExperience)
 
-
+ 
 export default router   

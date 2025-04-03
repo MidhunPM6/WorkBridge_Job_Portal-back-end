@@ -11,8 +11,8 @@ export default class ExperienceEntity {
   } = {}) {
     this.position = position
     this.company = company
-    this.StartDate = new Date(StartDate)
-    this.EndDate = new Date(EndDate)
+    this.StartDate = StartDate
+    this.EndDate = EndDate
     this.tasks = tasks
     this.userID = userID
     this.createAt = createAt || new Date()
@@ -26,10 +26,10 @@ export default class ExperienceEntity {
     if (!this.company || this.company.length < 3) {
       throw new Error('The company must be at least 3 characters')
     }
-    if (isNaN(this.StartDate.getTime()) || isNaN(this.EndDate.getTime())) {
-      throw new Error('Invalid date format')
+    if (!this.StartDate || !this.EndDate) {
+      throw new Error('Start date or End date is missing');
     }
-    if (this.StartDate >= this.EndDate) {
+    if (this.StartDate <= this.EndDate) {
       throw new Error('The date before the end date')
     } else {
       console.log('Valid dates')

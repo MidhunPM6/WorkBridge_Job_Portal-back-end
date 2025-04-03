@@ -70,7 +70,7 @@ export const experienceController = async (req, res) => {
   }
   try {
     const response = await experienceUseCase.execute(req.body, req.userID)
-    return res.status(200).json({ message: 'Updated data', response })
+    return res.status(200).json({ success:true, data :response })
   } catch (error) {
     return res.status(500).json({
       success: false,

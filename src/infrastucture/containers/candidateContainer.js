@@ -17,6 +17,8 @@ import FetchExperienceUseCase from '../../application/useCase/candidate/FetchExp
 import EducationUseCase from '../../application/useCase/candidate/educationUseCase.js'
 import EducationEntity from '../../domain/entities/canditate/EducationEntity.js'
 import EducationRepository from '../repositories/candidate/educationRepository.js'
+import FetchEducationUseCase from '../../application/useCase/candidate/fetchEducationUseCase.js'
+
 
 const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
@@ -26,6 +28,7 @@ const candidateContainer = () => {
   const profileRepository = new ProfileRepository()
   const experienceRepository = new ExperienceRepository()
   const educationRepository = new EducationRepository()
+ 
 
   const candidateEntity = CandidateEntity
   const profileEntity = ProfileEntity
@@ -62,7 +65,8 @@ const candidateContainer = () => {
     ),
 
     fetchExperienceUseCase: new FetchExperienceUseCase(experienceRepository),
-    educationUseCase: new EducationUseCase(educationRepository, educationEntity)
+    educationUseCase: new EducationUseCase(educationRepository, educationEntity),
+    fetchEducationUseCase : new FetchEducationUseCase(educationRepository),
   }
 }
 export default candidateContainer

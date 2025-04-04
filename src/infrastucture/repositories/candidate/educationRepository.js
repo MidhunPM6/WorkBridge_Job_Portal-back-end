@@ -13,4 +13,8 @@ export default class EducationRepository extends IEducationRepository  {
         return newEducation.save()
     }
 
+    async getByUserId(userID){
+        return EducationModel.find({userID})
+    }
+
 }

@@ -21,5 +21,5 @@ const educationSchema = new mongoose.Schema({
     type :Schema.Types.ObjectId,
     required : true
   }
-})
+},{timestamps :true})
 export const EducationModel = mongoose.model('Education',educationSchema)

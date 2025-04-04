@@ -5,7 +5,8 @@ const {
   profileUseCase,
   experienceUseCase,
   fetchExperienceUseCase,
-  educationUseCase
+  educationUseCase,
+  fetchEducationUseCase
 } = candidateContainer()
 
 // Profile file upload controller
@@ -69,6 +70,7 @@ export const experienceController = async (req, res) => {
   if (req.body === null) {
     return res.status(401).json({ message: 'The data passed may be null' })
   }
+
   try {
     const response = await experienceUseCase.execute(req.body, req.userID)
     return res.status(200).json({ success: true, data: response })
@@ -126,6 +128,29 @@ export const educationController = async (req, res) => {
     return res.status(200).json({ success: true, data: response })
   } catch (error) {
     console.error(error.message)
-    return res.status(500).json(error.message)
-  } 
+    return res.status(500).json({ success: false, message: error.message })
+  }
+}
+
+// Fetch the education details from the database
+
+export const getEducation = async (req, res) => {
+  const userID = req.userID
+  if (!userID) {
+    return res
+      .status(401)
+      .json({ success:false , message: 'Unauthorized or the user id is invalid' })
+  }
+
+  try {
+    const response = await fetchEducationUseCase.execute(userID)
+    if (!response) {
+      return res
+        .status(400)
+        .json({ success:false, message: "The user don't have education details " })
+    }
+    return res.status(200).json({success:true , data :response})
+  } catch (error) {
+    return res.status(500).json({success: false , message :error.message})
+  }
 }

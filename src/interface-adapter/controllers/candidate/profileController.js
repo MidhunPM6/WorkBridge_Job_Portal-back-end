@@ -6,7 +6,8 @@ const {
   experienceUseCase,
   fetchExperienceUseCase,
   educationUseCase,
-  fetchEducationUseCase
+  fetchEducationUseCase,
+  deleteExperienceUseCase
 } = candidateContainer()
 
 // Profile file upload controller
@@ -137,20 +138,52 @@ export const educationController = async (req, res) => {
 export const getEducation = async (req, res) => {
   const userID = req.userID
   if (!userID) {
-    return res
-      .status(401)
-      .json({ success:false , message: 'Unauthorized or the user id is invalid' })
+    return res.status(401).json({
+      success: false,
+      message: 'Unauthorized or the user id is invalid'
+    })
   }
 
   try {
     const response = await fetchEducationUseCase.execute(userID)
     if (!response) {
+      return res.status(400).json({
+        success: false,
+        message: "The user don't have education details "
+      })
+    }
+    return res.status(200).json({ success: true, data: response })
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message })
+  }
+}
+
+// The Method used to delete the experience data from Database
+export const deleteExperience = async (req, res) => {
+  const expID= req.params.id
+  if (!expID) {
+    return res
+      .status(401)
+      .json({ message: 'Expreience ID not received, Please check again' })
+  }
+  try {
+    const response = await deleteExperienceUseCase.execute(expID)
+    if (!response) {
       return res
         .status(400)
-        .json({ success:false, message: "The user don't have education details " })
+        .status({
+          success: false,
+          message: 'Something went wrong, nothing to return'
+        })
     }
-    return res.status(200).json({success:true , data :response})
+    return res
+      .status(200)
+      .status({
+        success: true,
+        data: response,
+        message: 'Successfully deleted'
+      })
   } catch (error) {
-    return res.status(500).json({success: false , message :error.message})
+    return res.status(500).status({ success: false, message: 'Server Error' })
   }
 }

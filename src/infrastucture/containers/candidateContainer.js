@@ -18,6 +18,8 @@ import EducationUseCase from '../../application/useCase/candidate/educationUseCa
 import EducationEntity from '../../domain/entities/canditate/EducationEntity.js'
 import EducationRepository from '../repositories/candidate/educationRepository.js'
 import FetchEducationUseCase from '../../application/useCase/candidate/fetchEducationUseCase.js'
+import DeleteExperienceUseCase from '../../application/useCase/candidate/deleteExperienceUseCase.js'
+
 
 
 const candidateContainer = () => {
@@ -33,7 +35,7 @@ const candidateContainer = () => {
   const candidateEntity = CandidateEntity
   const profileEntity = ProfileEntity
   const experienceEntity = ExperienceEntity
-  const educationEntity = EducationEntity
+  const educationEntity =EducationEntity
 
   return {
     signupUseCase: new SignUpUseCase(
@@ -64,9 +66,10 @@ const candidateContainer = () => {
       experienceRepository
     ),
 
-    fetchExperienceUseCase: new FetchExperienceUseCase(experienceRepository),
+    fetchExperienceUseCase: new FetchExperienceUseCase(experienceRepository,experienceEntity),
     educationUseCase: new EducationUseCase(educationRepository, educationEntity),
-    fetchEducationUseCase : new FetchEducationUseCase(educationRepository),
+    fetchEducationUseCase : new FetchEducationUseCase(educationRepository,educationEntity),
+    deleteExperienceUseCase : new DeleteExperienceUseCase(experienceRepository)
   }
 }
 export default candidateContainer

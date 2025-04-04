@@ -26,16 +26,16 @@ export default class EducationEntity {
     if (!this.field || this.field.length < 3) {
       throw new Error('Required at least 3 characters for field')
     }
-    const startDate = new Date(`01 ${this.StartDate}`);
-    const passed = new Date(`01 ${this.Passed}`);
+    const startDate = new Date(`01 ${this.StartDate}`)
+    const passed = new Date(`01 ${this.Passed}`)
 
     if (startDate >= passed) {
-        throw new Error("Start date must be before the Passed out date ");
+      throw new Error('Start date must be before the Passed out date ')
     }
     if (!this.userID) {
       throw new Error('The User ID is required')
     }
-  } 
+  }
 
   static create (data) {
     const addEducation = new EducationEntity(data)
@@ -43,8 +43,19 @@ export default class EducationEntity {
     return addEducation
   }
 
+  static rehydrate (data) {
+    return new EducationEntity({
+      college:data.college,
+      field : data.field,
+      StartDate : data.StartDate,
+      Passed : data.Passed,
+      userID : data.userID,
+    })
+  }
+
   toDTO () {
     return {
+      
       college: this.college,
       field: this.field,
       StartDate: this.StartDate,
@@ -55,3 +66,4 @@ export default class EducationEntity {
     }
   }
 }
+ 

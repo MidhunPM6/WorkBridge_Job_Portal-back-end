@@ -1,6 +1,7 @@
 export default class FetchExperienceUseCase {
-  constructor (experienceRepository) {
+  constructor (experienceRepository, experienceEntity) {
     this.experienceRepository = experienceRepository
+    this.experienceEntity = experienceEntity
   }
   async execute (data) {
     if (!data) {
@@ -12,7 +13,18 @@ export default class FetchExperienceUseCase {
       if (!getExperience) {
         throw new Error('No such experience found')
       }
-      return getExperience
+
+      //  Rehydrate the feched data
+      const rehydrateData = Array.isArray(getExperience)
+        ? getExperience.map(data => this.experienceEntity.rehydrate(data))
+        : this.experienceEntity.rehydrate(getExperience)
+
+      // Convert the rehydrated data to DTO object and return
+      const toDTOObj = Array.isArray(rehydrateData)
+        ? rehydrateData.map(data => data.toDTO())
+        : rehydrateData.toDTO()
+
+      return toDTOObj
     } catch (error) {
       console.error(error.message)
       throw new Error(error.message)

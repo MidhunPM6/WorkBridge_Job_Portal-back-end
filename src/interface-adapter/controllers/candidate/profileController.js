@@ -8,7 +8,8 @@ const {
   educationUseCase,
   fetchEducationUseCase,
   deleteExperienceUseCase,
-  deleteEducationUseCase
+  deleteEducationUseCase,
+  fetchProfieUseCase
 } = candidateContainer()
 
 // Profile file upload controller
@@ -39,7 +40,9 @@ export const personalProfile = async (req, res) => {
     req.body
 
   if (!req.userID) {
-    return res.status(401).json({ message: 'Unauthorized to Access' })
+    return res
+      .status(401)
+      .json({ success: false, message: 'Unauthorized to Access' })
   }
 
   try {
@@ -53,12 +56,14 @@ export const personalProfile = async (req, res) => {
       skills,
       req.userID
     )
+    console.log(response)
+
     return res
       .status(200)
-      .json({ message: 'Successfully updated', response: response })
+      .json({ success: true, message: 'Successfully updated', data: response })
   } catch (error) {
     console.error(error.message)
-    return res.status(500).json({ message: 'Server Error' })
+    return res.status(500).json({ success: false, message: error.message })
   }
 }
 
@@ -208,5 +213,31 @@ export const deleteEducation = async (req, res) => {
   } catch (error) {
     console.error(error.message)
     return res.status(500).json({ message: error.message })
+  }
+}
+
+//  Fetching the Profile document
+export const getProfile = async (req, res) => {
+  const userID = req.userID
+  console.log(userID);
+  
+  if (!userID) {
+    return res
+      .status(401)
+      .json({ success: false, message: 'User ID unauthorized or invalid' })
+  }
+  try {
+    const response = await fetchProfieUseCase.execute(userID)
+    if (!response) {
+      return res
+        .status(400)
+        .json({ success: false, message: ' Data not found' })
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: 'Fetched Successfully ', data: response })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ success: false, message: error.message })
   }
 }

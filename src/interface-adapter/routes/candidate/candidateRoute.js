@@ -7,7 +7,8 @@ import {
   educationController,
   getEducation,
   deleteExperience,
-  deleteEducation
+  deleteEducation,
+  getProfile,
 } from '../../controllers/candidate/profileController.js'
 import upload from '../../../infrastucture/storage/multerStorage.js'
 import { verifyToken } from '../../../infrastucture/middleware/jwtVerifyMiddle.js'
@@ -21,6 +22,7 @@ router.post(
   profileFileUpload
 )
 router.post('/profile', verifyToken, personalProfile)
+router.get('/profile', verifyToken,getProfile)
 
 // Experience post and get routes
 router.post('/experience', verifyToken, experienceController)
@@ -30,6 +32,6 @@ router.delete('/experience/:id', verifyToken, deleteExperience)
 // Education post and get routes
 router.post('/education', verifyToken, educationController)
 router.get('/education', verifyToken, getEducation)
-router.delete('/education/:id', verifyToken,deleteEducation)
+router.delete('/education/:id', verifyToken, deleteEducation)
 
 export default router

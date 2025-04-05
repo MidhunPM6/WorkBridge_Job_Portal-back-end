@@ -1,7 +1,8 @@
 export default class ProfileUseCase {
-  constructor (profileEntity, profileRepository) {
+  constructor (profileEntity, profileRepository, candidateRepository) {
     this.profileEntity = profileEntity
     this.profileRepository = profileRepository
+    this.candidateRepository = candidateRepository
   }
   async execute (
     designation,
@@ -38,7 +39,19 @@ export default class ProfileUseCase {
           userID,
           profileDTO
         )
-        return updatedData
+        const getUser = await this.candidateRepository.findByID(
+          updatedData.userID
+        )
+        return {
+          ...updatedData,
+        User : {
+          name : getUser.name,
+          email : getUser.email,
+          id : getUser._id
+        }
+        }
+
+     
       } else if (!existingProfile) {
         // If the profile not exist in the userId it will create a new profile
         const profileEntityObj = await this.profileEntity.createPartial({
@@ -53,6 +66,7 @@ export default class ProfileUseCase {
         })
         const profileDTO = await profileEntityObj.toDTO()
         const createdData = await this.profileRepository.create(profileDTO)
+
         return createdData
       }
     } catch (error) {

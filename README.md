@@ -4,7 +4,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-green?logo=node.js) ![Express](https://img.shields.io/badge/Express.js-Framework-black?logo=express)  
 ![MongoDB](https://img.shields.io/badge/MongoDB-Database-green?logo=mongodb) ![GCP](https://img.shields.io/badge/GCP-Cloud-orange?logo=googlecloud)  
 ![License](https://img.shields.io/badge/License-MIT-blue?logo=open-source) ![CI/CD](https://img.shields.io/badge/GitHub%20Actions-Automation-blue?logo=githubactions)
-
+https://github.com/MidhunPM6/WorkBridge_Job_Portal-back-end/blob/master/README.md
 ---
 
 ## 🧰 Tech Stack
@@ -43,4 +43,5 @@ Feature	Tool / Stack
 🧠 Monitoring (future)	Prometheus + Grafana (optional)
 
 📄 License
-This project is licensed under the MIT License – see the LICENSE file for more info.
+This project is licensed under the [MIT License](./LICENSE).  
+See the LICENSE file for more information.

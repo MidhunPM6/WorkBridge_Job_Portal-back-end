@@ -14,11 +14,15 @@ export default class FetchEducationUseCase {
       if (!getEducation) {
         throw new Error('Not find any education data for this account')
       }
+     
+      
 
       //   Check with Rehydration in entity
       const rehydratedData = Array.isArray(getEducation)
         ? getEducation.map(data => this.educationEntity.rehydrate(data))
         : this.educationEntity.rehydrate(getEducation)
+        console.log(rehydratedData);
+        
       //   Convert the rehydrated obj to DTO object and return it
       const toDTOObj = Array.isArray(rehydratedData)
         ? rehydratedData.map(data => data.toDTO())

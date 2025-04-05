@@ -1,5 +1,6 @@
 export default class EducationEntity {
   constructor ({
+    id,
     college,
     field,
     StartDate,
@@ -8,9 +9,10 @@ export default class EducationEntity {
     createdAt,
     updatedAt
   } = {}) {
-    ;(this.college = college),
-      (this.field = field),
-      (this.StartDate = StartDate)
+    this.id = id || null
+    this.college = college,
+    this.field = field,
+    this.StartDate = StartDate
     this.Passed = Passed
     this.userID = userID
     this.createdAt = createdAt || new Date()
@@ -35,7 +37,7 @@ export default class EducationEntity {
     if (!this.userID) {
       throw new Error('The User ID is required')
     }
-  }
+  } 
 
   static create (data) {
     const addEducation = new EducationEntity(data)
@@ -45,17 +47,18 @@ export default class EducationEntity {
 
   static rehydrate (data) {
     return new EducationEntity({
-      college:data.college,
-      field : data.field,
-      StartDate : data.StartDate,
-      Passed : data.Passed,
-      userID : data.userID,
+      id : data.id,
+      college: data.college,
+      field: data.field,
+      StartDate: data.StartDate,
+      Passed: data.Passed,
+      userID: data.userID
     })
   }
 
   toDTO () {
     return {
-      
+      id:this.id,
       college: this.college,
       field: this.field,
       StartDate: this.StartDate,
@@ -66,4 +69,3 @@ export default class EducationEntity {
     }
   }
 }
- 

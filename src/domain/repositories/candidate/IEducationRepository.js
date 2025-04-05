@@ -5,4 +5,9 @@ export default class IEducationRepository {
   async getByUserId (userID) {
     throw new Error('The method getByUserId required')
   }
+  async deleteById(educationId){
+    throw new Error("The method deleteById");
+  }
+
+  
 }

@@ -14,8 +14,6 @@ export default class DeleteExperienceUseCase {
       if (!deletedData) {
         throw new Error('No such data found with this ID')
       }
-      console.log(deletedData);
-      
       return deletedData // Return the deleted Document
     } catch (error) {
       console.error(error.message)

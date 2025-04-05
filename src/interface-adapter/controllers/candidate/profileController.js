@@ -7,7 +7,8 @@ const {
   fetchExperienceUseCase,
   educationUseCase,
   fetchEducationUseCase,
-  deleteExperienceUseCase
+  deleteExperienceUseCase,
+  deleteEducationUseCase
 } = candidateContainer()
 
 // Profile file upload controller
@@ -16,7 +17,7 @@ export const profileFileUpload = async (req, res) => {
   const userID = req.userID
 
   if (!req.userID) {
-    return res.status(404).json({ message: 'UserID not provided ' })
+    return res.status(401).json({ message: 'UserID not provided ' })
   }
   if (!req.file) {
     return res.status(400).json({ message: 'File not provided ' })
@@ -69,7 +70,7 @@ export const experienceController = async (req, res) => {
       .json({ message: 'The user ID is required for authorization' })
   }
   if (req.body === null) {
-    return res.status(401).json({ message: 'The data passed may be null' })
+    return res.status(400).json({ message: 'The data passed may be null' })
   }
 
   try {
@@ -113,7 +114,7 @@ export const educationController = async (req, res) => {
   }
 
   if (!college || !field || !StartDate || !Passed || !userID) {
-    return res.status(401).json({ message: 'Data not found' })
+    return res.status(400).json({ message: 'Data not found' })
   }
   if (!userID) {
     return res
@@ -160,30 +161,52 @@ export const getEducation = async (req, res) => {
 
 // The Method used to delete the experience data from Database
 export const deleteExperience = async (req, res) => {
-  const expID= req.params.id
+  const expID = req.params.id
   if (!expID) {
     return res
-      .status(401)
+      .status(400)
       .json({ message: 'Expreience ID not received, Please check again' })
   }
   try {
     const response = await deleteExperienceUseCase.execute(expID)
     if (!response) {
-      return res
-        .status(400)
-        .status({
-          success: false,
-          message: 'Something went wrong, nothing to return'
-        })
-    }
-    return res
-      .status(200)
-      .status({
-        success: true,
-        data: response,
-        message: 'Successfully deleted'
+      return res.status(404).status({
+        success: false,
+        message: 'Something went wrong, nothing to return'
       })
+    }
+    return res.status(200).status({
+      success: true,
+      data: response,
+      message: 'Successfully deleted'
+    })
   } catch (error) {
     return res.status(500).status({ success: false, message: 'Server Error' })
+  }
+}
+
+// The Method used to delete the education data from Database
+export const deleteEducation = async (req, res) => {
+  const eduID = req.params.id
+  if (!eduID) {
+    return res
+      .status(400)
+      .json({ success: false, message: ' The Education ID is required' })
+  }
+  try {
+    const response = await deleteEducationUseCase.execute(eduID)
+    console.log(response)
+    if (!response) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'The ID having no such data ' })
+    }
+
+    return res
+      .status(200)
+      .json({ success: true, message: 'Deleted successfully' })
+  } catch (error) {
+    console.error(error.message)
+    return res.status(500).json({ message: error.message })
   }
 }

@@ -1,4 +1,4 @@
-import CandidateEntity from '../../../domain/entities/canditate/CandidateEntity.js'
+import CandidateEntity from '../../../domain/entities/candidate/CandidateEntity.js'
 
 export default class ProfileUploadUseCase {
   constructor (candidateRepository, gcpStorageService,candidateEntity) {

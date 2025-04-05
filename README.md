@@ -36,14 +36,15 @@ https://github.com/MidhunPM6/WorkBridge_Job_Portal-back-end/blob/master/README.m
 ☁️ DevOps & Deployment (Upcoming Ideas 💡)
 
 Feature	Tool / Stack
+
 🐳 Containerization	Docker
 ☸️ Orchestration	Kubernetes (K8s)
 ⚡ Realtime	Socket.IO
 ☁️ Hosting	AWS EC2 / GCP Cloud Run
 🔄 CI/CD	GitHub Actions + Docker Builds
-🧠 Monitoring (future)	Prometheus + Grafana (optional)
 
-📄 License
+
+📄 License 
 
 This project is licensed under the [MIT License](./LICENSE).  
 See the LICENSE file for more information.

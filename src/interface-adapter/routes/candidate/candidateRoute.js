@@ -18,7 +18,7 @@ const router = express.Router()
 router.post(
   '/fileupload',
   verifyToken,
-  upload.single('file'),
+  upload.single('file'), 
   profileFileUpload
 )
 router.post('/profile', verifyToken, personalProfile)

@@ -1,24 +1,30 @@
 import mongoose from 'mongoose'
 
-const CandidateSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+const CandidateSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    password: {
+      type: String,
+      required: false
+    },
+    profilePic: {
+      type: String,
+      default: null
+    },
+    profileCoverPic: {
+      type: String,
+      default : null
+    }
   },
-  email: {
-    type: String,
-    required: true,
-    unique : true,
-  },
-  password: {
-    type: String,
-    required : false,
-  },
-  profilePic:{
-    type:String,
-    default : null 
-  }
- 
-}, { timestamps: true })
+  { timestamps: true }
+)
 
-export const  Candidate = mongoose.model('Candidate',CandidateSchema)
+export const Candidate = mongoose.model('Candidate', CandidateSchema)

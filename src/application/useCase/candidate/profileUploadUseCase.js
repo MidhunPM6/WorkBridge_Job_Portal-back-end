@@ -1,23 +1,49 @@
-import CandidateEntity from '../../../domain/entities/candidate/CandidateEntity.js'
-
 export default class ProfileUploadUseCase {
-  constructor (candidateRepository, gcpStorageService,candidateEntity) {
+  constructor (candidateRepository, gcpStorageService, candidateEntity) {
     this.candidateRepository = candidateRepository
     this.gcpStorageService = gcpStorageService
     this.candidateEntity = candidateEntity
   }
-  async execute ({ file, userID }) {
+  async execute ({ file, userID, fileType }) {
     try {
-      //  Getting the SignedURL from the GCP service
-      const uploadFile = await this.gcpStorageService.uploadToGCP(file)
-
-      if (!uploadFile) {
-        throw new Error('Signed URL not found. ')
+      let destination
+      switch (fileType) {
+        case 'profilepic':
+          destination = `profilepic/${Date.now()}_${file.originalname}`
+          break
+        case 'profilecover':
+          destination = `profilecover/${Date.now()}_${file.originalname}`
+          break
+        default:
+          destination = `others/${Date.now()}_${file.originalname}`
+          break
       }
-      const fileUpload = this.candidateEntity.createPartial({
-        profilePic: uploadFile
-      })
-      const dtoObject = fileUpload.toDTO()
+
+      //  Getting the SignedURL from the GCP service and Validate with entity
+
+      let dtoObject
+
+      if (fileType === 'profilepic') {
+        const uploadProfilePic = await this.gcpStorageService.uploadToGCP(
+          file,
+          destination
+        )
+        const picUpload = this.candidateEntity.createPartial({
+          profilePic: uploadProfilePic
+        })
+        dtoObject = picUpload.toDTO()
+      }
+
+      if (fileType === 'profilecover') {
+        const uploadProfileCover = await this.gcpStorageService.uploadToGCP(
+          file,
+          destination
+        )
+        const coverUpload = this.candidateEntity.createPartial({
+          profileCoverPic: uploadProfileCover
+        })
+        dtoObject = coverUpload.toDTO()
+      }
 
       //  Find the Candidate from the given ID
       const candidateData = await this.candidateRepository.findByID(userID)
@@ -33,8 +59,7 @@ export default class ProfileUploadUseCase {
         candidateDataDTO.id,
         dtoObject
       )
-      return updatedProfilePic 
-
+      return updatedProfilePic
     } catch (error) {
       console.error(error)
       throw new Error('File upload failed ')

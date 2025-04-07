@@ -1,10 +1,11 @@
 export default class CandidateEntity {
-  constructor ({ id, name, email, password, profilePic, createdAt, updatedAt }={},skipValidation=false) {
+  constructor ({ id, name, email, password, profilePic,profileCoverPic, createdAt, updatedAt }={},skipValidation=false) {
     this.id = id || null 
     this.name = name
     this.email =  email
     this.password = password
-    this.profilePic = profilePic || null
+    this.profilePic = profilePic
+    this.profileCoverPic = profileCoverPic
     this.createdAt = createdAt || new Date().toString()
     this.updatedAt = updatedAt || new Date()
 
@@ -31,6 +32,9 @@ export default class CandidateEntity {
     if (this.profilePic && !this.profilePic.startsWith('http')) {
       throw new Error(' Invalid profile picture URL')
     }
+    if (this.profileCoverPic && !this.profileCoverPic.startsWith("http")) {
+      throw new Error("Invalid profile cover picture URL.");
+    }
   }
 
   validatePartial(data) {
@@ -52,6 +56,9 @@ export default class CandidateEntity {
     if (data.profilePic && !data.profilePic.startsWith("http")) {
       throw new Error("Invalid profile picture URL.");
     }
+    if (data.profileCoverPic && !data.profileCoverPic.startsWith("http")) {
+      throw new Error("Invalid profile cover picture URL.");
+    }
   }
 
   //   Creating new user data and validate
@@ -69,6 +76,7 @@ export default class CandidateEntity {
     if (data.email) user.email = data.email;
     if (data.password) user.password = data.password;
     if (data.profilePic) user.profilePic = data.profilePic;
+    if(data.profileCoverPic) user.profileCoverPic = data.profileCoverPic,
 
     user.validatePartial(data)
     return user
@@ -82,6 +90,7 @@ export default class CandidateEntity {
       email: data.email,
       password : data.hashedPassword,
       profilePic: data.profilePic,
+      profileCoverPic : data.profileCoverPic,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt
     })
@@ -96,6 +105,7 @@ export default class CandidateEntity {
       email: this.email,
       password: this.password,
       profilePic: this.profilePic,
+      profileCoverPic :this.profileCoverPic,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       

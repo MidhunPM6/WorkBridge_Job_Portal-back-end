@@ -15,8 +15,11 @@ const {
 // Profile file upload controller
 export const profileFileUpload = async (req, res) => {
   const file = req.file
+  const { fileType } = req.body
   const userID = req.userID
-
+ 
+  
+ 
   if (!req.userID) {
     return res.status(401).json({ message: 'UserID not provided ' })
   }
@@ -24,15 +27,15 @@ export const profileFileUpload = async (req, res) => {
     return res.status(400).json({ message: 'File not provided ' })
   }
 
-  try {
-    const uploadFile = await profileUploadUseCase.execute({ file, userID })
+  try { 
+    const uploadFile = await profileUploadUseCase.execute({ file, userID, fileType })
 
-    res.status(200).json({ message: 'File saved successfully' }, uploadFile)
+    return res.status(200).json({success: true , message: 'File saved successfully' , uploadFile} )
   } catch (error) {
     console.error(error.message)
     return res.status(500).json({ message: 'Server Error' })
   }
-}
+} 
 
 // Method to excute the personal details
 export const personalProfile = async (req, res) => {
@@ -219,8 +222,8 @@ export const deleteEducation = async (req, res) => {
 //  Fetching the Profile document
 export const getProfile = async (req, res) => {
   const userID = req.userID
-  console.log(userID);
-  
+  console.log(userID)
+
   if (!userID) {
     return res
       .status(401)
@@ -237,7 +240,6 @@ export const getProfile = async (req, res) => {
       .status(200)
       .json({ success: true, message: 'Fetched Successfully ', data: response })
   } catch (error) {
-    console.error(error)
     return res.status(500).json({ success: false, message: error.message })
   }
 }

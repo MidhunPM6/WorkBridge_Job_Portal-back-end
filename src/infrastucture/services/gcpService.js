@@ -20,13 +20,13 @@ export default class GCPStorageService {
     this.bucket = this.storage.bucket(process.env.GCP_BUCKET_NAME)
   }
 
-  async uploadToGCP (file) {
+  async uploadToGCP (file,destination) {
     try {
       if (!file) {
         throw new Error('File missing or not provided')
       }
 
-      const blob = this.bucket.file(Date.now() + '-' + file.originalname)
+      const blob = this.bucket.file(destination)
 
       await blob.save(file.buffer, {
         metadata: { contentType: file.mimetype }

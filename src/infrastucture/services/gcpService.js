@@ -27,17 +27,16 @@ export default class GCPStorageService {
       }
 
       const blob = this.bucket.file(destination)
-
+       
       await blob.save(file.buffer, {
         metadata: { contentType: file.mimetype }
       })
+    
+      blob.makePublic()
+      const publicUrl = `https://storage.googleapis.com/${this.bucket.name}/${blob.name}`;
+      return publicUrl;
 
-      const [url] = await blob.getSignedUrl({
-        action: 'read',
-        expires: Date.now() + 15 * 60 * 1000
-      })
-
-      return url
+   
     } catch (error) {
       console.error('Error uploading to GCP:', error)
       throw new Error('File upload failed')

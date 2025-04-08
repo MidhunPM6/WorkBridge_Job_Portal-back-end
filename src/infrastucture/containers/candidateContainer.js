@@ -21,10 +21,7 @@ import FetchEducationUseCase from '../../application/useCase/candidate/fetchEduc
 import DeleteExperienceUseCase from '../../application/useCase/candidate/deleteExperienceUseCase.js'
 import DeleteEducationUseCase from '../../application/useCase/candidate/deleteEducationUseCase.js'
 import FetchProfieUseCase from '../../application/useCase/candidate/fetchProfileUseCase.js'
-
-
-
-
+import ResumeUploadUseCase from '../../application/useCase/candidate/resumeUploadUseCase.js'
 
 const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
@@ -34,13 +31,11 @@ const candidateContainer = () => {
   const profileRepository = new ProfileRepository()
   const experienceRepository = new ExperienceRepository()
   const educationRepository = new EducationRepository()
-  
- 
 
   const candidateEntity = CandidateEntity
   const profileEntity = ProfileEntity
   const experienceEntity = ExperienceEntity
-  const educationEntity =EducationEntity
+  const educationEntity = EducationEntity
 
   return {
     signupUseCase: new SignupUseCase(
@@ -64,19 +59,43 @@ const candidateContainer = () => {
       candidateEntity
     ),
 
-    profileUseCase: new ProfileUseCase(profileEntity, profileRepository,candidateRepository),
+    profileUseCase: new ProfileUseCase(
+      profileEntity,
+      profileRepository,
+      candidateRepository
+    ),
 
     experienceUseCase: new ExperienceUseCase(
       experienceEntity,
       experienceRepository
     ),
 
-    fetchExperienceUseCase: new FetchExperienceUseCase(experienceRepository,experienceEntity),
-    educationUseCase: new EducationUseCase(educationRepository, educationEntity),
-    fetchEducationUseCase : new FetchEducationUseCase(educationRepository,educationEntity),
-    deleteExperienceUseCase : new DeleteExperienceUseCase(experienceRepository),
-    deleteEducationUseCase : new DeleteEducationUseCase(educationRepository),
-    fetchProfieUseCase : new FetchProfieUseCase(profileRepository,profileEntity)
+    fetchExperienceUseCase: new FetchExperienceUseCase(
+      experienceRepository,
+      experienceEntity
+    ),
+    educationUseCase: new EducationUseCase(
+      educationRepository,
+      educationEntity
+    ),
+    fetchEducationUseCase: new FetchEducationUseCase(
+      educationRepository,
+      educationEntity
+    ),
+    deleteExperienceUseCase: new DeleteExperienceUseCase(experienceRepository),
+    deleteEducationUseCase: new DeleteEducationUseCase(educationRepository),
+    fetchProfieUseCase: new FetchProfieUseCase(
+      profileRepository,
+      profileEntity,
+      candidateRepository
+    ),
+    resumeUploadUseCase: new ResumeUploadUseCase(
+      profileRepository,
+      candidateRepository,
+      profileEntity,
+      gcpStorageService,
+      candidateEntity
+    )
   }
 }
 export default candidateContainer

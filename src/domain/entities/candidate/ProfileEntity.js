@@ -9,6 +9,7 @@ export default class ProfileEntity {
     about,
     skills = [],
     userID,
+    resume,
     createdAt,
     updatedAt
   } = {}) {
@@ -21,13 +22,14 @@ export default class ProfileEntity {
     this.about = about
     this.skills = skills
     this.userID = userID
+    this.resume =resume
     this.createdAt = createdAt || new Date().toString()
-    this.updatedAt = updatedAt || new Date()
+    this.updatedAt = updatedAt || new Date().toString()
   }
 
   //  Updating the partial data from the request
   static createPartial (data) {
-    const profile = new ProfileEntity({})
+    const profile = new ProfileEntity({}) 
     if (data.id) profile.designation = data.id
     if (data.designation) profile.designation = data.designation
     if (data.location) profile.location = data.location
@@ -37,6 +39,7 @@ export default class ProfileEntity {
     if (data.skills) profile.skills = data.skills
     if (data.about) profile.about = data.about
     if (data.userID) profile.userID = data.userID
+    if (data.resume) profile.resume = data.resume
 
     return profile
   }
@@ -53,6 +56,7 @@ export default class ProfileEntity {
       skills : data.skills,
       about : data.about,
       userID : data.userID,
+      resume : data.resume,
     })
   }
 
@@ -67,6 +71,7 @@ export default class ProfileEntity {
       skills: this.skills,
       about: this.about,
       userID: this.userID,
+      resume : this.resume,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

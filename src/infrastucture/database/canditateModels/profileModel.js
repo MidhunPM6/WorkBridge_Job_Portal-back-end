@@ -26,6 +26,9 @@ const ProfileSchema = new mongoose.Schema({
   userID : {  
     type: Schema.Types.ObjectId,
     ref : 'Candidate'
+  },
+  resume : {
+    type :String,
   }
  
 },{timestamps : true})

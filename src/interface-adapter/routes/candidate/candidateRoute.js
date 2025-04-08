@@ -9,20 +9,23 @@ import {
   deleteExperience,
   deleteEducation,
   getProfile,
+  resumeUploadController
 } from '../../controllers/candidate/profileController.js'
-import upload from '../../../infrastucture/storage/multerStorage.js'
+import {uploadImage, uploadPDF} from '../../../infrastucture/storage/multerStorage.js'
 import { verifyToken } from '../../../infrastucture/middleware/jwtVerifyMiddle.js'
+
 
 const router = express.Router()
 
 router.post(
   '/fileupload',
   verifyToken,
-  upload.single('file'), 
+  uploadImage.single('file'), 
   profileFileUpload
 )
 router.post('/profile', verifyToken, personalProfile)
 router.get('/profile', verifyToken,getProfile)
+router.post('/resumeUpload',verifyToken,uploadPDF.single('resume'),resumeUploadController)
 
 // Experience post and get routes
 router.post('/experience', verifyToken, experienceController)
@@ -33,5 +36,7 @@ router.delete('/experience/:id', verifyToken, deleteExperience)
 router.post('/education', verifyToken, educationController)
 router.get('/education', verifyToken, getEducation)
 router.delete('/education/:id', verifyToken, deleteEducation)
+
+
 
 export default router

@@ -9,7 +9,8 @@ const {
   fetchEducationUseCase,
   deleteExperienceUseCase,
   deleteEducationUseCase,
-  fetchProfieUseCase
+  fetchProfieUseCase,
+  resumeUploadUseCase
 } = candidateContainer()
 
 // Profile file upload controller
@@ -17,9 +18,7 @@ export const profileFileUpload = async (req, res) => {
   const file = req.file
   const { fileType } = req.body
   const userID = req.userID
- 
-  
- 
+
   if (!req.userID) {
     return res.status(401).json({ message: 'UserID not provided ' })
   }
@@ -27,15 +26,21 @@ export const profileFileUpload = async (req, res) => {
     return res.status(400).json({ message: 'File not provided ' })
   }
 
-  try { 
-    const uploadFile = await profileUploadUseCase.execute({ file, userID, fileType })
+  try {
+    const uploadFile = await profileUploadUseCase.execute({
+      file,
+      userID,
+      fileType
+    })
 
-    return res.status(200).json({success: true , message: 'File saved successfully' , uploadFile} )
+    return res
+      .status(200)
+      .json({ success: true, message: 'File saved successfully', uploadFile })
   } catch (error) {
     console.error(error.message)
     return res.status(500).json({ message: 'Server Error' })
   }
-} 
+}
 
 // Method to excute the personal details
 export const personalProfile = async (req, res) => {
@@ -231,6 +236,8 @@ export const getProfile = async (req, res) => {
   }
   try {
     const response = await fetchProfieUseCase.execute(userID)
+    console.log(response)
+
     if (!response) {
       return res
         .status(400)
@@ -240,6 +247,40 @@ export const getProfile = async (req, res) => {
       .status(200)
       .json({ success: true, message: 'Fetched Successfully ', data: response })
   } catch (error) {
+    return res.status(500).json({ success: false, message: error.message })
+  }
+}
+
+// Candidate resume upload
+export const resumeUploadController = async (req, res) => {
+  const userID = req.userID
+  const file = req.file
+
+  if (!userID) {
+    return res
+      .status(401)
+      .json({
+        success: false,
+        message: 'Check the User ID is Authorized or not'
+      })
+  }
+  if (!file) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'File not found or missing' })
+  }
+  try {
+    const response = await resumeUploadUseCase.execute(file, userID)
+    if (!response) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'No data recevied from the response' })
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: 'Resume successfully uploaded' })
+  } catch (error) {
+    console.error(error)
     return res.status(500).json({ success: false, message: error.message })
   }
 }

@@ -2,7 +2,7 @@ import multer from 'multer'
 
 const storage = multer.memoryStorage()
 
-const upload = multer({
+export const uploadImage = multer({
     storage : storage,
     limits: { fileSize: 5 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
@@ -15,4 +15,14 @@ const upload = multer({
     }
 })
 
-export default upload
+export const uploadPDF = multer({
+    storage: storage,
+    limits: { fileSize: 10 * 1024 * 1024 }, // e.g. 10MB for PDFs
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype !== 'application/pdf') {
+            return cb(new Error('Only PDF files are allowed.'), false);
+        }
+        cb(null, true);
+    }
+});
+

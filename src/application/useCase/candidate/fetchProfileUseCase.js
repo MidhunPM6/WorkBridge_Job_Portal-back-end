@@ -9,10 +9,10 @@ export default class FetchProfieUseCase {
     if (!userID) {
       throw new Error('User ID not recevied')
     }
-    try {
+    try {  
        const User =  await this.candiadateRepository.findByID(userID)
 
-      
+        
       const getProfile = await this.profileRepository.findByID(userID)
       if (!getProfile) {
         throw new Error('Profile data not found, Add your data')
@@ -23,7 +23,7 @@ export default class FetchProfieUseCase {
         ...User
       }
       return fullData
-       
+             
       
     } catch (error) {
       throw new Error(error.message)

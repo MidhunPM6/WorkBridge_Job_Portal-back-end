@@ -9,7 +9,7 @@ export default class TokenService {
   constructor() {
     
     this.secretKey = process.env.JWT_SECRET_KEY;
-    this.expiresIn = '1h';
+    this.expiresIn = '7d';
 
     if (!this.secretKey) {
       throw new Error('JWT_SECRET_KEY is not defined in the environment variables');

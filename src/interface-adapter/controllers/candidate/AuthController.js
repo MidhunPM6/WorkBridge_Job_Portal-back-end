@@ -40,7 +40,7 @@ export const loginController = async (req, res) => {
       httpOnly: true,
       secure: false,
       sameSite: 'Strict',
-      maxAge: 12000000
+      maxAge: 7 * 24 * 60 * 60 * 1000
     })
     return res.status(200).json({ message: 'Login Successfull', candidate })
   } catch (error) {
@@ -48,7 +48,7 @@ export const loginController = async (req, res) => {
 
     return res.status(500).json({ message: 'Server Error' })
   }
-}
+} 
 
 // Google authentication using PKCE + OAuth 2.0
 export const OAuthController = async (req, res) => {
@@ -78,7 +78,7 @@ export const logoutController = async (req, res) => {
   console.log(token)
 
   try {
-    if (!token) {
+    if (!token) {  
       return res.status(400).json({ message: 'Token not yet received' })
     }
 

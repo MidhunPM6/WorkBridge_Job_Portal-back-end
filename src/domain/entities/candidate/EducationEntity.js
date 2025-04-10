@@ -10,8 +10,8 @@ export default class EducationEntity {
     updatedAt
   } = {}) {
     this.id = id || null
-    this.college = college,
-    this.field = field,
+    this.college = college
+    this.field = field
     this.StartDate = StartDate
     this.Passed = Passed
     this.userID = userID
@@ -19,9 +19,9 @@ export default class EducationEntity {
     this.updatedAt = updatedAt || new Date()
 
     this.validate()
-  }
-
-  async validate () {
+  } 
+ 
+  validate () {
     if (!this.college || this.college.length < 3) {
       throw new Error('Required at least 3 characters for college')
     }
@@ -37,7 +37,7 @@ export default class EducationEntity {
     if (!this.userID) {
       throw new Error('The User ID is required')
     }
-  } 
+  }  
 
   static create (data) {
     const addEducation = new EducationEntity(data)

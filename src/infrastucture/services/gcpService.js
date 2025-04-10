@@ -11,8 +11,8 @@ const keyFilePath = path.resolve(__dirname, '..', process.env.GCP_KEY_FILE)
 
 // Service to upload user files to Google cloud and recieved secure URL
 
-export default class GCPStorageService {
-  constructor () {
+export default class GCPStorageService { 
+  constructor () {        
     this.storage = new Storage({
       keyFilename: keyFilePath
     })

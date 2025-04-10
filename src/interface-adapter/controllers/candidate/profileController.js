@@ -88,7 +88,7 @@ export const experienceController = async (req, res) => {
 
   try {
     const response = await experienceUseCase.execute(req.body, req.userID)
-    return res.status(200).json({ success: true, data: response })
+    return res.status(200).json({ success: true, data: response ,message : "Successfully Added" })
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -99,7 +99,7 @@ export const experienceController = async (req, res) => {
 
 // Get all the experience data by the user ID
 export const getExperience = async (req, res) => {
-  const { userID } = req
+  const userID  = req.userID
 
   if (!userID) {
     return res.status(401).json({ message: 'User ID not received or invalid ' })
@@ -127,7 +127,7 @@ export const educationController = async (req, res) => {
   }
 
   if (!college || !field || !StartDate || !Passed || !userID) {
-    return res.status(400).json({ message: 'Data not found' })
+    return res.status(400).json({ message: 'Fill all the fields to continue' })
   }
   if (!userID) {
     return res
@@ -137,16 +137,14 @@ export const educationController = async (req, res) => {
 
   try {
     const response = await educationUseCase.execute(educationData)
-    if (!response) {
-      return res.status(400).json({ message: 'Something went wrong ' })
-    }
-    return res.status(200).json({ success: true, data: response })
+     
+    return res.status(200).json({ success: true, data: response ,message : "Successfully Added" })
   } catch (error) {
     console.error(error.message)
     return res.status(500).json({ success: false, message: error.message })
-  }
+  }     
 }
-
+    
 // Fetch the education details from the database
 
 export const getEducation = async (req, res) => {
@@ -183,18 +181,18 @@ export const deleteExperience = async (req, res) => {
   try {
     const response = await deleteExperienceUseCase.execute(expID)
     if (!response) {
-      return res.status(404).status({
+      return res.status(404).json({
         success: false,
         message: 'Something went wrong, nothing to return'
       })
     }
-    return res.status(200).status({
+    return res.status(200).json({
       success: true,
       data: response,
       message: 'Successfully deleted'
     })
   } catch (error) {
-    return res.status(500).status({ success: false, message: 'Server Error' })
+    return res.status(500).json({ success: false, message: 'Server Error' })
   }
 }
 

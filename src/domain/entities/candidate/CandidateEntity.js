@@ -9,14 +9,14 @@ export default class CandidateEntity {
     this.createdAt = createdAt || new Date().toString()
     this.updatedAt = updatedAt || new Date()
 
-    if(!skipValidation)
+    if(!skipValidation) 
     this.validate()
   }
 
   validate () {
     if (!this.name || this.name.length < 3) {
       throw new Error('Name must atleast 3 character long')
-    }
+    } 
  
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(this.email)) {

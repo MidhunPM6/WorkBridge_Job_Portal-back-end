@@ -22,6 +22,7 @@ import DeleteExperienceUseCase from '../../application/useCase/candidate/deleteE
 import DeleteEducationUseCase from '../../application/useCase/candidate/deleteEducationUseCase.js'
 import FetchProfieUseCase from '../../application/useCase/candidate/fetchProfileUseCase.js'
 import ResumeUploadUseCase from '../../application/useCase/candidate/resumeUploadUseCase.js'
+import ChangeNameUseCase from '../../application/useCase/candidate/changeNameUseCase.js'
 
 const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
@@ -95,7 +96,8 @@ const candidateContainer = () => {
       profileEntity,
       gcpStorageService,
       candidateEntity
-    )
+    ),
+    changeNameUseCase : new ChangeNameUseCase(candidateRepository,passwordServices,candidateEntity)
   }
 }
 export default candidateContainer

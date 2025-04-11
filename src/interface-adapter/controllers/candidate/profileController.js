@@ -10,7 +10,8 @@ const {
   deleteExperienceUseCase,
   deleteEducationUseCase,
   fetchProfieUseCase,
-  resumeUploadUseCase
+  resumeUploadUseCase,
+  changeNameUseCase
 } = candidateContainer()
 
 // Profile file upload controller
@@ -88,7 +89,9 @@ export const experienceController = async (req, res) => {
 
   try {
     const response = await experienceUseCase.execute(req.body, req.userID)
-    return res.status(200).json({ success: true, data: response ,message : "Successfully Added" })
+    return res
+      .status(200)
+      .json({ success: true, data: response, message: 'Successfully Added' })
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -99,7 +102,7 @@ export const experienceController = async (req, res) => {
 
 // Get all the experience data by the user ID
 export const getExperience = async (req, res) => {
-  const userID  = req.userID
+  const userID = req.userID
 
   if (!userID) {
     return res.status(401).json({ message: 'User ID not received or invalid ' })
@@ -137,14 +140,16 @@ export const educationController = async (req, res) => {
 
   try {
     const response = await educationUseCase.execute(educationData)
-     
-    return res.status(200).json({ success: true, data: response ,message : "Successfully Added" })
+
+    return res
+      .status(200)
+      .json({ success: true, data: response, message: 'Successfully Added' })
   } catch (error) {
     console.error(error.message)
     return res.status(500).json({ success: false, message: error.message })
-  }     
+  }
 }
-    
+
 // Fetch the education details from the database
 
 export const getEducation = async (req, res) => {
@@ -255,12 +260,10 @@ export const resumeUploadController = async (req, res) => {
   const file = req.file
 
   if (!userID) {
-    return res
-      .status(401)
-      .json({
-        success: false,
-        message: 'Check the User ID is Authorized or not'
-      })
+    return res.status(401).json({
+      success: false,
+      message: 'Check the User ID is Authorized or not'
+    })
   }
   if (!file) {
     return res
@@ -280,5 +283,29 @@ export const resumeUploadController = async (req, res) => {
   } catch (error) {
     console.error(error)
     return res.status(500).json({ success: false, message: error.message })
+  }
+}
+
+//  Username chnage controller
+export const nameChangeController = async (req, res) => {
+  const userID = req.userID
+  const { password, name } = req.body
+
+  const data = { userID, password, name }
+
+  if (!data) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Make sure the data is valid.' })
+  }
+  try {
+    const response = await changeNameUseCase.execute(data)
+    console.log(response)
+    return res
+      .status(200)
+      .json({ success: true, data: response, message: 'Successfully updated' })
+  } catch (error) {
+    console.log(error.message)
+    return res.status(500).json({ message: error.message })
   }
 }

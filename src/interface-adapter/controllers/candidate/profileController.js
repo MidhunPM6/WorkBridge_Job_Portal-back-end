@@ -1,4 +1,5 @@
 import candidateContainer from '../../../infrastucture/containers/candidateContainer.js'
+import { sendVerificationEmail } from '../../../infrastucture/services/verificationEmail.js'
 
 const {
   profileUploadUseCase,
@@ -290,13 +291,19 @@ export const resumeUploadController = async (req, res) => {
 export const nameChangeController = async (req, res) => {
   const userID = req.userID
   const { password, name } = req.body
+ 
+  
 
-  const data = { userID, password, name }
+  const data={
+    name,
+    password,
+    userID,
+  }
 
   if (!data) {
     return res
       .status(400)
-      .json({ success: false, message: 'Make sure the data is valid.' })
+      .json({ success: false, message: 'Fill all fields to continue' })
   }
   try {
     const response = await changeNameUseCase.execute(data)
@@ -309,3 +316,12 @@ export const nameChangeController = async (req, res) => {
     return res.status(500).json({ message: error.message })
   }
 }
+
+
+// Otp send to Email ID 
+export const otpGenarateController =(req,res)=>{
+  const {email} =req.body 
+  const code = Math.floor(100000 + Math.random() * 900000)
+  sendVerificationEmail(email,code)
+  
+} 

@@ -5,9 +5,12 @@ export default class ChangeNameUseCase {
     this.candidateEntity = candidateEntity
   }
   async execute (data) {
-    if (!data) {
-      throw new Error('Provide a data, Not found any data ')
+    if (!data.name) {
+      throw new Error('Username is required')
     }
+    if (!data.password) {
+        throw new Error('Password is required')
+      }
     try {
       // Find the user from the given User ID
       const Candidate = await this.candidateRepository.findByID(data.userID)

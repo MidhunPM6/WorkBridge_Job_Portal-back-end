@@ -12,7 +12,7 @@ class OAuthService {
       throw new Error("Code or codeVerifier is missing");
     }
 
-    try {
+    try { 
       
       const tokenResponse = await axios.post(
         this.tokenUrl,

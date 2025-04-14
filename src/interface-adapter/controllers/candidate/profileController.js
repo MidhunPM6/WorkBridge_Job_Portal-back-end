@@ -1,5 +1,4 @@
 import candidateContainer from '../../../infrastucture/containers/candidateContainer.js'
-import { sendVerificationEmail } from '../../../infrastucture/services/verificationEmail.js'
 
 const {
   profileUploadUseCase,
@@ -12,7 +11,8 @@ const {
   deleteEducationUseCase,
   fetchProfieUseCase,
   resumeUploadUseCase,
-  changeNameUseCase
+  changeNameUseCase,
+  verificationEmailUseCase
 } = candidateContainer()
 
 // Profile file upload controller
@@ -291,13 +291,11 @@ export const resumeUploadController = async (req, res) => {
 export const nameChangeController = async (req, res) => {
   const userID = req.userID
   const { password, name } = req.body
- 
-  
 
-  const data={
+  const data = {
     name,
     password,
-    userID,
+    userID
   }
 
   if (!data) {
@@ -317,11 +315,35 @@ export const nameChangeController = async (req, res) => {
   }
 }
 
+// Otp send to Email ID
+export const otpGenarateController = async (req, res) => {
+  const { email } = req.body
 
-// Otp send to Email ID 
-export const otpGenarateController =(req,res)=>{
-  const {email} =req.body 
-  const code = Math.floor(100000 + Math.random() * 900000)
-  sendVerificationEmail(email,code)
-  
-} 
+  if (!email) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Email is required' })
+  }
+  try {
+    const response = await verificationEmailUseCase.execute(email)
+    if (!response) {
+      return (
+        res.status(400),
+        json({
+          success: false,
+          message: 'Verification not completed,while processing error occured '
+        })
+      )
+    }
+    return res
+      .status(200)
+      .json({
+        success: true,
+        data: response,
+        message: 'Verification code sent to the email'
+      })
+  } catch (error) {
+    console.log(error.message)
+    return res.status(500).json({ success: false, message: error.message })
+  }
+}

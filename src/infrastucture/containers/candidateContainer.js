@@ -23,6 +23,9 @@ import DeleteEducationUseCase from '../../application/useCase/candidate/deleteEd
 import FetchProfieUseCase from '../../application/useCase/candidate/fetchProfileUseCase.js'
 import ResumeUploadUseCase from '../../application/useCase/candidate/resumeUploadUseCase.js'
 import ChangeNameUseCase from '../../application/useCase/candidate/changeNameUseCase.js'
+import OtpRepository from '../repositories/candidate/otpRepository.js'
+import VerificationEmailUseCase from '../../application/useCase/candidate/verificationEmailUseCase.js'
+import EmailOtpService from '../services/emailOtpService.js'
 
 const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
@@ -32,6 +35,8 @@ const candidateContainer = () => {
   const profileRepository = new ProfileRepository()
   const experienceRepository = new ExperienceRepository()
   const educationRepository = new EducationRepository()
+  const otpRepository = new OtpRepository()
+  const emailOtpService = new EmailOtpService()
 
   const candidateEntity = CandidateEntity
   const profileEntity = ProfileEntity
@@ -97,7 +102,16 @@ const candidateContainer = () => {
       gcpStorageService,
       candidateEntity
     ),
-    changeNameUseCase : new ChangeNameUseCase(candidateRepository,passwordServices,candidateEntity)
+    changeNameUseCase: new ChangeNameUseCase(
+      candidateRepository,
+      passwordServices,
+      candidateEntity
+    ),
+    verificationEmailUseCase: new VerificationEmailUseCase(
+      candidateRepository,
+      emailOtpService,
+      otpRepository
+    )
   }
 }
 export default candidateContainer

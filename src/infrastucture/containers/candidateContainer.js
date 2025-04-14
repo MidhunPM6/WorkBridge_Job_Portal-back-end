@@ -110,7 +110,9 @@ const candidateContainer = () => {
     verificationEmailUseCase: new VerificationEmailUseCase(
       candidateRepository,
       emailOtpService,
-      otpRepository
+      otpRepository,
+      passwordServices,
+      candidateEntity,
     )
   }
 }

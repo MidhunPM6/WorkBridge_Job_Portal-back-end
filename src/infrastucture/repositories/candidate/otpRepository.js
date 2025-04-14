@@ -8,4 +8,14 @@ export default class OtpRepository {
     })
        return await saveOtp.save()
     }
+    async findByEmail({email : email}){
+       return await Otp.findOne(email)
+    }
+    async updateByEmail(email,updatedData) {
+        await Otp.findOneAndUpdate(
+            { email },                 
+            { otp: updatedData },     
+            { new: true, upsert: true } 
+          );
+    }
 } 

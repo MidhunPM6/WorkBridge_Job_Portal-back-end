@@ -317,27 +317,29 @@ export const nameChangeController = async (req, res) => {
 
 // Otp send to Email ID
 export const otpGenarateController = async (req, res) => {
-  const { email } = req.body
-
+  const { email,password } = req.body
+ 
+  
   if (!email) {
     return res
       .status(400)
       .json({ success: false, message: 'Email is required' })
   }
   try {
-    const response = await verificationEmailUseCase.execute(email)
+    const response = await verificationEmailUseCase.execute(email,password)
     if (!response) {
       return (
         res.status(400),
         json({
           success: false,
           message: 'Verification not completed,while processing error occured '
-        })
+        
+        }) 
       )
-    }
+    } 
     return res
       .status(200)
-      .json({
+      .json({ 
         success: true,
         data: response,
         message: 'Verification code sent to the email'
@@ -347,3 +349,21 @@ export const otpGenarateController = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message })
   }
 }
+
+
+
+
+export const verifyOtpController=async(req,res)=>{ 
+  const {email,verificationCode,newPassword} = req.body
+ console.log(email);
+ 
+  
+  try {
+    const response = await verificationEmailUseCase.verifyOtpAndUpdate(email,verificationCode,newPassword)
+    console.log(response);
+    
+  } catch (error) {
+    return res.status(500).json({message : error.message})
+    
+  }
+} 

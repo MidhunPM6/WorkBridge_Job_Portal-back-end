@@ -57,7 +57,7 @@ export default class VerificationEmailUseCase {
         })
         return saveCode
       }
-      return saveCode
+       
     } catch (error) {
       throw new Error(error.message)
     }

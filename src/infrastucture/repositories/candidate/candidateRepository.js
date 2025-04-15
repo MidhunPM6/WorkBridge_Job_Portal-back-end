@@ -1,6 +1,7 @@
-
+import mongoose from 'mongoose'
 import ICandidateRepository from '../../../domain/repositories/candidate/ICandidateRepository.js'
 import { Candidate } from '../../database/canditateModels/candidateModel.js'
+
 
 export default class CandidateReposistory extends ICandidateRepository {
   async create (candidateEntity) {
@@ -24,7 +25,7 @@ export default class CandidateReposistory extends ICandidateRepository {
   async findByID (userID) {
     return await Candidate.findById(userID)
   }
-  
+
   async updateByID (id, updateData) {
     return await Candidate.findByIdAndUpdate(
       id,
@@ -32,4 +33,9 @@ export default class CandidateReposistory extends ICandidateRepository {
       { new: true, timestamps: false }
     )
   }
+  async deleteById (userID) {
+    const objectId = new mongoose.Types.ObjectId(userID)
+    return await Candidate.findByIdAndDelete(objectId)
+  }
+  
 }

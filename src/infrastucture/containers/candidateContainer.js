@@ -26,6 +26,7 @@ import ChangeNameUseCase from '../../application/useCase/candidate/changeNameUse
 import OtpRepository from '../repositories/candidate/otpRepository.js'
 import VerificationEmailUseCase from '../../application/useCase/candidate/verificationEmailUseCase.js'
 import EmailOtpService from '../services/emailOtpService.js'
+import DeleteAccountUseCase from '../../application/useCase/candidate/deleteAccountUsecase.js'
 
 const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
@@ -112,7 +113,11 @@ const candidateContainer = () => {
       emailOtpService,
       otpRepository,
       passwordServices,
-      candidateEntity,
+      candidateEntity
+    ),
+    deleteAccountUseCase: new DeleteAccountUseCase(
+      candidateRepository,
+      candidateEntity
     )
   }
 }

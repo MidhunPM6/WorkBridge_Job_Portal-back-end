@@ -16,5 +16,11 @@ export default class ICandidateRepository {
   async updateByID(candidateEntity){
     throw new Error("updateByID Method is not implemented");
    }
-
+   async deleteById(userID){
+    throw new Error("deleteById Method is not implemented");
+    
+   }
+   async deletedAllByUserId(userID){
+    throw new Error("deletedAllByUserId Method is not implemented");
+   }
 }

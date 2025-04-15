@@ -12,7 +12,8 @@ const {
   fetchProfieUseCase,
   resumeUploadUseCase,
   changeNameUseCase,
-  verificationEmailUseCase
+  verificationEmailUseCase,
+  deleteAccountUseCase,
 } = candidateContainer()
 
 // Profile file upload controller
@@ -40,7 +41,7 @@ export const profileFileUpload = async (req, res) => {
       .json({ success: true, message: 'File saved successfully', uploadFile })
   } catch (error) {
     console.error(error.message)
-    return res.status(500).json({ message: 'Server Error' })
+    return res.status(500).json({ message: error.message || "Server Error"})
   }
 }
 
@@ -73,7 +74,7 @@ export const personalProfile = async (req, res) => {
       .json({ success: true, message: 'Successfully updated', data: response })
   } catch (error) {
     console.error(error.message)
-    return res.status(500).json({ success: false, message: error.message })
+    return res.status(500).json({ success: false, message: error.message || "Server Error"})
   }
 }
 
@@ -96,7 +97,7 @@ export const experienceController = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message || "Server Error"
     })
   }
 }
@@ -113,7 +114,7 @@ export const getExperience = async (req, res) => {
     return res.status(200).json({ success: true, data: response })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ success: false, message: 'Server Error' })
+    return res.status(500).json({ success: false, message: error.message || "Server Error" })
   }
 }
 
@@ -147,7 +148,7 @@ export const educationController = async (req, res) => {
       .json({ success: true, data: response, message: 'Successfully Added' })
   } catch (error) {
     console.error(error.message)
-    return res.status(500).json({ success: false, message: error.message })
+    return res.status(500).json({ success: false, message: error.message || "Server Error"})
   }
 }
 
@@ -172,7 +173,7 @@ export const getEducation = async (req, res) => {
     }
     return res.status(200).json({ success: true, data: response })
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message })
+    return res.status(500).json({ success: false, message: error.message || "Server Error" })
   }
 }
 
@@ -198,7 +199,7 @@ export const deleteExperience = async (req, res) => {
       message: 'Successfully deleted'
     })
   } catch (error) {
-    return res.status(500).json({ success: false, message: 'Server Error' })
+    return res.status(500).json({ success: false, message: error.message || "Server Error" })
   }
 }
 
@@ -224,7 +225,7 @@ export const deleteEducation = async (req, res) => {
       .json({ success: true, message: 'Deleted successfully' })
   } catch (error) {
     console.error(error.message)
-    return res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message || "Server Error"})
   }
 }
 
@@ -251,7 +252,7 @@ export const getProfile = async (req, res) => {
       .status(200)
       .json({ success: true, message: 'Fetched Successfully ', data: response })
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message })
+    return res.status(500).json({ success: false, message: error.message || "Server Error"})
   }
 }
 
@@ -283,7 +284,7 @@ export const resumeUploadController = async (req, res) => {
       .json({ success: true, message: 'Resume successfully uploaded' })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ success: false, message: error.message })
+    return res.status(500).json({ success: false, message: error.message  || "Server Error"})
   }
 }
 
@@ -311,59 +312,77 @@ export const nameChangeController = async (req, res) => {
       .json({ success: true, data: response, message: 'Successfully updated' })
   } catch (error) {
     console.log(error.message)
-    return res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message || "Server Error" })
   }
 }
 
 // Otp send to Email ID
 export const otpGenarateController = async (req, res) => {
-  const { email,password } = req.body
- 
-  
+  const { email, password } = req.body
+
   if (!email) {
-    return res
+    return res 
       .status(400)
       .json({ success: false, message: 'Email is required' })
   }
   try {
-    const response = await verificationEmailUseCase.execute(email,password)
+    const response = await verificationEmailUseCase.execute(email, password)
+    console.log(response);
+    
+    
+    return res.status(200).json({
+      success: true,
+      data: response,
+      message: 'Verification code sent to the email'
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ success: false, message: error.message || "Server Error"})
+  }
+} 
+
+export const verifyOtpController = async (req, res) => {
+  const { email, verificationCode, newPassword } = req.body
+  if (!email || !verificationCode || !newPassword) {
+    return res.status(400).json({
+      success: false,
+      message: 'Need to fiil all the field to continue '
+    })
+  }
+
+  try {
+    const response = await verificationEmailUseCase.verifyOtpAndUpdate(
+      email,
+      verificationCode,
+      newPassword
+    )
     if (!response) {
-      return (
-        res.status(400),
-        json({
-          success: false,
-          message: 'Verification not completed,while processing error occured '
-        
-        }) 
-      )
-    } 
+      return res
+        .status(400)
+        .json({ success: false, message: 'Code verification not done' })
+    }
     return res
       .status(200)
-      .json({ 
-        success: true,
-        data: response,
-        message: 'Verification code sent to the email'
-      })
+      .json({ success: true, message: 'Verify and updated the password' })
   } catch (error) {
-    console.log(error.message)
-    return res.status(500).json({ success: false, message: error.message })
+    return res.status(500).json({ message: error.message || 'Server Error' })
   }
 }
 
-
-
-
-export const verifyOtpController=async(req,res)=>{ 
-  const {email,verificationCode,newPassword} = req.body
- console.log(email);
+//  Controller to manage the Delete candidate account 
+export const deleteAccountController =async (req,res)=>{
+  const userID = req.userID
  
   
+  if(!userID){
+    return res.status(401).json({success:false , message : "The UserID not authorized or invalid "})
+  }
   try {
-    const response = await verificationEmailUseCase.verifyOtpAndUpdate(email,verificationCode,newPassword)
-    console.log(response);
-    
+    const response = await deleteAccountUseCase.execute(userID)
+    return res.status(200).json({success : true ,data:response, message : "User Deleted not able to retrive"})
   } catch (error) {
-    return res.status(500).json({message : error.message})
+    console.log(error);
+    return res.status(500).json({success : false ,message : error.message || 'Server Error'})
     
   }
-} 
+}

@@ -2,12 +2,12 @@ import IProfileRepository from '../../../domain/repositories/candidate/IProfileR
 import { ProfileModel } from '../../database/canditateModels/profileModel.js'
 
 export default class ProfileRepository extends IProfileRepository {
-  // Checking the userID having Profile data 
+  // Checking the userID having Profile data
   async findByID (userID) {
     return await ProfileModel.findOne({ userID: userID })
   }
 
-// Saving new data if the profile were not exist before with the current user id 
+  // Saving new data if the profile were not exist before with the current user id
   async create (data) {
     const newProfle = new ProfileModel({
       designation: data.designation,
@@ -22,12 +22,19 @@ export default class ProfileRepository extends IProfileRepository {
     return await newProfle.save()
   }
 
-  //  Once already having the profile data it will update with current data 
+  //  Once already having the profile data it will update with current data
   async updateById (userID, updatedData) {
-    return  ProfileModel.findOneAndUpdate(
-      { userID: userID },           
+    return ProfileModel.findOneAndUpdate(
+      { userID: userID },
       { $set: updatedData },
       { new: true }
     )
+  }
+
+  async deleteResume (profileID) {
+    await ProfileModel.updateOne(
+      { _id: profileID },
+      { $unset: { resume: "" } }
+    );
   }
 }

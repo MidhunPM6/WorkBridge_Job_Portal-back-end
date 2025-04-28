@@ -13,7 +13,8 @@ import {
   nameChangeController,
   otpGenarateController,
   verifyOtpController,
-  deleteAccountController
+  deleteAccountController,
+  deleteResumeController,
 } from '../../controllers/candidate/profileController.js'
 import {uploadImage, uploadPDF} from '../../../infrastucture/storage/multerStorage.js'
 import { verifyToken } from '../../../infrastucture/middleware/jwtVerifyMiddle.js'
@@ -34,6 +35,7 @@ router.post('/changename',verifyToken,nameChangeController)
 router.post('/changepassword',verifyToken,otpGenarateController)
 router.post('/verifyOtp',verifyToken,verifyOtpController)
 router.delete('/deleteAccount',verifyToken,deleteAccountController)
+router.delete('/deleteResume',verifyToken,deleteResumeController)
 
 // Experience post and get routes
 router.post('/experience', verifyToken, experienceController)
@@ -44,7 +46,7 @@ router.delete('/experience/:id', verifyToken, deleteExperience)
 router.post('/education', verifyToken, educationController)
 router.get('/education', verifyToken, getEducation) 
 router.delete('/education/:id', verifyToken, deleteEducation)
-
+ 
 
 
 export default router

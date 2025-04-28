@@ -14,6 +14,7 @@ const {
   changeNameUseCase,
   verificationEmailUseCase,
   deleteAccountUseCase,
+  deleteResumeUseCase
 } = candidateContainer()
 
 // Profile file upload controller
@@ -41,7 +42,7 @@ export const profileFileUpload = async (req, res) => {
       .json({ success: true, message: 'File saved successfully', uploadFile })
   } catch (error) {
     console.error(error.message)
-    return res.status(500).json({ message: error.message || "Server Error"})
+    return res.status(500).json({ message: error.message || 'Server Error' })
   }
 }
 
@@ -74,7 +75,9 @@ export const personalProfile = async (req, res) => {
       .json({ success: true, message: 'Successfully updated', data: response })
   } catch (error) {
     console.error(error.message)
-    return res.status(500).json({ success: false, message: error.message || "Server Error"})
+    return res
+      .status(500)
+      .json({ success: false, message: error.message || 'Server Error' })
   }
 }
 
@@ -97,7 +100,7 @@ export const experienceController = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: error.message || "Server Error"
+      message: error.message || 'Server Error'
     })
   }
 }
@@ -114,7 +117,9 @@ export const getExperience = async (req, res) => {
     return res.status(200).json({ success: true, data: response })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ success: false, message: error.message || "Server Error" })
+    return res
+      .status(500)
+      .json({ success: false, message: error.message || 'Server Error' })
   }
 }
 
@@ -148,7 +153,9 @@ export const educationController = async (req, res) => {
       .json({ success: true, data: response, message: 'Successfully Added' })
   } catch (error) {
     console.error(error.message)
-    return res.status(500).json({ success: false, message: error.message || "Server Error"})
+    return res
+      .status(500)
+      .json({ success: false, message: error.message || 'Server Error' })
   }
 }
 
@@ -173,7 +180,9 @@ export const getEducation = async (req, res) => {
     }
     return res.status(200).json({ success: true, data: response })
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message || "Server Error" })
+    return res
+      .status(500)
+      .json({ success: false, message: error.message || 'Server Error' })
   }
 }
 
@@ -199,7 +208,9 @@ export const deleteExperience = async (req, res) => {
       message: 'Successfully deleted'
     })
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message || "Server Error" })
+    return res
+      .status(500)
+      .json({ success: false, message: error.message || 'Server Error' })
   }
 }
 
@@ -225,7 +236,7 @@ export const deleteEducation = async (req, res) => {
       .json({ success: true, message: 'Deleted successfully' })
   } catch (error) {
     console.error(error.message)
-    return res.status(500).json({ message: error.message || "Server Error"})
+    return res.status(500).json({ message: error.message || 'Server Error' })
   }
 }
 
@@ -252,7 +263,9 @@ export const getProfile = async (req, res) => {
       .status(200)
       .json({ success: true, message: 'Fetched Successfully ', data: response })
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message || "Server Error"})
+    return res
+      .status(500)
+      .json({ success: false, message: error.message || 'Server Error' })
   }
 }
 
@@ -284,7 +297,9 @@ export const resumeUploadController = async (req, res) => {
       .json({ success: true, message: 'Resume successfully uploaded' })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ success: false, message: error.message  || "Server Error"})
+    return res
+      .status(500)
+      .json({ success: false, message: error.message || 'Server Error' })
   }
 }
 
@@ -312,7 +327,7 @@ export const nameChangeController = async (req, res) => {
       .json({ success: true, data: response, message: 'Successfully updated' })
   } catch (error) {
     console.log(error.message)
-    return res.status(500).json({ message: error.message || "Server Error" })
+    return res.status(500).json({ message: error.message || 'Server Error' })
   }
 }
 
@@ -321,15 +336,14 @@ export const otpGenarateController = async (req, res) => {
   const { email, password } = req.body
 
   if (!email) {
-    return res 
+    return res
       .status(400)
       .json({ success: false, message: 'Email is required' })
   }
   try {
     const response = await verificationEmailUseCase.execute(email, password)
-    console.log(response);
-    
-    
+    console.log(response)
+
     return res.status(200).json({
       success: true,
       data: response,
@@ -337,9 +351,11 @@ export const otpGenarateController = async (req, res) => {
     })
   } catch (error) {
     console.log(error)
-    return res.status(500).json({ success: false, message: error.message || "Server Error"})
+    return res
+      .status(500)
+      .json({ success: false, message: error.message || 'Server Error' })
   }
-} 
+}
 
 export const verifyOtpController = async (req, res) => {
   const { email, verificationCode, newPassword } = req.body
@@ -369,20 +385,55 @@ export const verifyOtpController = async (req, res) => {
   }
 }
 
-//  Controller to manage the Delete candidate account 
-export const deleteAccountController =async (req,res)=>{
+//  Controller to manage the Delete candidate account
+export const deleteAccountController = async (req, res) => {
   const userID = req.userID
- 
-  
-  if(!userID){
-    return res.status(401).json({success:false , message : "The UserID not authorized or invalid "})
+
+  if (!userID) {
+    return res.status(401).json({
+      success: false,
+      message: 'The UserID not authorized or invalid '
+    })
   }
   try {
     const response = await deleteAccountUseCase.execute(userID)
-    return res.status(200).json({success : true ,data:response, message : "User Deleted not able to retrive"})
+    return res.status(200).json({
+      success: true,
+      data: response,
+      message: 'User Deleted not able to retrive'
+    })
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({success : false ,message : error.message || 'Server Error'})
-    
+    console.log(error)
+    return res
+      .status(500)
+      .json({ success: false, message: error.message || 'Server Error' })
+  }
+}
+
+// Controller to manage deletetion of resume
+
+export const deleteResumeController = async (req, res) => {
+  const userID = req.userID
+  if (!userID) {
+    return res.status(401).json({
+      success: false,
+      message: 'User ID not authorized, Please check again.'
+    })
+  }
+  try {
+    const response = await deleteResumeUseCase.execute(userID)
+    if (!response) {
+      return res.status(400).json({
+        success: false,
+        message: 'Resume not deleted, Please try again '
+      })
+    }
+    return res.status(200).json({
+      success: true,
+      message: ' Resume deleted successfully',
+      data: response
+    })
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message })
   }
 }

@@ -27,6 +27,7 @@ import OtpRepository from '../repositories/candidate/otpRepository.js'
 import VerificationEmailUseCase from '../../application/useCase/candidate/verificationEmailUseCase.js'
 import EmailOtpService from '../services/emailOtpService.js'
 import DeleteAccountUseCase from '../../application/useCase/candidate/deleteAccountUsecase.js'
+import DeleteResumeUseCase from '../../application/useCase/candidate/deleteResumeUseCase.js'
 
 const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
@@ -117,6 +118,13 @@ const candidateContainer = () => {
     ),
     deleteAccountUseCase: new DeleteAccountUseCase(
       candidateRepository,
+      candidateEntity
+    ),
+
+    deleteResumeUseCase: new DeleteResumeUseCase(
+      candidateRepository,
+      profileRepository,
+      profileEntity,
       candidateEntity
     )
   }

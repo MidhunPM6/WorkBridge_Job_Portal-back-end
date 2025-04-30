@@ -1,9 +1,10 @@
 export default class CandidateEntity {
-  constructor ({ id, name, email, password, profilePic,profileCoverPic, createdAt, updatedAt }={},skipValidation=false) {
+  constructor ({ id, name, email, password, role, profilePic, profileCoverPic, createdAt, updatedAt }={}, skipValidation=false) {
     this.id = id || null 
     this.name = name
-    this.email =  email
+    this.email = email
     this.password = password
+    this.role = role
     this.profilePic = profilePic
     this.profileCoverPic = profileCoverPic
     this.createdAt = createdAt || new Date().toString()
@@ -28,9 +29,12 @@ export default class CandidateEntity {
         throw new Error("Password must be at least 6 characters long.");
       }
     }
+    if (this.role && !['jobseeker', 'employer'].includes(this.role)) {
+      throw new Error("Role must be either 'jobseeker' or 'employer'.");
+    }
 
     if (this.profilePic && !this.profilePic.startsWith('http')) {
-      throw new Error(' Invalid profile picture URL')
+      throw new Error('Invalid profile picture URL')
     }
     if (this.profileCoverPic && !this.profileCoverPic.startsWith("http")) {
       throw new Error("Invalid profile cover picture URL.");
@@ -51,6 +55,9 @@ export default class CandidateEntity {
 
     if (data.password && data.password.length < 6) {
       throw new Error("Password must be at least 6 characters long.");
+    }
+    if (data.role && !["jobseeker", "employer"].includes(data.role)) {
+      throw new Error("Role must be either 'jobseeker' or 'employer'.");
     }
 
     if (data.profilePic && !data.profilePic.startsWith("http")) {
@@ -74,6 +81,7 @@ export default class CandidateEntity {
     if (data.id) user.id = data.id
     if (data.name) user.name = data.name;
     if (data.email) user.email = data.email;
+    if (data.role) user.role = data.role;
     if (data.password) user.password = data.password;
     if (data.profilePic) user.profilePic = data.profilePic;
     if(data.profileCoverPic) user.profileCoverPic = data.profileCoverPic,
@@ -89,6 +97,7 @@ export default class CandidateEntity {
       name: data.name,
       email: data.email,
       password : data.password,
+      role: data.role,
       profilePic: data.profilePic,
       profileCoverPic : data.profileCoverPic,
       createdAt: data.createdAt,

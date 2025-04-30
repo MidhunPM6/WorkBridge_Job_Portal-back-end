@@ -1,6 +1,6 @@
 import LoginUseCase from '../../application/useCase/candidate/loginUseCase.js'
 import ProfileUploadUseCase from '../../application/useCase/candidate/profileUploadUseCase.js'
-import SignupUseCase from '../../application/useCase/candidate/signupUseCase.js'
+import SignupUseCase from '../../application/useCase/commomUseCase/signupUseCase.js'
 import CandidateRepository from '../repositories/candidate/candidateRepository.js'
 import GCPStorageService from '../services/gcpService.js'
 import PasswordServices from '../services/passwordfService.js'

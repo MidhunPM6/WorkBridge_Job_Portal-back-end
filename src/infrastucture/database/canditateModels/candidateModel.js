@@ -22,7 +22,12 @@ const CandidateSchema = mongoose.Schema(
     profileCoverPic: {
       type: String,
       default : null
-    }
+    },
+    role: {
+      type: String,
+      enum: ['jobseeker', 'employer'],
+      default: 'jobseeker'
+    },
   },
   { timestamps: true }
 )

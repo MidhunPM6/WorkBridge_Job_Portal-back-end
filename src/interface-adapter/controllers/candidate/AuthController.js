@@ -6,10 +6,12 @@ const { OAuthUsecase } = OAuthContainer()
 
 // Creating new user to the database
 export const signUpController = async (req, res) => {
-  const { name, email, password } = req.body
+  const { name, email, password,role } = req.body
+ 
+  
   try {
-    console.log(req.body)
-    const user = await signupUseCase.execute(name, email, password)
+    
+    const user = await signupUseCase.execute(name, email, password, role)
 
     if (user.message === 'User already exists') {
       return res.status(400).json({

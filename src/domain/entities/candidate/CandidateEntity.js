@@ -29,7 +29,7 @@ export default class CandidateEntity {
         throw new Error("Password must be at least 6 characters long.");
       }
     }
-    if (this.role && !['jobseeker', 'employer'].includes(this.role)) {
+    if (this.role && !['candidate', 'employer'].includes(this.role)) {
       throw new Error("Role must be either 'jobseeker' or 'employer'.");
     }
 

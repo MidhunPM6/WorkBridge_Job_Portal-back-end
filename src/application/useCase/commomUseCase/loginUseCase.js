@@ -5,26 +5,27 @@ export default class LoginUseCase {
     this.tokenService = tokenService
   }
   async execute (email, password) {
-    console.log(email)
-
     try {
-      //  Checking the user exist with the email id or not 
-      const candidate = await this.candidateRepository.findByEmail(email)
-      if (!candidate) {
+      //  Checking the user exist with the email id or not
+      const user = await this.candidateRepository.findByEmail(email)
+      if (!user) {
         throw new Error('Invalid Username or Password ')
       }
+      // job role is not equal throw error
+      
+      
       //   Comparing the password
       const isPasswordValid = await this.passwordServices.comparePassword(
         password,
-        candidate.password
+        user.password
       )
       if (!isPasswordValid) {
         throw new Error('Invalid Password')
       }
-      const token = await this.tokenService.generateToken(candidate._id) // if the password is correct it will generate Token
+      const token = await this.tokenService.generateToken(user) // if the password is correct it will generate Token
       return {
         token,
-        candidate
+        user
       }
     } catch (error) {
       console.error(error)

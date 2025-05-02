@@ -17,9 +17,9 @@ export default class TokenService {
   }
 
   // Generate token
-  generateToken(userId) {
+  generateToken(user) {
     try {
-      return jwt.sign({ userID: userId }, this.secretKey, {
+      return jwt.sign({ userID: user._id, role: user.role }, this.secretKey, {
         expiresIn: this.expiresIn
       });
     } catch (error) {

@@ -1,4 +1,4 @@
-import LoginUseCase from '../../application/useCase/candidate/loginUseCase.js'
+import LoginUseCase from '../../application/useCase/commomUseCase/loginUseCase.js'
 import ProfileUploadUseCase from '../../application/useCase/candidate/profileUploadUseCase.js'
 import SignupUseCase from '../../application/useCase/commomUseCase/signupUseCase.js'
 import CandidateRepository from '../repositories/candidate/candidateRepository.js'

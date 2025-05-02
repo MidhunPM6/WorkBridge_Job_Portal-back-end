@@ -7,7 +7,8 @@ const { OAuthUsecase } = OAuthContainer()
 // Creating new user to the database
 export const signUpController = async (req, res) => {
   const { name, email, password,role } = req.body
- 
+  console.log(role);
+  
   
   try {
     
@@ -36,15 +37,16 @@ export const loginController = async (req, res) => {
   try {
     const candidateData = await loginUseCase.execute(email, password)
 
-    const { token, candidate } = candidateData
+    const { token, user } = candidateData
 
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: false,
+      secure: false, 
       sameSite: 'Strict',
       maxAge: 7 * 24 * 60 * 60 * 1000
     })
-    return res.status(200).json({ message: 'Login Successfull', candidate })
+  
+    return res.status(200).json({ success:true ,message: 'Login Successfull',  user })
   } catch (error) {
     console.error(error.message)
 

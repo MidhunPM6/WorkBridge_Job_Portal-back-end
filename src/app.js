@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import connectDB from './infrastucture/database/db.js'
+import connectDB from './infrastructure/database/db.js'
 import AuthRoute from './interface-adapter/routes/candidate/authRoute.js'
 import cookieParser from 'cookie-parser'
 import candidateRoute from './interface-adapter/routes/candidate/candidateRoute.js'

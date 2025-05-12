@@ -16,9 +16,9 @@ import {
   deleteAccountController,
   deleteResumeController,
 } from '../../controllers/candidate/profileController.js'
-import {uploadImage, uploadPDF} from '../../../infrastucture/storage/multerStorage.js'
-import { verifyToken } from '../../../infrastucture/middleware/jwtVerifyMiddle.js'
-import { authorizeRoles } from '../../../infrastucture/middleware/authenticateUser.js'
+import {uploadImage, uploadPDF} from '../../../infrastructure/storage/multerStorage.js'
+import { verifyToken } from '../../../infrastructure/middleware/jwtVerifyMiddle.js'
+import { authorizeRoles } from '../../../infrastructure/middleware/authenticateUser.js'
 
 
 

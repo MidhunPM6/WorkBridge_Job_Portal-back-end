@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import ICandidateRepository from '../../../domain/repositories/candidate/ICandidateRepository.js'
 import { Candidate } from '../../database/canditateModels/candidateModel.js'
-import { resolveContent } from 'nodemailer/lib/shared/index.js'
+
 
 
 export default class CandidateReposistory extends ICandidateRepository {

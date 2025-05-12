@@ -26,7 +26,7 @@ const CandidateSchema = mongoose.Schema(
     role: {
       type: String,
       enum: ['candidate', 'employer'],
-      default: 'candidate'
+      required: true,
     },
   },
   { timestamps: true }

@@ -1,12 +1,10 @@
-import LoginUseCase from '../../application/useCase/commomUseCase/loginUseCase.js'
+
 import ProfileUploadUseCase from '../../application/useCase/candidate/profileUploadUseCase.js'
-import SignupUseCase from '../../application/useCase/commomUseCase/signupUseCase.js'
 import CandidateRepository from '../repositories/candidate/candidateRepository.js'
 import GCPStorageService from '../services/gcpService.js'
 import PasswordServices from '../services/passwordfService.js'
-import TokenService from '../../infrastucture/services/jwtService.js'
+import TokenService from '../../infrastructure/services/jwtService.js'
 import CandidateEntity from '../../domain/entities/candidate/CandidateEntity.js'
-import LogoutUseCase from '../../application/useCase/candidate/logoutUseCase.js'
 import ProfileUseCase from '../../application/useCase/candidate/profileUseCase.js'
 import ProfileEntity from '../../domain/entities/candidate/ProfileEntity.js'
 import ProfileRepository from '../repositories/candidate/profileRepository.js'
@@ -29,6 +27,8 @@ import EmailOtpService from '../services/emailOtpService.js'
 import DeleteAccountUseCase from '../../application/useCase/candidate/deleteAccountUsecase.js'
 import DeleteResumeUseCase from '../../application/useCase/candidate/deleteResumeUseCase.js'
 
+  
+
 const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
   const gcpStorageService = new GCPStorageService()
@@ -46,21 +46,9 @@ const candidateContainer = () => {
   const educationEntity = EducationEntity
 
   return {
-    signupUseCase: new SignupUseCase(
-      candidateRepository,
-      passwordServices,
-      candidateEntity
-    ),
+   
 
-    loginUseCase: new LoginUseCase(
-      candidateRepository,
-      passwordServices,
-      tokenService,
-      candidateEntity
-    ),
-
-    logoutUseCase: new LogoutUseCase(),
-
+    
     profileUploadUseCase: new ProfileUploadUseCase(
       candidateRepository,
       gcpStorageService,

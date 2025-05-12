@@ -1,17 +1,17 @@
-import candidateContainer from '../../../infrastucture/containers/candidateContainer.js'
-import OAuthContainer from '../../../infrastucture/containers/OAuthContainer.js'
+import authContainer from '../../../infrastructure/containers/authContainer.js'
 
-const { signupUseCase, loginUseCase, logoutUseCase } = candidateContainer()
-const { OAuthUsecase } = OAuthContainer()
+
+
+
+const { OAuthUsecase, signupUseCase, loginUseCase, logoutUseCase } =
+  authContainer()
 
 // Creating new user to the database
 export const signUpController = async (req, res) => {
-  const { name, email, password,role } = req.body
-  console.log(role);
-  
-  
+  const { name, email, password, role } = req.body
+  console.log(role)
+
   try {
-    
     const user = await signupUseCase.execute(name, email, password, role)
 
     if (user.message === 'User already exists') {
@@ -32,33 +32,39 @@ export const signUpController = async (req, res) => {
 
 //Login the user from the database
 export const loginController = async (req, res) => {
-  const { email, password } = req.body
+  const { email, password,role } = req.body
 
   try {
-    const candidateData = await loginUseCase.execute(email, password)
+    const candidateData = await loginUseCase.execute(email, password, role)
 
-    const { token, user } = candidateData
-
+    const { token, account } = candidateData
+   console.log(account);
+   
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: false, 
+      secure: false,
       sameSite: 'Strict',
       maxAge: 7 * 24 * 60 * 60 * 1000
     })
-  
-    return res.status(200).json({ success:true ,message: 'Login Successfull',  user })
+
+    return res
+      .status(200)
+      .json({ success: true, message: 'Login Successfull', account })
   } catch (error) {
     console.error(error.message)
 
-    return res.status(500).json({success: false ,message:error.message || 'Server Error' })
+    return res
+      .status(500)
+      .json({ success: false, message: error.message || 'Server Error' })
   }
-} 
+}
 
 // Google authentication using PKCE + OAuth 2.0
 export const OAuthController = async (req, res) => {
-  const { code, codeVerifier } = req.body
+  const { code, codeVerifier, role } = req.body
+  console.log(' This my role :::::::' + role)
   try {
-    const response = await OAuthUsecase.execute(code, codeVerifier)
+    const response = await OAuthUsecase.execute(code, codeVerifier, role)
 
     const { user, jwtToken } = response
 
@@ -82,7 +88,7 @@ export const logoutController = async (req, res) => {
   console.log(token)
 
   try {
-    if (!token) {  
+    if (!token) {
       return res.status(400).json({ message: 'Token not yet received' })
     }
 

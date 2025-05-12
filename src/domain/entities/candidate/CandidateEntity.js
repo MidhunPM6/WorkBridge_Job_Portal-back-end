@@ -1,6 +1,19 @@
 export default class CandidateEntity {
-  constructor ({ id, name, email, password, role, profilePic, profileCoverPic, createdAt, updatedAt }={}, skipValidation=false) {
-    this.id = id || null 
+  constructor (
+    {
+      id,
+      name,
+      email,
+      password,
+      role,
+      profilePic,
+      profileCoverPic,
+      createdAt,
+      updatedAt
+    } = {},
+    skipValidation = false
+  ) {
+    this.id = id || null
     this.name = name
     this.email = email
     this.password = password
@@ -10,61 +23,60 @@ export default class CandidateEntity {
     this.createdAt = createdAt || new Date().toString()
     this.updatedAt = updatedAt || new Date()
 
-    if(!skipValidation) 
-    this.validate()
+    if (!skipValidation) this.validate()
   }
 
   validate () {
     if (!this.name || this.name.length < 3) {
       throw new Error('Name must atleast 3 character long')
-    } 
- 
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(this.email)) {
       throw new Error('Check the email format')
-    } 
+    }
 
-    if (this.password && !this.password.startsWith("$2b$")) {   
+    if (this.password && !this.password.startsWith('$2b$')) {
       if (this.password.length < 6) {
-        throw new Error("Password must be at least 6 characters long.");
+        throw new Error('Password must be at least 6 characters long.')
       }
     }
     if (this.role && !['candidate', 'employer'].includes(this.role)) {
-      throw new Error("Role must be either 'jobseeker' or 'employer'.");
+      throw new Error("Role must be either 'candidate' or 'employer'.")
     }
 
     if (this.profilePic && !this.profilePic.startsWith('http')) {
       throw new Error('Invalid profile picture URL')
     }
-    if (this.profileCoverPic && !this.profileCoverPic.startsWith("http")) {
-      throw new Error("Invalid profile cover picture URL.");
+    if (this.profileCoverPic && !this.profileCoverPic.startsWith('http')) {
+      throw new Error('Invalid profile cover picture URL.')
     }
   }
 
-  validatePartial(data) {
+  validatePartial (data) {
     if (data.name && data.name.length < 3) {
-      throw new Error("Name must be at least 3 characters long.");
+      throw new Error('Name must be at least 3 characters long.')
     }
 
     if (data.email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(data.email)) {
-        throw new Error("Invalid email format.");
+        throw new Error('Invalid email format.')
       }
     }
 
     if (data.password && data.password.length < 6) {
-      throw new Error("Password must be at least 6 characters long.");
+      throw new Error('Password must be at least 6 characters long.')
     }
-    if (data.role && !["jobseeker", "employer"].includes(data.role)) {
-      throw new Error("Role must be either 'jobseeker' or 'employer'.");
+    if (data.role && !['candidate', 'employer'].includes(data.role)) {
+      throw new Error("Role must be either 'candidate' or 'employer'.")
     }
 
-    if (data.profilePic && !data.profilePic.startsWith("http")) {
-      throw new Error("Invalid profile picture URL.");
+    if (data.profilePic && !data.profilePic.startsWith('http')) {
+      throw new Error('Invalid profile picture URL.')
     }
-    if (data.profileCoverPic && !data.profileCoverPic.startsWith("http")) {
-      throw new Error("Invalid profile cover picture URL.");
+    if (data.profileCoverPic && !data.profileCoverPic.startsWith('http')) {
+      throw new Error('Invalid profile cover picture URL.')
     }
   }
 
@@ -75,18 +87,17 @@ export default class CandidateEntity {
     return user
   }
 
-//   This function is used to update the user data partially 
-  static createPartial(data){
-    const user = new CandidateEntity({},true)
+  //   This function is used to update the user data partially
+  static createPartial (data) {
+    const user = new CandidateEntity({}, true)
     if (data.id) user.id = data.id
-    if (data.name) user.name = data.name;
-    if (data.email) user.email = data.email;
-    if (data.role) user.role = data.role;
-    if (data.password) user.password = data.password;
-    if (data.profilePic) user.profilePic = data.profilePic;
-    if(data.profileCoverPic) user.profileCoverPic = data.profileCoverPic,
-
-    user.validatePartial(data)
+    if (data.name) user.name = data.name
+    if (data.email) user.email = data.email
+    if (data.role) user.role = data.role
+    if (data.password) user.password = data.password
+    if (data.profilePic) user.profilePic = data.profilePic
+    if (data.profileCoverPic)
+      (user.profileCoverPic = data.profileCoverPic), user.validatePartial(data)
     return user
   }
 
@@ -96,16 +107,14 @@ export default class CandidateEntity {
       id: data.id,
       name: data.name,
       email: data.email,
-      password : data.password,
+      password: data.password,
       role: data.role,
       profilePic: data.profilePic,
-      profileCoverPic : data.profileCoverPic,
+      profileCoverPic: data.profileCoverPic,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt
     })
   }
-
-
 
   toDTO () {
     return {
@@ -113,11 +122,11 @@ export default class CandidateEntity {
       name: this.name,
       email: this.email,
       password: this.password,
+      role: this.role,
       profilePic: this.profilePic,
-      profileCoverPic :this.profileCoverPic,
+      profileCoverPic: this.profileCoverPic,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-      
+      updatedAt: this.updatedAt
     }
   }
 }

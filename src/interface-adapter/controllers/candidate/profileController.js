@@ -1,4 +1,4 @@
-import candidateContainer from '../../../infrastucture/containers/candidateContainer.js'
+import candidateContainer from '../../../infrastructure/containers/candidateContainer.js'
 
 const {
   profileUploadUseCase,

@@ -1,13 +1,13 @@
 # This is a basic workflow file for GitHub Actions to build node.js applications
 # It will install dependencies, run tests, and build the application
 
-name: Node.js CI
+name: WorkBridge workflow CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build:

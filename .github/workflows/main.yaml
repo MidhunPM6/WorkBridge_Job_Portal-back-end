@@ -34,9 +34,12 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Set up Docker Buildx git
       uses: docker/setup-buildx-action@v1
+
     - name: Build Docker image
       run: docker build -t workbridge-backend .
+    - name: Tag Docker image
+      run: docker tag workbridge-backend ${{ secrets.DOCKER_USERNAME }}/workbridge-backend:latest
     - name: Push Docker image
-      run: docker push workbridge-backend
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/workbridge-backend:latest
     - name: Log out from Docker Hub
       run: docker logout

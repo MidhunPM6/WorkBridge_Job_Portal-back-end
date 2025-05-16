@@ -42,7 +42,7 @@ export const loginController = async (req, res) => {
    
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: false,
+      secure: false, 
       sameSite: 'Strict',
       maxAge: 7 * 24 * 60 * 60 * 1000
     })
@@ -62,7 +62,7 @@ export const loginController = async (req, res) => {
 // Google authentication using PKCE + OAuth 2.0
 export const OAuthController = async (req, res) => {
   const { code, codeVerifier, role } = req.body
-  console.log(' This my role :::::::' + role)
+  
   try {
     const response = await OAuthUsecase.execute(code, codeVerifier, role)
 
@@ -72,7 +72,7 @@ export const OAuthController = async (req, res) => {
       httpOnly: true,
       secure: false,
       sameSite: 'Strict',
-      maxAge: 12000000
+      maxAge: 12000000 
     })
 
     return res.status(200).json({ user })

@@ -4,6 +4,7 @@ import connectDB from './infrastructure/database/db.js'
 import AuthRoute from './interface-adapter/routes/candidate/authRoute.js'
 import cookieParser from 'cookie-parser'
 import candidateRoute from './interface-adapter/routes/candidate/candidateRoute.js'
+import employerRoute from './interface-adapter/routes/candidate/employerRoute.js'
 export const  app = express()
 
 app.use(express.json())
@@ -17,6 +18,7 @@ app.use(cors({
 
 app.use('/api/auth',AuthRoute)
 app.use('/api/candidate',candidateRoute)
+app.use('/api/employer', employerRoute)
 
 
 

@@ -2,7 +2,7 @@ export const employerJobPostController = async (req, res) => {
     try {
        
         console.log(req.body);
-        console.log(req.userRole);
+        console.log(req.userID);
         
 
         // Validate the input data

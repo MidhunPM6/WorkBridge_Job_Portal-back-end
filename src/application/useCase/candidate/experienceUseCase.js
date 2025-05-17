@@ -18,7 +18,7 @@ export default class ExperienceUseCase {
       const experienceEntityObj = this.experienceEntity.create(experienceData)
 
       const experienceDTO = experienceEntityObj.toDTO() // Convert to DTO object
-      console.log(experienceDTO)
+    
 
       const addedData = await this.experienceRepository.create(experienceDTO)
       if(!addedData){

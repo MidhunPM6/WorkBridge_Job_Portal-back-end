@@ -40,6 +40,6 @@ export default class GCPStorageService {
     } catch (error) {
       console.error('Error uploading to GCP:', error)
       throw new Error('File upload failed')
-    }
+    }  
   }
 }

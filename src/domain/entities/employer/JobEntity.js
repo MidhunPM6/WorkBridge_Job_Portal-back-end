@@ -1,22 +1,23 @@
 export default class JobEntity {
-  constructor (
+  constructor ({
+    id,
     title,
-    description,
-    companyName,
+    job_description,
+    company_name,
+    job_type,
     location,
     salary,
-    jobType,
     userID,
     createdAt,
     updatedAt
-  ) {
+  }) {
     this.id = id || null
     this.title = title
-    this.description = description
-    this.companyName = companyName
+    this.job_description = job_description
+    this.company_name = company_name
     this.location = location
-    this.salary = salary
-    this.jobType = jobType
+    this.salary = Number(salary) 
+    this.job_type = job_type?.toLowerCase() 
     this.userID = userID
     this.createdAt = createdAt || new Date().toString()
     this.updatedAt = updatedAt || new Date()
@@ -28,11 +29,11 @@ export default class JobEntity {
       throw new Error('Title must be at least 3 characters long')
     }
 
-    if (!this.description || this.description.length < 10) {
+    if (!this.job_description || this.job_description.length < 10) {
       throw new Error('Description must be at least 10 characters long')
     }
 
-    if (!this.companyName || this.companyName.length < 3) {
+    if (!this.company_name || this.company_name.length < 3) {
       throw new Error('Company name must be at least 3 characters long')
     }
 
@@ -43,11 +44,20 @@ export default class JobEntity {
     if (!this.salary || isNaN(this.salary)) {
       throw new Error('Salary must be a valid number')
     }
-    //make a userid validatio
 
     if (
-      !this.jobType ||
-      !['full-time', 'part-time', 'contract'].includes(this.jobType)
+      !this.userID ||
+      typeof this.userID !== 'string' ||
+      this.userID.length < 5
+    ) {
+      throw new Error(
+        'userID must be a valid string with at least 5 characters'
+      )
+    }
+
+    if (
+      !this.job_type ||
+      !['full-time', 'part-time', 'contract'].includes(this.job_type)
     ) {
       throw new Error(
         'Job type must be either full-time, part-time, or contract'
@@ -55,33 +65,37 @@ export default class JobEntity {
     }
   }
 
-  static create (data) {
-    const experience = new ExperienceEntity(data)
-    experience.validate()
-    return experience
+    static create (data) {
+    const job= new JobEntity(data)
+    job.validate()
+    return job
   }
 
   static rehydrate (data) {
-    return new  JobEntity({
-      id: data.id,
-      title: data.title,
-      description: data.description,
-      companyName: data.companyName,
-      location: data.location,
-      salary: data.salary,
-      jobType: data.jobType
-    })
+    return new JobEntity(
+      data.id,
+      data.title,
+      data.job_description,
+      data.company_name,
+      data.location,
+      data.salary,
+      data.job_type,
+      data.userID,
+      data.createdAt,
+      data.updatedAt
+    )
   }
 
   toDTO () {
     return {
       id: this.id,
       title: this.title,
-      description: this.description,
-      companyName: this.companyName,
+      job_description: this.job_description,
+      company_name: this.company_name,
       location: this.location,
       salary: this.salary,
-      jobType: this.jobType,
+      job_type: this.job_type,
+      userID: this.userID,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

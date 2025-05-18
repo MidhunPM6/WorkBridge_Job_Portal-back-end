@@ -8,7 +8,7 @@ export default class ICandidateRepository {
   }
   async updateByEmail (candidateEntity) {
     throw new Error('updateByEmail Method not implemented')
-  }
+  } 
   async findByID(candidateEntity){
     throw new Error("findByID Method is not implemented");
     

@@ -38,7 +38,7 @@ export default class SignInUseCase {
           candidateEntity.toDTO()
         )
 
-        return {
+        return { 
           success: true,
           newUser,
           message: ' Successfully registered'

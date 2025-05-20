@@ -1,6 +1,3 @@
-# This is a basic workflow file for GitHub Actions to build node.js applications
-# It will install dependencies, run tests, and build the application
-
 name: WorkBridge workflow CI/CD
 
 on:
@@ -11,35 +8,58 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-    - name: Install dependencies
-      run: npm install
-    - name: Build
-      run: npm run build
+      - uses: actions/checkout@v3
 
-# Docker build and push to docker hub with access token
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }} 
-    - name: Set up Docker Buildx git
-      uses: docker/setup-buildx-action@v1
- 
-    - name: Build Docker image
-      run: docker build -t workbridge-backend .
-    - name: Tag Docker image
-      run: docker tag workbridge-backend ${{ secrets.DOCKER_USERNAME }}/workbridge-backend:latest
-    - name: Push Docker image
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/workbridge-backend:latest
-    - name: Log out from Docker Hub
-      run: docker logout
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/workbridge-backend:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/workbridge-backend:latest
+
+      - name: Log out from Docker Hub
+        run: docker logout
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: 'latest'
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ secrets.CLOUD_RUN_SERVICE_NAME }} \
+            --image=docker.io/${{ secrets.DOCKER_USERNAME }}/workbridge-backend:latest \
+            --platform=managed \
+            --region=${{ secrets.GCP_REGION }} \
+            --allow-unauthenticated

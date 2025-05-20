@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import connectDB from './infrastructure/database/db.js'
-import AuthRoute from './interface-adapter/routes/candidate/authRoute.js'
+import authRoute from './interface-adapter/routes/candidate/authRoute.js'
 import cookieParser from 'cookie-parser'
 import candidateRoute from './interface-adapter/routes/candidate/candidateRoute.js'
 import employerRoute from './interface-adapter/routes/candidate/employerRoute.js'
@@ -16,7 +16,7 @@ app.use(cors({
    credentials : true
 }))
 
-app.use('/api/auth',AuthRoute)
+app.use('/api/auth',authRoute)
 app.use('/api/candidate',candidateRoute)
 app.use('/api/employer', employerRoute)
 

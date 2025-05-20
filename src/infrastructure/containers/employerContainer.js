@@ -1,5 +1,5 @@
 import JobPostUseCase from '../../application/useCase/employer/jobPostUseCase.js'
-import JobEntity from '../../domain/entities/employer/jobEntity.js'
+import JobEntity from '../../domain/entities/employer/JobEntity.js'
 import PostJobRepository from '../repositories/employer/JobPostRepository.js'
 
 const employerContainer = () => {

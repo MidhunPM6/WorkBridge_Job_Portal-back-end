@@ -26,12 +26,16 @@ export default class OAuthUseCase {
       if (!googleUser) {
         throw new Error('Failed to retrieve user info');
       }
+    
+      
+      
+      
 
       const { email, name, picture } = googleUser.user;
 
       // Set repository and entity based on the role
       let repository, entity, User;
-      
+       
       if (role === 'candidate') {
         repository = this.candidateRepository;
         entity = this.candidateEntity;
@@ -58,13 +62,13 @@ export default class OAuthUseCase {
         await repository.updateByEmail(toDTOUser.email, toDTOUser);
       } else {
         // If user doesn't exist, create a new user in the database
-        const newEntity = await entity.create({ email, name, profilePic: picture, role });
+        const newEntity = await entity.create({ email, name, profilePic:picture, role });
         const toDTOUser = await newEntity.toDTO();
         User = await repository.create(toDTOUser);
       }
 
       // Generate a token for the user and save it in an httpOnly cookie
-      const token = await this.tokenService.generateToken(User._id);
+      const token = await this.tokenService.generateToken(User);
 
       return {
         success: true,

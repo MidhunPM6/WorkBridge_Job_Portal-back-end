@@ -31,8 +31,8 @@ router.post(
   uploadImage.single('file'), 
   profileFileUpload
 )
-router.post('/profile', verifyToken,authorizeRoles('candidate'),personalProfile)
-router.get('/profile', verifyToken,authorizeRoles('candidate'),getProfile)
+router.post('/profile', verifyToken,personalProfile)
+router.get('/profile', verifyToken,getProfile)
 router.post('/resumeUpload',verifyToken ,authorizeRoles('candidate'),uploadPDF.single('resume'),resumeUploadController)
 router.post('/changename',verifyToken,authorizeRoles('candidate'),nameChangeController)
 router.post('/changepassword',verifyToken,authorizeRoles('candidate'),otpGenarateController)

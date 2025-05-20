@@ -8,6 +8,7 @@ export default class EmployerRepository extends IEmployerRepository {
       name: employerEntity.name,
       email: employerEntity.email,
       password: employerEntity.password,
+      profilePic : employerEntity.profilePic,
       role: employerEntity.role
     })
 

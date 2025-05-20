@@ -9,3 +9,4 @@ const router = express.Router()
 router.post('/postjob', verifyToken,employerJobPostController)
 
 export default router
+   

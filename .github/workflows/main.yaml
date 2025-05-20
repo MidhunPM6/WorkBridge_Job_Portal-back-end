@@ -44,8 +44,6 @@ jobs:
       - name: Log out from Docker Hub
         run: docker logout
 
-
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -71,16 +69,5 @@ jobs:
             --image=docker.io/${{ secrets.DOCKER_USERNAME }}/workbridge-backend:latest \
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
-            --allow-unauthenticated
-            --set-env-vars=\ 
-            JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }},\
-            OAUTH_TOKEN_URL=${{ secrets.OAUTH_TOKEN_URL }},\
-            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},\
-            REDIRECT_URI=${{ secrets.REDIRECT_URI }},\
-            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }},\
-            GCP_BUCKET_NAME=${{ secrets.GCP_BUCKET_NAME }},\
-            APP_PASSWORD=${{ secrets.APP_PASSWORD }},\
-            NODEMAILER_USER=${{ secrets.NODEMAILER_USER }},\
-            MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }},\
-            MONGO_USERNAME=${{ secrets.MONGO_USERNAME }},\
-            PORT=${{ secrets.PORT }}
+            --allow-unauthenticated \
+            --set-env-vars=JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }},OAUTH_TOKEN_URL=${{ secrets.OAUTH_TOKEN_URL }},GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},REDIRECT_URI=${{ secrets.REDIRECT_URI }},GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }},GCP_BUCKET_NAME=${{ secrets.GCP_BUCKET_NAME }},APP_PASSWORD=${{ secrets.APP_PASSWORD }},NODEMAILER_USER=${{ secrets.NODEMAILER_USER }},MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }},MONGO_USERNAME=${{ secrets.MONGO_USERNAME }},PORT=${{ secrets.PORT }}

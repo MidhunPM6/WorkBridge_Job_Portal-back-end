@@ -61,5 +61,5 @@ jobs:
           gcloud run deploy ${{ secrets.CLOUD_RUN_SERVICE_NAME }} \
             --image=docker.io/${{ secrets.DOCKER_USERNAME }}/workbridge-backend:latest \
             --platform=managed \
-            --region=${{ secrets.GCP_REGION }} \
+            --region=${{ secrets.GCP_REGION }} \ 
             --allow-unauthenticated

@@ -1,6 +1,7 @@
 # Use Node base image
 FROM node:18
 
+
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -10,11 +11,10 @@ RUN npm install
 
 # Copy .env file (important!)
 COPY .env ./
-
 # Copy the rest of the app
 COPY . .
 
-# Expose the app's port (Cloud Run uses 8080)
+# Expose the app's port
 EXPOSE 8080
 
 # Start the server

@@ -39,7 +39,7 @@ export default class SignInUseCase {
         )
 
         return { 
-          success: true,
+          success: true,  
           newUser,
           message: ' Successfully registered'
         }

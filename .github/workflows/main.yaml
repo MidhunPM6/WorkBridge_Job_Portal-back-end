@@ -70,4 +70,5 @@ jobs:
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
+            --timeout=600 \
             --set-env-vars=JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }},OAUTH_TOKEN_URL=${{ secrets.OAUTH_TOKEN_URL }},GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},REDIRECT_URI=${{ secrets.REDIRECT_URI }},GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }},GCP_BUCKET_NAME=${{ secrets.GCP_BUCKET_NAME }},NODEMAILER_USER=${{ secrets.NODEMAILER_USER }},MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }},MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}

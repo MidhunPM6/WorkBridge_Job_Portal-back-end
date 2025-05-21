@@ -8,7 +8,7 @@ import SignupUseCase from '../../application/useCase/commomUseCase/signupUseCase
 import PasswordServices from '../services/passwordfService.js'
 import LogoutUseCase from '../../application/useCase/candidate/logoutUseCase.js'
 import EmployerEntity from '../../domain/entities/employer/EmployerEnitity.js'
-import EmployerRepository from '../repositories/employer/EmployerRepository.js'
+import EmployerRepository from '../repositories/employer/employerRepository.js'
 
 
 

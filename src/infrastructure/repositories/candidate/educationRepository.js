@@ -16,7 +16,7 @@ export default class EducationRepository extends IEducationRepository {
   async getByUserId (userID) {
     return await EducationModel.find({ userID })
   }
-
+ 
   async deleteById (eduID) {
    return await EducationModel.findByIdAndDelete(eduID)
   }

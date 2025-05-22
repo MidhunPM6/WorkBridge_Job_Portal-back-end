@@ -10,15 +10,16 @@ export const  app = express()
 app.use(express.json())
 app.use(cookieParser())
  
-app.get('/', (req, res) => {
-  res.send('Backend is running!');  // or any welcome message
-});
+
 app.use(cors({
    origin : "http://localhost:3000",
    methods: ["GET", "POST", "PUT", "DELETE"],
    credentials : true
 }))
 
+app.get('/', (req, res) => {
+  res.send('Backend is running!');  // or any welcome message
+});
 app.use('/api/auth',authRoute)
 app.use('/api/candidate',candidateRoute)
 app.use('/api/employer', employerRoute)

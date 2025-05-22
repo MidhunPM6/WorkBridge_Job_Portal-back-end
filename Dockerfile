@@ -17,5 +17,5 @@ COPY . .
 # Expose the app's port
 EXPOSE 8080
 
-# Start the server
+# Start the app using npm script (which runs: node src/server.js)
 CMD ["npm", "run", "start"]

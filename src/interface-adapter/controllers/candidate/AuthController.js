@@ -37,7 +37,7 @@ export const loginController = async (req, res) => {
     const { token, account } = candidateData
     console.log(account)
 
-    res.cookie('jwt', jwtToken, {
+    res.cookie('jwt', token, {
       httpOnly: true,
       secure: true,
       sameSite: 'None',

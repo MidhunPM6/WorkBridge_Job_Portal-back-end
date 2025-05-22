@@ -8,7 +8,7 @@ import employerRoute from './interface-adapter/routes/candidate/employerRoute.js
 
 export const app = express();
 
-// ✅ Trust proxy for secure cookies in Cloud Run / reverse proxies
+
 app.set('trust proxy', 1);
 
 const allowedOrigins = [
@@ -16,7 +16,7 @@ const allowedOrigins = [
   'https://work-bridge-sooty.vercel.app'
 ];
 
-// ✅ Handle CORS with credentials
+//  Handle CORS with credentials
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -29,7 +29,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
-// ✅ Allow preflight to pass with credentials
+
 app.options('*', cors({
   origin: allowedOrigins,
   credentials: true

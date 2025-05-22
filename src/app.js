@@ -9,7 +9,10 @@ export const  app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-
+ 
+app.get('/', (req, res) => {
+  res.send('Backend is running!');  // or any welcome message
+});
 app.use(cors({
    origin : "http://localhost:3000",
    methods: ["GET", "POST", "PUT", "DELETE"],

@@ -1,8 +1,5 @@
 import authContainer from '../../../infrastructure/containers/authContainer.js'
 
-
-
-
 const { OAuthUsecase, signupUseCase, loginUseCase, logoutUseCase } =
   authContainer()
 
@@ -32,19 +29,19 @@ export const signUpController = async (req, res) => {
 
 //Login the user from the database
 export const loginController = async (req, res) => {
-  const { email, password,role } = req.body
+  const { email, password, role } = req.body
 
   try {
     const candidateData = await loginUseCase.execute(email, password, role)
 
     const { token, account } = candidateData
-   console.log(account);
-   
-    res.cookie('jwt', token, {
+    console.log(account)
+
+    res.cookie('jwt', jwtToken, {
       httpOnly: true,
-      secure: false, 
-      sameSite: 'Strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
+      secure: true,
+      sameSite: 'None',
+      maxAge: 12000000
     })
 
     return res
@@ -62,9 +59,8 @@ export const loginController = async (req, res) => {
 // Google authentication using PKCE + OAuth 2.0
 export const OAuthController = async (req, res) => {
   const { code, codeVerifier, role } = req.body
-  console.log(role);
-  
-  
+  console.log(role)
+
   try {
     const response = await OAuthUsecase.execute(code, codeVerifier, role)
 
@@ -72,9 +68,9 @@ export const OAuthController = async (req, res) => {
 
     res.cookie('jwt', jwtToken, {
       httpOnly: true,
-      secure: false,    
-      sameSite: 'Strict',
-      maxAge: 12000000 
+      secure: true,
+      sameSite: 'None',
+      maxAge: 12000000
     })
 
     return res.status(200).json({ user })
@@ -98,8 +94,8 @@ export const logoutController = async (req, res) => {
     console.log(response.message)
     res.clearCookie('jwt', {
       httpOnly: true,
-      secure: false,
-      sameSite: 'Strict'
+      secure: true,
+      sameSite: 'None'
     })
 
     return res.status(200).json(response.message)

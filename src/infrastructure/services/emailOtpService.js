@@ -25,7 +25,7 @@ async sendVerificationEmail(toEmail,code){
       subject: "Your Verification Code",
       html:`
       <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; padding: 40px 20px;">
-        <div style="max-width: 500px; margin: auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <div style="max-inline-size: 500px; margin: auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
           <div style="background: linear-gradient(to right, #4f46e5, #6366f1); padding: 20px 30px;">
             <h2 style="color: white; margin: 0; font-size: 22px; text-align: center;">🔐 Verify Your Password Change</h2>
           </div>

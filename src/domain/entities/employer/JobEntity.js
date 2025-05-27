@@ -64,7 +64,10 @@ export default class JobEntity {
       )
     }
   }
+    
 
+
+    
     static create (data) {
     const job= new JobEntity(data)
     job.validate()
@@ -72,18 +75,18 @@ export default class JobEntity {
   }
 
   static rehydrate (data) {
-    return new JobEntity(
-      data.id,
-      data.title,
-      data.job_description,
-      data.company_name,
-      data.location,
-      data.salary,
-      data.job_type,
-      data.userID,
-      data.createdAt,
-      data.updatedAt
-    )
+    return new JobEntity({
+      id: data.id,
+      title: data.title,
+      job_description: data.job_description,
+      company_name: data.company_name,
+      location: data.location,
+      salary: data.salary,
+      job_type: data.job_type,
+      userID: data.userID,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt
+    })
   }
 
   toDTO () {

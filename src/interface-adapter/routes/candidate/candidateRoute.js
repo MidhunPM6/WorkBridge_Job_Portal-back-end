@@ -15,7 +15,7 @@ import {
   verifyOtpController,
   deleteAccountController,
   deleteResumeController,
-} from '../../controllers/candidate/profileController.js'
+} from '../../controllers/candidate/candidateController.js'
 import {uploadImage, uploadPDF} from '../../../infrastructure/storage/multerStorage.js'
 import { verifyToken } from '../../../infrastructure/middleware/jwtVerifyMiddle.js'
 import { authorizeRoles } from '../../../infrastructure/middleware/authenticateUser.js'

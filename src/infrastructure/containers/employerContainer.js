@@ -1,3 +1,4 @@
+import FetchAllJobsUseCase from '../../application/useCase/employer/fetchAllJobsUseCase.js'
 import JobPostUseCase from '../../application/useCase/employer/jobPostUseCase.js'
 import JobEntity from '../../domain/entities/employer/JobEntity.js'
 import PostJobRepository from '../repositories/employer/JobPostRepository.js'
@@ -10,7 +11,8 @@ const employerContainer = () => {
 
   return {
     // Job posting use cases
-    postJobUseCase: new JobPostUseCase(jobPostRepository, jobEntity)
+    postJobUseCase: new JobPostUseCase(jobPostRepository, jobEntity),
+    fetchAllJobsUseCase: new FetchAllJobsUseCase(jobPostRepository, jobEntity)
   }
 }
 

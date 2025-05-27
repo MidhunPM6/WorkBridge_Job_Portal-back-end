@@ -6,7 +6,6 @@ const { OAuthUsecase, signupUseCase, loginUseCase, logoutUseCase } =
 // Creating new user to the database
 export const signUpController = async (req, res) => {
   const { name, email, password, role } = req.body
-  console.log(role)
 
   try {
     const user = await signupUseCase.execute(name, email, password, role)
@@ -35,7 +34,7 @@ export const loginController = async (req, res) => {
     const candidateData = await loginUseCase.execute(email, password, role)
 
     const { token, account } = candidateData
-    console.log(account)
+   
 
     res.cookie('jwt', token, {
       httpOnly: true,
@@ -59,24 +58,26 @@ export const loginController = async (req, res) => {
 // Google authentication using PKCE + OAuth 2.0
 export const OAuthController = async (req, res) => {
   const { code, codeVerifier, role } = req.body
-  console.log(role)
-
+ 
+  if (!code || !codeVerifier || !role) {
+    return res.status(400).json({ success: false, message: 'Missing required fields' })
+  }
   try {
     const response = await OAuthUsecase.execute(code, codeVerifier, role)
 
-    const { user, jwtToken } = response
+    const { token, User } = response
 
-    res.cookie('jwt', jwtToken, {
+    res.cookie('jwt', token, {
       httpOnly: true,
       secure: true,
       sameSite: 'None',
       maxAge: 12000000
     })
 
-    return res.status(200).json({ user })
+    return res.status(200).json({ success: true, User, message: 'Login Successful' })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ message: 'Server Error' })
+    return res.status(500).json({ success: false, message: 'Server Error' })
   }
 }
 

@@ -1,7 +1,6 @@
 import { JobPost } from '../../database/employerModels/jobPostModel.js'
 import IPostJobRepository from '../../../domain/repositories/employer/IPostJobRepository.js'
 
-
 export default class PostJobRepository extends IPostJobRepository {
   async create (jobData) {
     const jobPost = new JobPost({
@@ -11,9 +10,14 @@ export default class PostJobRepository extends IPostJobRepository {
       location: jobData.location,
       salary: jobData.salary,
       job_type: jobData.job_type,
-      userID : jobData.userID
+      userID: jobData.userID
     })
     // Save to DB
     return await jobPost.save()
   }
+  async fetchAllJobs () {
+    const jobs = await JobPost.find().sort({ createdAt: -1 }).lean()
+    return jobs
+  }
 }
+ 

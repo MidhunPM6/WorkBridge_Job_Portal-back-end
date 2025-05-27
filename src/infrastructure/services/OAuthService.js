@@ -27,6 +27,15 @@ class OAuthService {
         }
       )
 
+      console.log('OAuth Debug:', {
+        tokenUrl: this.tokenUrl,
+        clientId: this.clientId,
+        clientSecret: this.clientSecret, // optional
+        code,
+        codeVerifier,
+        redirectUri: this.redirectUri
+      })
+
       const { access_token } = tokenResponse.data
 
       if (!access_token) {
@@ -60,7 +69,9 @@ class OAuthService {
     } catch (error) {
       console.error('OAuth service error full:', {
         message: error.message,
-        response: error.response?.data,
+        status: error.response?.status,
+        headers: error.response?.headers,
+        data: error.response?.data,
         stack: error.stack
       })
       throw new Error('Failed to handle OAuth process')

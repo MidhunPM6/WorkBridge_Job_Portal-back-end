@@ -19,5 +19,13 @@ export default class PostJobRepository extends IPostJobRepository {
     const jobs = await JobPost.find().sort({ createdAt: -1 }).lean()
     return jobs
   }
+
+  async findByEmployerId (employerId) {
+    if (!employerId) {
+      throw new Error('Employer ID is required')
+    }
+    const jobs = await JobPost.find({ userID: employerId }).sort({ createdAt: -1 }).lean()
+    return jobs
+  }
 }
  

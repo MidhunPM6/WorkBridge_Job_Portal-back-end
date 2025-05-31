@@ -34,7 +34,7 @@ app.options('*', cors({
   origin: allowedOrigins,
   credentials: true
 }));
-
+  
 app.use(express.json());
 app.use(cookieParser());
 
@@ -45,3 +45,4 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoute);
 app.use('/api/candidate', candidateRoute);
 app.use('/api/employer', employerRoute);
+    

@@ -12,7 +12,10 @@ export default class JobPostUseCase {
     }
     try {
       const job = this.jobentity.create(jobData).toDTO()
+      console.log(job);
+      
       const newJobPost = await this.jobRepository.create(job)
+
       return newJobPost
     } catch (error) {
       console.error('Error creating job post:', error)

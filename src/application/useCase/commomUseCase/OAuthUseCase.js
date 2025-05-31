@@ -50,7 +50,6 @@ export default class OAuthUseCase {
         const updateData = {
           email,
           name,
-          profilePic: picture,
           role
         }
         const updateUser = entity.createPartial(updateData)

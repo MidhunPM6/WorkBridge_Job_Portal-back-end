@@ -35,6 +35,8 @@ export default class ProfileUseCase {
           userID: userID
         })
         const profileDTO = await profileEntityObj.toDTO()
+        
+        
         const updatedData = await this.profileRepository.updateById(
           userID,
           profileDTO

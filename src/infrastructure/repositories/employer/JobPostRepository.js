@@ -24,8 +24,25 @@ export default class PostJobRepository extends IPostJobRepository {
     if (!employerId) {
       throw new Error('Employer ID is required')
     }
-    const jobs = await JobPost.find({ userID: employerId }).sort({ createdAt: -1 }).lean()
+    const jobs = await JobPost.find({ userID: employerId })
+      .sort({ createdAt: -1 })
+      .lean()
     return jobs
   }
+
+  updateById (jobData) {
+    if (!jobData) {
+      throw new Error('Job data is required')
+    }
+    return JobPost.findByIdAndUpdate(jobData.id, jobData, {
+      new: true,
+      runValidators: true
+    })
+  }
+  findById (jobId) {
+    if (!jobId) {
+      throw new Error('Job ID is required')
+    }
+    return JobPost.findById(jobId).lean()
+  }
 }
- 

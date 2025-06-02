@@ -9,19 +9,23 @@ export default class JobEntity {
     salary,
     userID,
     createdAt,
-    updatedAt
+    updatedAt,
+    skipValidation = false
   }) {
     this.id = id || null
     this.title = title
     this.job_description = job_description
     this.company_name = company_name
     this.location = location
-    this.salary = Number(salary) 
+    this.salary = salary
     this.job_type = job_type?.toLowerCase() 
     this.userID = userID
     this.createdAt = createdAt || new Date().toString()
     this.updatedAt = updatedAt || new Date()
-    this.validate()
+    this.skipValidation = skipValidation
+    if (!skipValidation) {
+      this.validate()
+    }
   }
 
   validate () {
@@ -64,6 +68,7 @@ export default class JobEntity {
       )
     }
   }
+
     
 
 
@@ -73,7 +78,7 @@ export default class JobEntity {
     job.validate()
     return job
   }
-
+  
   static rehydrate (data) {
     return new JobEntity({
       id: data.id,
@@ -85,9 +90,29 @@ export default class JobEntity {
       job_type: data.job_type,
       userID: data.userID,
       createdAt: data.createdAt,
-      updatedAt: data.updatedAt
+      updatedAt: data.updatedAt,
+      skipValidation: true
     })
   }
+
+  static createPartial(data) {
+  const job = new JobEntity({
+    id: data.id || undefined,
+    title: data.title || undefined ,
+    job_description: data.job_description || undefined ,
+    company_name: data.company_name || undefined ,
+    location: data.location || undefined ,
+    salary: data.salary || undefined ,
+    job_type: data.job_type?.toLowerCase() || undefined ,
+    userID: data.userID || undefined ,
+    skipValidation: true,
+  });
+  
+  return job;
+}
+
+
+  
 
   toDTO () {
     return {

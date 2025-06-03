@@ -30,7 +30,7 @@ export default class PostJobRepository extends IPostJobRepository {
     return jobs
   }
 
-  updateById (jobData) {
+  async updateById (jobData) {
     if (!jobData) {
       throw new Error('Job data is required')
     }
@@ -39,10 +39,17 @@ export default class PostJobRepository extends IPostJobRepository {
       runValidators: true
     })
   }
-  findById (jobId) {
+  async findById (jobId) {
     if (!jobId) {
       throw new Error('Job ID is required')
     }
     return JobPost.findById(jobId).lean()
+  }
+
+  async delete (jobId) {
+    if (!jobId) {
+      throw new Error('Job ID is required')
+    }
+    return JobPost.findByIdAndDelete(jobId)
   }
 }

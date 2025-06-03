@@ -1,6 +1,6 @@
 import employerContainer from '../../../infrastructure/containers/employerContainer.js'
 
-const { postJobUseCase, fetchAllJobsUseCase, fetchMyJobsUseCase,updateJobUseCase } = employerContainer()
+const { postJobUseCase, fetchAllJobsUseCase, fetchMyJobsUseCase,updateJobUseCase,deleteJobUseCase } = employerContainer()
 
 export const employerJobPostController = async (req, res) => {
   const userID = req.userID
@@ -116,6 +116,29 @@ export const updateJobController = async (req, res) => {
     })
   } catch (error) {
     console.error('Error updating job:', error)
+    return res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
+// delete job controller
+
+export const deleteJobController = async (req, res) => {
+  const userID = req.userID
+  const { id } = req.params
+
+  if (!userID) {
+    return res.status(401).json({ message: 'Unauthorized or token missing' })
+  }
+
+  try {
+    const deletedJob = await deleteJobUseCase.execute(id)
+    return res.status(200).json({
+      success: true,
+      message: 'Job deleted successfully',
+      data: deletedJob
+    })
+  } catch (error) {
+    console.error('Error deleting job:', error)
     return res.status(500).json({ message: 'Internal server error' })
   }
 }

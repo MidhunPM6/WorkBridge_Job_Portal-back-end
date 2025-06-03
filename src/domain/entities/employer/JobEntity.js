@@ -12,7 +12,7 @@ export default class JobEntity {
     updatedAt,
     skipValidation = false
   }) {
-    this.id = id || null
+    this.id = id
     this.title = title
     this.job_description = job_description
     this.company_name = company_name

@@ -1,5 +1,5 @@
 import express from 'express'
-import { employerJobPostController, fetchAllJobsController,fetchMyJobsController ,updateJobController} from '../../controllers/employer/employerController.js'
+import { employerJobPostController, fetchAllJobsController,fetchMyJobsController ,updateJobController,deleteJobController} from '../../controllers/employer/employerController.js'
 import { verifyToken } from '../../../infrastructure/middleware/jwtVerifyMiddle.js'
 import { authorizeRoles } from '../../../infrastructure/middleware/authenticateUser.js'
 
@@ -11,5 +11,6 @@ router.post('/postjob', verifyToken, authorizeRoles('employer'), employerJobPost
 router.get('/alljobs', verifyToken, authorizeRoles('employer'), fetchAllJobsController)
 router.get('/myjobs', verifyToken, authorizeRoles('employer'), fetchMyJobsController)
 router.patch('/updateJob/:id', verifyToken, authorizeRoles('employer'), updateJobController)
+router.delete('/deleteJob/:id', verifyToken, authorizeRoles('employer'), deleteJobController)
 
 export default router

@@ -17,4 +17,7 @@ export default class IPostJobRepository {
   findById (jobId) {
     throw new Error('The method findById is required')
   }
+  delete (jobId) {
+    throw new Error('The method delete is required')
+  }
 }

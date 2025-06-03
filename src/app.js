@@ -4,7 +4,8 @@ import connectDB from './infrastructure/database/db.js';
 import authRoute from './interface-adapter/routes/candidate/AuthRoute.js';
 import cookieParser from 'cookie-parser';
 import candidateRoute from './interface-adapter/routes/candidate/candidateRoute.js';
-import employerRoute from './interface-adapter/routes/candidate/employerRoute.js';
+import employerRoute from './interface-adapter/routes/employer/employerRoute.js';
+import commonRoute from './interface-adapter/routes/common/commonRoutes.js';
 
 export const app = express();
 
@@ -45,4 +46,5 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoute);
 app.use('/api/candidate', candidateRoute);
 app.use('/api/employer', employerRoute);
+app.use('/api/common', commonRoute);
     

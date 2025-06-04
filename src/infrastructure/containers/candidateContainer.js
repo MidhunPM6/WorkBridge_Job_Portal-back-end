@@ -26,6 +26,11 @@ import VerificationEmailUseCase from '../../application/useCase/candidate/verifi
 import EmailOtpService from '../services/emailOtpService.js'
 import DeleteAccountUseCase from '../../application/useCase/candidate/deleteAccountUsecase.js'
 import DeleteResumeUseCase from '../../application/useCase/candidate/deleteResumeUseCase.js'
+import ApplyJobUseCase from '../../application/useCase/candidate/applyJobUseCase.js'
+import JobApplyRepository from '../repositories/candidate/jobApplyRepository.js'
+import ApplyEntity from '../../domain/entities/candidate/ApplyEntity.js'
+
+
 
   
 
@@ -33,17 +38,19 @@ const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
   const gcpStorageService = new GCPStorageService()
   const passwordServices = new PasswordServices()
-  const tokenService = new TokenService()
   const profileRepository = new ProfileRepository()
   const experienceRepository = new ExperienceRepository()
   const educationRepository = new EducationRepository()
   const otpRepository = new OtpRepository()
   const emailOtpService = new EmailOtpService()
+  const jobApplyRepository = new JobApplyRepository()
 
   const candidateEntity = CandidateEntity
   const profileEntity = ProfileEntity
   const experienceEntity = ExperienceEntity
   const educationEntity = EducationEntity
+  const applyEntity = ApplyEntity
+  
 
   return {
    
@@ -114,6 +121,11 @@ const candidateContainer = () => {
       profileRepository,
       profileEntity,
       candidateEntity
+    )
+    ,
+    applyJobUseCase: new ApplyJobUseCase(
+      jobApplyRepository,
+      applyEntity
     )
   }
 }

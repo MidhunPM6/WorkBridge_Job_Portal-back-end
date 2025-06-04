@@ -14,7 +14,8 @@ const {
   changeNameUseCase,
   verificationEmailUseCase,
   deleteAccountUseCase,
-  deleteResumeUseCase
+  deleteResumeUseCase,
+  applyJobUseCase
 } = candidateContainer()
 
 // Profile file upload controller
@@ -437,5 +438,38 @@ export const deleteResumeController = async (req, res) => {
     })
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message })
+  }
+}
+
+//  Controller to save the applied job data
+
+export const applyJobController = async (req, res) => {
+  const { employerId, jobId } = req.body
+  const userID = req.userID
+  console.log('Applying for job:', jobId, 'by user:', userID);
+
+  if (!employerId || !jobId || !userID) {
+    return res.status(400).json({
+      success: false,
+      message: 'Employer ID, Job ID and User ID are required'
+    })
+  }
+
+  try {
+    const response = await applyJobUseCase.execute(
+      employerId,
+      jobId,
+      userID
+    )
+   
+    
+    return res.status(200).json({
+      success: true,
+      data: response,
+      message: 'Successfully applied for the job'
+    })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: error.message || 'Server Error' })
   }
 }

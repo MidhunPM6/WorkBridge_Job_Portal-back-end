@@ -1,3 +1,4 @@
+
 import candidateContainer from '../../../infrastructure/containers/candidateContainer.js'
 
 const {
@@ -15,16 +16,15 @@ const {
   verificationEmailUseCase,
   deleteAccountUseCase,
   deleteResumeUseCase,
-  applyJobUseCase
+  applyJobUseCase,
+  appliedJobUseCase
 } = candidateContainer()
-
+ 
 // Profile file upload controller
 export const profileFileUpload = async (req, res) => {
   const file = req.file
   const { fileType } = req.body
   const userID = req.userID
-
-  
 
   if (!req.userID) {
     return res.status(401).json({ message: 'UserID not provided ' })
@@ -446,7 +446,7 @@ export const deleteResumeController = async (req, res) => {
 export const applyJobController = async (req, res) => {
   const { employerId, jobId } = req.body
   const userID = req.userID
-  console.log('Applying for job:', jobId, 'by user:', userID);
+  console.log('Applying for job:', jobId, 'by user:', userID)
 
   if (!employerId || !jobId || !userID) {
     return res.status(400).json({
@@ -456,20 +456,34 @@ export const applyJobController = async (req, res) => {
   }
 
   try {
-    const response = await applyJobUseCase.execute(
-      employerId,
-      jobId,
-      userID
-    )
-   
-    
+    const response = await applyJobUseCase.execute(employerId, jobId, userID)
+
     return res.status(200).json({
-      success: true,
+      success : true,
       data: response,
       message: 'Successfully applied for the job'
     })
   } catch (error) {
     console.error(error)
     return res.status(500).json({ message: error.message || 'Server Error' })
+  }
+}
+
+// Getting the Job IDs to check the user Already applied or not
+
+export const getAppliedJobsController = async (req, res) => {
+
+  try {
+    const userId =req.userID
+    if(!userId){
+      return res.status(401).json({success : false ,message : 'Invalid or Unauthorized Token' })
+    }
+    const jobIds = await appliedJobUseCase.execute(userId)
+    return res.status(200).json({ success:true,jobIds ,message: 'Fetched Applied JobIDs successfully'})
+  } catch (error) {
+    console.error("fdffffffffffffffffffffffffffffffffffffffffffffffffffx"+error.message);
+    
+    return res.status(500).json({success :false ,message : error || "Server Error" })
+
   }
 }

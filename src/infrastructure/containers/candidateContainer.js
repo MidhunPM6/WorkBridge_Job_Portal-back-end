@@ -29,6 +29,7 @@ import DeleteResumeUseCase from '../../application/useCase/candidate/deleteResum
 import ApplyJobUseCase from '../../application/useCase/candidate/applyJobUseCase.js'
 import JobApplyRepository from '../repositories/candidate/jobApplyRepository.js'
 import ApplyEntity from '../../domain/entities/candidate/ApplyEntity.js'
+import AppliedJobUseCase from '../../application/useCase/candidate/appliedJobsUseCase.js'
 
 
 
@@ -126,7 +127,8 @@ const candidateContainer = () => {
     applyJobUseCase: new ApplyJobUseCase(
       jobApplyRepository,
       applyEntity
-    )
+    ),
+    appliedJobUseCase : new AppliedJobUseCase(jobApplyRepository)
   }
 }
 export default candidateContainer

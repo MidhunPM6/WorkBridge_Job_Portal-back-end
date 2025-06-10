@@ -1,4 +1,3 @@
-
 import candidateContainer from '../../../infrastructure/containers/candidateContainer.js'
 
 const {
@@ -19,7 +18,7 @@ const {
   applyJobUseCase,
   appliedJobUseCase
 } = candidateContainer()
- 
+
 // Profile file upload controller
 export const profileFileUpload = async (req, res) => {
   const file = req.file
@@ -459,7 +458,7 @@ export const applyJobController = async (req, res) => {
     const response = await applyJobUseCase.execute(employerId, jobId, userID)
 
     return res.status(200).json({
-      success : true,
+      success: true,
       data: response,
       message: 'Successfully applied for the job'
     })
@@ -472,18 +471,26 @@ export const applyJobController = async (req, res) => {
 // Getting the Job IDs to check the user Already applied or not
 
 export const getAppliedJobsController = async (req, res) => {
-
   try {
-    const userId =req.userID
-    if(!userId){
-      return res.status(401).json({success : false ,message : 'Invalid or Unauthorized Token' })
+    const userId = req.userID
+    if (!userId) {
+      return res
+        .status(401)
+        .json({ success: false, message: 'Invalid or Unauthorized Token' })
     }
     const jobIds = await appliedJobUseCase.execute(userId)
-    return res.status(200).json({ success:true,jobIds ,message: 'Fetched Applied JobIDs successfully'})
+    return res
+      .status(200)
+      .json({
+        success: true,
+        jobIds,
+        message: 'Fetched Applied JobIDs successfully'
+      })
   } catch (error) {
-    console.error("fdffffffffffffffffffffffffffffffffffffffffffffffffffx"+error.message);
-    
-    return res.status(500).json({success :false ,message : error || "Server Error" })
+    console.error(error.message)
 
+    return res
+      .status(500)
+      .json({ success: false, message: error || 'Server Error' })
   }
 }

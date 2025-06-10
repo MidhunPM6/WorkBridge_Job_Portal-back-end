@@ -1,13 +1,20 @@
 import employerContainer from '../../../infrastructure/containers/employerContainer.js'
 
-const { postJobUseCase, fetchAllJobsUseCase, fetchMyJobsUseCase,updateJobUseCase,deleteJobUseCase } = employerContainer()
+const {
+  postJobUseCase,
+  fetchAllJobsUseCase,
+  fetchMyJobsUseCase,
+  updateJobUseCase,
+  deleteJobUseCase,
+  companyProfileUseCase
+} = employerContainer()
 
 export const employerJobPostController = async (req, res) => {
   const userID = req.userID
   const { title, job_description, company_name, job_type, location, salary } =
     req.body
-  console.log(req.body);
-  
+  console.log(req.body)
+
   const jobPostData = {
     title,
     job_description,
@@ -41,13 +48,13 @@ export const employerJobPostController = async (req, res) => {
   }
 }
 
-//  Fetch all jobs controller 
+//  Fetch all jobs controller
 export const fetchAllJobsController = async (req, res) => {
   const userID = req.userID
   if (!userID) {
     return res.status(401).json({ message: 'Unauthorized or token missing' })
   }
-  
+
   try {
     const jobs = await fetchAllJobsUseCase.execute()
     return res.status(200).json({
@@ -60,18 +67,20 @@ export const fetchAllJobsController = async (req, res) => {
   }
 }
 
-// Fetch my jobs controller 
+// Fetch my jobs controller
 
 export const fetchMyJobsController = async (req, res) => {
   const userID = req.userID
   if (!userID) {
     return res.status(401).json({ message: 'Unauthorized or token missing' })
   }
-  
+
   try {
     const jobs = await fetchMyJobsUseCase.execute(userID)
     if (!jobs || jobs.length === 0) {
-      return res.status(404).json({ message: 'No jobs found for this employer' })
+      return res
+        .status(404)
+        .json({ message: 'No jobs found for this employer' })
     }
     return res.status(200).json({
       success: true,
@@ -86,9 +95,16 @@ export const fetchMyJobsController = async (req, res) => {
 // update job controller
 export const updateJobController = async (req, res) => {
   const userID = req.userID
-  
-  const { id,title, job_description, company_name, job_type, location, salary } =
-    req.body
+
+  const {
+    id,
+    title,
+    job_description,
+    company_name,
+    job_type,
+    location,
+    salary
+  } = req.body
 
   if (!userID) {
     return res.status(401).json({ message: 'Unauthorized or token missing' })
@@ -105,9 +121,8 @@ export const updateJobController = async (req, res) => {
       salary,
       userID
     }
-    console.log(jobData); 
-    
-    
+    console.log(jobData)
+
     const updatedJob = await updateJobUseCase.execute(jobData)
     return res.status(200).json({
       success: true,
@@ -139,6 +154,54 @@ export const deleteJobController = async (req, res) => {
     })
   } catch (error) {
     console.error('Error deleting job:', error)
+    return res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
+// Employer profile creating and updating
+
+export const employerProfileController = async (req, res) => {
+  
+  const userID = req.userID
+  const {
+    companyName,
+    industry,
+    website,
+    headquarter,
+    sizeOfCompany,
+    overview,
+    about
+  } = req.body
+
+  const profileData = {
+    companyName,
+    industry,
+    website,
+    headquarter,
+    sizeOfCompany,
+    overview,
+    about,
+    userID
+  }
+
+  console.log(profileData);
+  
+  try {
+    if (!profileData) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'All fields are required' })
+    }
+    const response = await companyProfileUseCase.execute(profileData)
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: 'Updated Sucessfully',
+        profile: response
+      })
+  } catch (error) {
+    console.error('Error creating employer profile:', error)
     return res.status(500).json({ message: 'Internal server error' })
   }
 }

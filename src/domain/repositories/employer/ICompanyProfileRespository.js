@@ -13,4 +13,8 @@ export default class ICompanyProfileRepository {
   async updateById(userID, updateData) {
     throw new Error('Method not implemented');
   }
+
+  getById(userID) {
+    throw new Error('Method not implemented');
+  }
 }

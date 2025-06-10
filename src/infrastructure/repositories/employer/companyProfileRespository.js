@@ -21,4 +21,9 @@ export default class CompanyProfileRepository extends ICompanyProfileRepository 
     )
     return updated ? updated.toObject() : null
   }
+
+  getById (userID) {
+    const profile = companyProfileModel.findOne({ userID })
+    return profile
+  }
 }

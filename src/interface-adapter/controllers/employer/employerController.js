@@ -6,7 +6,8 @@ const {
   fetchMyJobsUseCase,
   updateJobUseCase,
   deleteJobUseCase,
-  companyProfileUseCase
+  companyProfileUseCase,
+  fetchCompanyProfileUseCase
 } = employerContainer()
 
 export const employerJobPostController = async (req, res) => {
@@ -200,6 +201,20 @@ export const employerProfileController = async (req, res) => {
         message: 'Updated Sucessfully',
         profile: response
       })
+  } catch (error) {
+    console.error('Error creating employer profile:', error)
+    return res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
+export const fetchCompanyProfileController=async(req,res)=>{
+      const userID = req.userID
+    
+  try {
+    const response = await fetchCompanyProfileUseCase.execute(userID)
+    return res
+      .status(200)
+      .json({ success: true, message: 'Fetched Successfully', profile: response })
   } catch (error) {
     console.error('Error creating employer profile:', error)
     return res.status(500).json({ message: 'Internal server error' })

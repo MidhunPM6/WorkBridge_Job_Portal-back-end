@@ -8,6 +8,7 @@ import DeleteJobUseCase from '../../application/useCase/employer/deleteJobUseCas
 import CompanyProfileEntity from '../../domain/entities/employer/CompanyProfileEnitity.js'
 import CompanyProfileRepository from '../repositories/employer/companyProfileRespository.js'
 import CompanyProfileUseCase from '../../application/useCase/employer/companyProfileUseCase.js'
+import FetchCompanyProfileUseCase from '../../application/useCase/employer/fetchCompanyProfileUseCase.js'
 
 
 
@@ -29,8 +30,10 @@ const employerContainer = () => {
     deleteJobUseCase: new DeleteJobUseCase(jobPostRepository, jobEntity),
 
     // Company profile use cases
-    companyProfileUseCase: new CompanyProfileUseCase(companyProfileRepository, companyProfileEntity)
+    companyProfileUseCase: new CompanyProfileUseCase(companyProfileRepository, companyProfileEntity),
+    fetchCompanyProfileUseCase: new FetchCompanyProfileUseCase(companyProfileRepository, companyProfileEntity)
   }
+
 }
 
 export default employerContainer

@@ -1,6 +1,7 @@
 export default class ApplyJobUseCase {
-  constructor (appliedJobRepository, applyEntity) {
+  constructor (appliedJobRepository,profileRepository, applyEntity) {
     this.appliedJobRepository = appliedJobRepository
+    this.profileRepository = profileRepository
     this.applyEntity = applyEntity
   }
 
@@ -21,10 +22,20 @@ export default class ApplyJobUseCase {
       if (isApplied) {
         throw new Error(' Already applied for this job')
       }
+      // Find the user profile by user ID 
+      const profile = await this.profileRepository.findByID(userID)
+      console.log(profile);
+      
+
+      
+      if (!profile) {
+        throw new Error('Profile not found')
+      }
+
 
       // Create the apply entity
       const applyEntity = this.applyEntity
-        .create(employerId, jobId, userID)
+        .create(employerId, jobId, userID,profile._id)
         .toDto()
       console.log(applyEntity)
 

@@ -126,6 +126,7 @@ const candidateContainer = () => {
     ,
     applyJobUseCase: new ApplyJobUseCase(
       jobApplyRepository,
+      profileRepository,
       applyEntity
     ),
     appliedJobUseCase : new AppliedJobUseCase(jobApplyRepository)

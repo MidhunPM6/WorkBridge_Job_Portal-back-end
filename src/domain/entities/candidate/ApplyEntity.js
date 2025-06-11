@@ -1,10 +1,14 @@
 import mongoose from 'mongoose'
 
 export default class ApplyEntity {
-  constructor (employerId, jobId, userID) {
+  constructor (employerId, jobId, userID,profileId,createdAt,updatedAt) {
     this.employerId = employerId
     this.jobId = jobId
     this.userID = userID
+    this.profileId =profileId
+    this.createdAt = createdAt || new Date().toString()
+    this.updatedAt = updatedAt  || new Date().toString()
+
     this.validate()
   }
 
@@ -18,20 +22,26 @@ export default class ApplyEntity {
     if (this.userID && !this.isValidObjectId(this.userID)) {
       throw new Error('Invalid user ID')
     }
+    if(this.profileId && !this.isValidObjectId(this.profileId)) {
+      throw new Error('Invalid profile ID')
+    }
   }
     isValidObjectId(id) {
     return mongoose.Types.ObjectId.isValid(id);
   }
 
-  static create (employerId, jobId, userID) {
-    return new ApplyEntity(employerId, jobId, userID)
+  static create (employerId, jobId, userID,profileId) {
+    return new ApplyEntity(employerId, jobId, userID,profileId)
   }
 
   toDto () {
     return {
       employerId: this.employerId,
       jobId: this.jobId,
-      userID: this.userID
+      userID: this.userID,
+      profileId: this.profileId,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
     }
   }
 }

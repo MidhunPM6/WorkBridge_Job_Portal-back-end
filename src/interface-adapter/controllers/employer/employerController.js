@@ -7,7 +7,8 @@ const {
   updateJobUseCase,
   deleteJobUseCase,
   companyProfileUseCase,
-  fetchCompanyProfileUseCase
+  fetchCompanyProfileUseCase,
+  fetchApplicationsUseCase
 } = employerContainer()
 
 export const employerJobPostController = async (req, res) => {
@@ -217,6 +218,26 @@ export const fetchCompanyProfileController=async(req,res)=>{
       .json({ success: true, message: 'Fetched Successfully', profile: response })
   } catch (error) {
     console.error('Error creating employer profile:', error)
+    return res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
+// Fetching Applicants controller
+
+export const fetchApplicationsController = async (req, res) => {
+  const employerId = req.userID
+  console.info('Employer ID:', employerId)
+  if (!employerId) {
+    return res.status(401).json({ message: 'Unauthorized or token missing' })
+  }
+  try {
+    const applications = await fetchApplicationsUseCase.execute(employerId)
+    return res.status(200).json({
+      success: true,
+      applications
+    })
+  } catch (error) {
+    console.error('Error fetching applications:', error)
     return res.status(500).json({ message: 'Internal server error' })
   }
 }

@@ -9,6 +9,10 @@ import CompanyProfileEntity from '../../domain/entities/employer/CompanyProfileE
 import CompanyProfileRepository from '../repositories/employer/companyProfileRespository.js'
 import CompanyProfileUseCase from '../../application/useCase/employer/companyProfileUseCase.js'
 import FetchCompanyProfileUseCase from '../../application/useCase/employer/fetchCompanyProfileUseCase.js'
+import JobApplyRepository from '../repositories/candidate/jobApplyRepository.js'
+import FetchApplicationUseCase from '../../application/useCase/employer/fetchApplicationUseCase.js'
+
+
 
 
 
@@ -18,6 +22,7 @@ const employerContainer = () => {
 
   const jobPostRepository = new PostJobRepository()
   const companyProfileRepository = new CompanyProfileRepository()
+  const jobApplyRepository = new JobApplyRepository()
   const jobEntity = JobEntity
   const companyProfileEntity = CompanyProfileEntity
 
@@ -31,7 +36,8 @@ const employerContainer = () => {
 
     // Company profile use cases
     companyProfileUseCase: new CompanyProfileUseCase(companyProfileRepository, companyProfileEntity),
-    fetchCompanyProfileUseCase: new FetchCompanyProfileUseCase(companyProfileRepository, companyProfileEntity)
+    fetchCompanyProfileUseCase: new FetchCompanyProfileUseCase(companyProfileRepository, companyProfileEntity),
+    fetchApplicationsUseCase: new FetchApplicationUseCase(jobApplyRepository)
   }
 
 }

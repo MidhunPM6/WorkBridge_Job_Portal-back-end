@@ -32,3 +32,4 @@ const EmployerSchema = mongoose.Schema(
 );
 
 export const Employer = mongoose.model("Employer", EmployerSchema);
+ 

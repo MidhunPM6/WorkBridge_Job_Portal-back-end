@@ -5,7 +5,8 @@ import {
   updateJobController,
   deleteJobController,
   employerProfileController,
-  fetchCompanyProfileController
+  fetchCompanyProfileController,
+  fetchApplicationsController,
 } from '../../controllers/employer/employerController.js'
 import { verifyToken } from '../../../infrastructure/middleware/jwtVerifyMiddle.js'
 import { authorizeRoles } from '../../../infrastructure/middleware/authenticateUser.js'
@@ -13,8 +14,7 @@ import { authorizeRoles } from '../../../infrastructure/middleware/authenticateU
 const router = express.Router()
 // Employer profile routes
 
-router.post(
-  '/postjob',
+router.post('/postjob',
   verifyToken,
   authorizeRoles('employer'),
   employerJobPostController
@@ -48,6 +48,12 @@ router.get(
   verifyToken,
   authorizeRoles('employer'),
   fetchCompanyProfileController
+)
+router.get(
+  '/applications',
+  verifyToken,
+  authorizeRoles('employer'),
+  fetchApplicationsController,
 )
 
 export default router

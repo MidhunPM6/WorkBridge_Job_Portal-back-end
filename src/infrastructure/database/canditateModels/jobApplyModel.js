@@ -1,26 +1,32 @@
- import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
- const jobApplySchema = new mongoose.Schema({
+const jobApplySchema = new mongoose.Schema(
+  {
     jobId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Job',
-        required: true
-        },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'JobPost',
+      required: true
+    },
     userID: {
-        type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
 
-        ref: 'User',    
+      ref: 'Candidate',
 
-        required: true
-        },
+      required: true
+    },
     employerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employer',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Employer',
+      required: true
+    },
+    profileId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'profile',
+      required: true
     }
-});
-    const JobApplyModel = mongoose.model('JobApply', jobApplySchema);
-    
-    export default JobApplyModel;
-    
-    
+  },
+  { timestamps: true }
+)
+const JobApplyModel = mongoose.model('JobApply', jobApplySchema)
+
+export default JobApplyModel

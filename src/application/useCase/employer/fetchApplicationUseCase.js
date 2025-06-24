@@ -1,6 +1,6 @@
 export default class FetchApplicationUseCase {
-  constructor (jobRepository) {
-    this.jobRepository = jobRepository
+  constructor (appliedJobRepository) {
+    this.appliedJobRepository = appliedJobRepository
   }
   async execute (employerId) {
     try {
@@ -8,16 +8,29 @@ export default class FetchApplicationUseCase {
         throw new Error('Employer ID is required')
       }
 
-      const jobs = await this.jobRepository.findByEmployerId(employerId)
+      const jobs = await this.appliedJobRepository.findByEmployerId(employerId)
       if (!jobs || jobs.length === 0) {
         return []
       }
-      console.log(jobs);
-      
-      return jobs
+
+
+      return {
+        applicationData: jobs.map(job => {
+          return {
+            jobData: job.jobId,
+            candidateData: job.userID,
+            profileData: job.profileId,
+            educationData: job.educationIds,
+            experienceData: job.experienceIds,
+            createdAt: job.createdAt,
+            updatedAt: job.updatedAt
+          }
+        }),
+      }  
+      return job
     } catch (error) {
       console.error('Error fetching jobs:', error)
-      throw new Error('Failed to fetch jobs')
+      throw new Error(error.message)
     }
   }
 }

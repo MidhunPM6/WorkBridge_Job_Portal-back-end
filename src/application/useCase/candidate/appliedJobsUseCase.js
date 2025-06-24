@@ -9,6 +9,8 @@ export default class AppliedJobUseCase {
             
         }
         const jobIds = await this.appliedRepository.findAppliedJobIdsByUser(userID)
+        
+        
         return jobIds
     } catch (error) {
         throw new Error(error.message);

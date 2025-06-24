@@ -234,7 +234,8 @@ export const fetchApplicationsController = async (req, res) => {
     const applications = await fetchApplicationsUseCase.execute(employerId)
     return res.status(200).json({
       success: true,
-      applications
+      message: 'Applications fetched successfully',
+      data:applications
     })
   } catch (error) {
     console.error('Error fetching applications:', error)

@@ -30,6 +30,9 @@ import ApplyJobUseCase from '../../application/useCase/candidate/applyJobUseCase
 import JobApplyRepository from '../repositories/candidate/jobApplyRepository.js'
 import ApplyEntity from '../../domain/entities/candidate/ApplyEntity.js'
 import AppliedJobUseCase from '../../application/useCase/candidate/appliedJobsUseCase.js'
+import EmployerRepository from '../repositories/employer/employerRepository.js'
+import EmployerEntity from '../../domain/entities/employer/EmployerEnitity.js'
+
 
 
 
@@ -45,12 +48,15 @@ const candidateContainer = () => {
   const otpRepository = new OtpRepository()
   const emailOtpService = new EmailOtpService()
   const jobApplyRepository = new JobApplyRepository()
+ 
+  const employerRepository = new EmployerRepository()
 
   const candidateEntity = CandidateEntity
   const profileEntity = ProfileEntity
   const experienceEntity = ExperienceEntity
   const educationEntity = EducationEntity
   const applyEntity = ApplyEntity
+  const employerEntity = EmployerEntity
   
 
   return {
@@ -60,7 +66,9 @@ const candidateContainer = () => {
     profileUploadUseCase: new ProfileUploadUseCase(
       candidateRepository,
       gcpStorageService,
-      candidateEntity
+      candidateEntity,
+      employerRepository,
+      employerEntity
     ),
 
     profileUseCase: new ProfileUseCase(

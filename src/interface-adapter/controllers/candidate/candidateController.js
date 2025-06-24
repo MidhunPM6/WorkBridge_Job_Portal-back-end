@@ -22,8 +22,11 @@ const {
 // Profile file upload controller
 export const profileFileUpload = async (req, res) => {
   const file = req.file
-  const { fileType } = req.body
+  const { fileType,role } = req.body
   const userID = req.userID
+  
+  console.log(role);
+  
 
   if (!req.userID) {
     return res.status(401).json({ message: 'UserID not provided ' })
@@ -36,7 +39,8 @@ export const profileFileUpload = async (req, res) => {
     const uploadFile = await profileUploadUseCase.execute({
       file,
       userID,
-      fileType
+      fileType,
+      role
     })
 
     return res

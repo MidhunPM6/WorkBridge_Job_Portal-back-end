@@ -30,7 +30,7 @@ const router = express.Router()
 router.post(
   '/fileupload',
   verifyToken,
-  authorizeRoles('candidate'),
+  authorizeRoles('candidate','employer'),
   uploadImage.single('file'), 
   profileFileUpload
 )

@@ -23,6 +23,16 @@ const jobApplySchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'profile',
       required: true
+    },
+    educationIds: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'Education',
+      required: true
+    },
+    experienceIds: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'Experience',
+      required: true
     }
   },
   { timestamps: true }

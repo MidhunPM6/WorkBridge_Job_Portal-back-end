@@ -1,8 +1,16 @@
 export default class ApplyJobUseCase {
-  constructor (appliedJobRepository,profileRepository, applyEntity) {
+  constructor (
+    appliedJobRepository,
+    profileRepository,
+    applyEntity,
+    educationRepository,
+    experienceRepository
+  ) {
     this.appliedJobRepository = appliedJobRepository
     this.profileRepository = profileRepository
     this.applyEntity = applyEntity
+    this.educationRepository = educationRepository
+    this.experienceRepository = experienceRepository
   }
 
   async execute (employerId, jobId, userID) {
@@ -22,20 +30,35 @@ export default class ApplyJobUseCase {
       if (isApplied) {
         throw new Error(' Already applied for this job')
       }
-      // Find the user profile by user ID 
+      // Find the user profile by user ID
       const profile = await this.profileRepository.findByID(userID)
-      console.log(profile);
-      
 
-      
+      const education = await this.educationRepository.getByUserId(userID)
+      const experience = await this.experienceRepository.getByUserId(userID)
+
+      if (education.length === 0 && experience.length === 0) {
+        throw new Error(
+          'Please add your education and experience before applying for a job'
+        )
+      }
+
       if (!profile) {
         throw new Error('Profile not found')
       }
 
+      const educationIds = education.map(e => e._id)
+      const experienceIds = experience.map(e => e._id)
 
       // Create the apply entity
       const applyEntity = this.applyEntity
-        .create(employerId, jobId, userID,profile._id)
+        .create(
+          employerId,
+          jobId,
+          userID,
+          profile._id,
+          educationIds,
+          experienceIds,
+        )
         .toDto()
       console.log(applyEntity)
 

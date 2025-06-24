@@ -127,9 +127,11 @@ const candidateContainer = () => {
     applyJobUseCase: new ApplyJobUseCase(
       jobApplyRepository,
       profileRepository,
-      applyEntity
+      applyEntity,
+      educationRepository,
+      experienceRepository,
     ),
-    appliedJobUseCase : new AppliedJobUseCase(jobApplyRepository)
+    appliedJobUseCase: new AppliedJobUseCase(jobApplyRepository)
   }
 }
 export default candidateContainer

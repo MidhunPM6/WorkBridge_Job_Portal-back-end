@@ -18,7 +18,7 @@ export default class JobApplyRepository extends IJobApplyRepository {
   }
 
   async findByEmployerId (employerId) {
-    const jobs = await JobApplyModel.find({ employerId }).populate('jobId userID profileId').sort({ createdAt: -1 }).lean()
+    const jobs = await JobApplyModel.find({ employerId }).populate('jobId userID profileId educationIds experienceIds').sort({ createdAt: -1 }).lean()
     return jobs
   }
   // async findAll() {

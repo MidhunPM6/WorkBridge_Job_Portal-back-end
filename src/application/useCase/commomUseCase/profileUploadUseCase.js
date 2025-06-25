@@ -13,6 +13,9 @@ export default class ProfileUploadUseCase {
     this.employerEntity = employerEntity
   }
   async execute ({ file, userID, fileType, role }) {
+   console.log(fileType, role);
+   
+
     try {
       let destination
       switch (fileType) {
@@ -27,8 +30,8 @@ export default class ProfileUploadUseCase {
           break
       }
 
-      //  Getting the SignedURL from the GCP service and Validate with entity
-
+      //  Getting the SignedURL from the GCP service and Validate with entity for both profilepic and profilecover
+      //  Profilepic upload
       let dtoObject
 
       if (fileType === 'profilepic') {
@@ -37,43 +40,38 @@ export default class ProfileUploadUseCase {
           destination
         )
 
-        if (role === 'candidate') {
-          const picUpload = this.candidateEntity.createPartial({
-            profilePic: uploadProfilePic
-          })
-          dtoObject = picUpload.toDTO()
-        } else if (role === 'employer') {
-          const picUpload = this.employerEntity.createPartial({
-            profilePic: uploadProfilePic
-          })
-     
+        const entity =
+          role === 'candidate' ? this.candidateEntity : this.employerEntity
 
-          dtoObject = picUpload.toDTO()
-          console.log(dtoObject);
-          
-        }
+        const picUpload = entity.createPartial({
+          profilePic: uploadProfilePic
+        })
+
+        dtoObject = picUpload.toDTO()
       }
 
+      // Profilecover upload
       if (fileType === 'profilecover') {
         const uploadProfileCover = await this.gcpStorageService.uploadToGCP(
           file,
           destination
         )
-        if (role === 'candidate') {
-          const coverUpload = this.candidateEntity.createPartial({
-            profileCoverPic: uploadProfileCover
-          })((dtoObject = coverUpload.toDTO()))
-        }
-        if (role === 'employer') {
-          const coverUpload = this.employerEntity.createPartial({
-            profileCoverPic: uploadProfileCover
-          })((dtoObject = coverUpload.toDTO()))
-        }
+
+        const entity =
+          role === 'candidate' ? this.candidateEntity : this.employerEntity
+
+        const coverUpload = entity.createPartial({
+          profileCoverPic: uploadProfileCover
+        })
+
+        dtoObject = coverUpload.toDTO()
       }
 
       //  Find the Candidate from the given ID
       let updatedProfilePic
       if (role === 'candidate') {
+        console.log(dtoObject);
+        
         const candidateData = await this.candidateRepository.findByID(userID)
 
         if (!candidateData) {
@@ -81,7 +79,6 @@ export default class ProfileUploadUseCase {
         }
         const rehydrateCandidate = this.candidateEntity.rehydrate(candidateData)
         const candidateDataDTO = rehydrateCandidate.toDTO()
-        console.log('dtoObject before updateByID:', dtoObject)
         //  Update the user with signedURL and return
         updatedProfilePic = await this.candidateRepository.updateByID(
           candidateDataDTO.id,
@@ -90,6 +87,7 @@ export default class ProfileUploadUseCase {
         return updatedProfilePic
       }
 
+      
       if (role === 'employer') {
         const employerData = await this.employerRepository.findByID(userID)
 

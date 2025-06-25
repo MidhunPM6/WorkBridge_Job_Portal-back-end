@@ -1,6 +1,5 @@
 import express from 'express'
 import {
-  profileFileUpload,
   personalProfile,
   experienceController,
   getExperience,
@@ -27,13 +26,7 @@ import { authorizeRoles } from '../../../infrastructure/middleware/authenticateU
 
 const router = express.Router()
 
-router.post(
-  '/fileupload',
-  verifyToken,
-  authorizeRoles('candidate','employer'),
-  uploadImage.single('file'), 
-  profileFileUpload
-)
+
 router.post('/profile', verifyToken,personalProfile)
 router.get('/profile', verifyToken,getProfile)
 router.post('/resumeUpload',verifyToken ,authorizeRoles('candidate'),uploadPDF.single('resume'),resumeUploadController)

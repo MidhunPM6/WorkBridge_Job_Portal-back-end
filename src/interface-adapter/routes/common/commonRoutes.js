@@ -1,12 +1,23 @@
-import express from 'express';
-import { verifyToken } from '../../../infrastructure/middleware/jwtVerifyMiddle.js';
-import { authorizeRoles } from '../../../infrastructure/middleware/authenticateUser.js';
-import { fetchAllJobsController} from '../../controllers/common/commonController.js';
-
-const router = express.Router();
+import express from 'express'
+import { verifyToken } from '../../../infrastructure/middleware/jwtVerifyMiddle.js'
+import { authorizeRoles } from '../../../infrastructure/middleware/authenticateUser.js'
+import { fetchAllJobsController, profileFileUpload } from '../../controllers/common/commonController.js'
+import {uploadImage, uploadPDF} from '../../../infrastructure/storage/multerStorage.js'
+const router = express.Router()
 
 // Common job routes
-router.get('/jobs', verifyToken, authorizeRoles('candidate', 'employer'), fetchAllJobsController);
+router.post(
+  '/fileupload',
+  verifyToken,
+  authorizeRoles('candidate', 'employer'),
+  uploadImage.single('file'),
+  profileFileUpload
+)
+router.get(
+  '/jobs',
+  verifyToken,
+  authorizeRoles('candidate', 'employer'),
+  fetchAllJobsController
+)
 
-
-export default router;
+export default router

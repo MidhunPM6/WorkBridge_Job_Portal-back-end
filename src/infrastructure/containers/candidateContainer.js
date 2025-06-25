@@ -1,5 +1,5 @@
 
-import ProfileUploadUseCase from '../../application/useCase/candidate/profileUploadUseCase.js'
+
 import CandidateRepository from '../repositories/candidate/candidateRepository.js'
 import GCPStorageService from '../services/gcpService.js'
 import PasswordServices from '../services/passwordfService.js'
@@ -63,13 +63,7 @@ const candidateContainer = () => {
    
 
     
-    profileUploadUseCase: new ProfileUploadUseCase(
-      candidateRepository,
-      gcpStorageService,
-      candidateEntity,
-      employerRepository,
-      employerEntity
-    ),
+   
 
     profileUseCase: new ProfileUseCase(
       profileEntity,

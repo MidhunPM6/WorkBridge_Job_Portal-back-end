@@ -17,4 +17,9 @@ export default class ICompanyProfileRepository {
   getById(userID) {
     throw new Error('Method not implemented');
   }
+  findAllProfiles() {
+    throw new Error('Method not implemented');
+  }
+
+
 }

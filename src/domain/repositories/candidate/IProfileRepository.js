@@ -9,4 +9,7 @@ export default class IProfileRepository {
       throw new Error("The method updateById not created");
    }
       
+   fetchAllProfiles(){
+      throw new Error("The method fetchAllProfiles not created");
+   }
 }

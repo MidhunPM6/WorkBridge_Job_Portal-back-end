@@ -1,8 +1,9 @@
 import express from 'express'
 import { verifyToken } from '../../../infrastructure/middleware/jwtVerifyMiddle.js'
 import { authorizeRoles } from '../../../infrastructure/middleware/authenticateUser.js'
-import { fetchAllJobsController, profileFileUpload } from '../../controllers/common/commonController.js'
+import { fetchAllJobsController, profileFileUpload ,fetchEmployerData,fetchCandidateData} from '../../controllers/common/commonController.js'
 import {uploadImage, uploadPDF} from '../../../infrastructure/storage/multerStorage.js'
+
 const router = express.Router()
 
 // Common job routes
@@ -19,5 +20,13 @@ router.get(
   authorizeRoles('candidate', 'employer'),
   fetchAllJobsController
 )
+router.get(
+  '/fetchEmployerData',
+  verifyToken,
+  authorizeRoles('candidate', 'employer'),
+  fetchEmployerData
+)
+
+router.get('/fetchCandidateData', verifyToken, authorizeRoles('candidate',"employer"), fetchCandidateData)
 
 export default router

@@ -2,7 +2,7 @@ import commonContainer from '../../../infrastructure/containers/commonContainer.
 import employerContainer from '../../../infrastructure/containers/employerContainer.js'
 
 const { fetchAllJobsUseCase } = employerContainer()
-const {profileUploadUseCase} = commonContainer()
+const {profileUploadUseCase,fetchEmployerDataUseCase,fetchCandidateDataUseCase} = commonContainer()
 
 // Profile Pic and Cover Pic Upload Controller
 export const profileFileUpload = async (req, res) => {
@@ -45,6 +45,49 @@ export const fetchAllJobsController = async (req, res) => {
     return res.status(200).json({
       success: true,
       jobs
+    })
+  } catch (error) {
+    console.error('Error fetching all jobs:', error)
+    return res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
+
+// Fetching Employer Data from DB
+ 
+export const fetchEmployerData =async(req,res)=>{
+  const userID = req.userID
+  console.log(userID);
+  
+  if (!userID) {
+    return res.status(401).json({ message: 'Unauthorized or token missing' })
+  }
+  try {
+    const employer = await fetchEmployerDataUseCase.execute()
+    return res.status(200).json({
+      success: true,
+      employer
+    })
+  } catch (error) {
+    console.error('Error fetching all jobs:', error)
+    return res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
+// Fetching Candidate Data from DB
+
+export const fetchCandidateData =async(req,res)=>{
+  const userID = req.userID
+  console.log(userID);
+  
+  if (!userID) {
+    return res.status(401).json({ message: 'Unauthorized or token missing' })
+  }
+  try {
+    const candidate = await fetchCandidateDataUseCase.execute()
+    return res.status(200).json({
+      success: true,
+      candidate
     })
   } catch (error) {
     console.error('Error fetching all jobs:', error)

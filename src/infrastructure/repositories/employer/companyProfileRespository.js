@@ -22,8 +22,14 @@ export default class CompanyProfileRepository extends ICompanyProfileRepository 
     return updated ? updated.toObject() : null
   }
 
-  getById (userID) {
-    const profile = companyProfileModel.findOne({ userID })
+  async getById (userID) {
+    const profile = await companyProfileModel.findOne({ userID })
     return profile
+  }
+  async findAllProfiles() {
+    const profiles = await companyProfileModel.find().lean().populate('userID')
+    
+    console.log(profiles)
+    return profiles
   }
 }

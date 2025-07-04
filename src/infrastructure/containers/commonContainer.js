@@ -4,14 +4,27 @@ import CandidateReposistory from '../repositories/candidate/candidateRepository.
 import EmployerEntity from '../../domain/entities/employer/EmployerEnitity.js'
 import EmployerRepository from '../repositories/employer/employerRepository.js'
 import GCPStorageService from '../services/gcpService.js'
+import FetchEmployerDataUseCase  from '../../application/useCase/commomUseCase/fetchEmployerDataUseCase.js'
+import CompanyProfileRepository from '../repositories/employer/companyProfileRespository.js'
+import CompanyProfileEntity from '../../domain/entities/employer/CompanyProfileEnitity.js'
+import FetchCandidateDataUseCase from '../../application/useCase/commomUseCase/fetchCandidateDataUseCase.js'
+import ProfileRepository from '../repositories/candidate/profileRepository.js'
+import ProfileEntity from '../../domain/entities/candidate/ProfileEntity.js'
+
+
+
 
 
 const commonContainer = () => {
   const candidateRepository = new CandidateReposistory()
   const gcpStorageService = new GCPStorageService()
   const employerRepository = new EmployerRepository()
+  const companyProfileRepository = new CompanyProfileRepository()
+  const profileRepository = new ProfileRepository()
   const employerEntity = EmployerEntity
   const candidateEntity = CandidateEntity
+  const compnayEntity = CompanyProfileEntity
+  const profileEntity = ProfileEntity
 
   return {
     profileUploadUseCase: new ProfileUploadUseCase(
@@ -20,7 +33,17 @@ const commonContainer = () => {
       candidateEntity,
       employerRepository,
       employerEntity
-    )
+    ),
+
+    fetchEmployerDataUseCase: new FetchEmployerDataUseCase(
+      companyProfileRepository,
+      compnayEntity
+    ),
+
+    fetchCandidateDataUseCase: new FetchCandidateDataUseCase(
+      profileRepository,
+      profileEntity
+    ),
   }
 }
 

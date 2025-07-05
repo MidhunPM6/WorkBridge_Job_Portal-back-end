@@ -10,6 +10,9 @@ import CompanyProfileEntity from '../../domain/entities/employer/CompanyProfileE
 import FetchCandidateDataUseCase from '../../application/useCase/commomUseCase/fetchCandidateDataUseCase.js'
 import ProfileRepository from '../repositories/candidate/profileRepository.js'
 import ProfileEntity from '../../domain/entities/candidate/ProfileEntity.js'
+import MessageEntity from '../../domain/entities/common/MessageEntity.js'
+import MessageRepository from '../repositories/common/messageRepository.js'
+import SaveMessageUseCase from '../../application/useCase/commomUseCase/saveMessageUseCase.js'
 
 
 
@@ -21,10 +24,12 @@ const commonContainer = () => {
   const employerRepository = new EmployerRepository()
   const companyProfileRepository = new CompanyProfileRepository()
   const profileRepository = new ProfileRepository()
+  const messageRepository = new MessageRepository()
   const employerEntity = EmployerEntity
   const candidateEntity = CandidateEntity
   const compnayEntity = CompanyProfileEntity
   const profileEntity = ProfileEntity
+  const messageEntity = MessageEntity
 
   return {
     profileUploadUseCase: new ProfileUploadUseCase(
@@ -44,6 +49,7 @@ const commonContainer = () => {
       profileRepository,
       profileEntity
     ),
+    saveMessageUseCase: new SaveMessageUseCase(messageRepository, messageEntity)
   }
 }
 

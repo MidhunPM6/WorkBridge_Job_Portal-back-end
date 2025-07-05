@@ -41,7 +41,7 @@ export default class ProfileRepository extends IProfileRepository {
  async findAllProfiles() {
      const profiles = await ProfileModel.find().lean().populate('userID')
      
-     console.log(profiles)
+    
      return profiles
    }
 }

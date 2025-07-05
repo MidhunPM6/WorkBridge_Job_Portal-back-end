@@ -57,7 +57,7 @@ export const fetchAllJobsController = async (req, res) => {
  
 export const fetchEmployerData =async(req,res)=>{
   const userID = req.userID
-  console.log(userID);
+
   
   if (!userID) {
     return res.status(401).json({ message: 'Unauthorized or token missing' })
@@ -78,7 +78,7 @@ export const fetchEmployerData =async(req,res)=>{
 
 export const fetchCandidateData =async(req,res)=>{
   const userID = req.userID
-  console.log(userID);
+  
   
   if (!userID) {
     return res.status(401).json({ message: 'Unauthorized or token missing' })

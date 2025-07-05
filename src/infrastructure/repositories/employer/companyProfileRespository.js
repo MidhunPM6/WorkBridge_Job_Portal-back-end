@@ -29,7 +29,7 @@ export default class CompanyProfileRepository extends ICompanyProfileRepository 
   async findAllProfiles() {
     const profiles = await companyProfileModel.find().lean().populate('userID')
     
-    console.log(profiles)
+
     return profiles
   }
 }

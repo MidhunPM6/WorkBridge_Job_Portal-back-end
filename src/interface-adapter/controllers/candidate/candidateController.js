@@ -449,12 +449,12 @@ export const getAppliedJobsController = async (req, res) => {
         .status(401)
         .json({ success: false, message: 'Invalid or Unauthorized Token' })
     }
-    const jobIds = await appliedJobUseCase.execute(userId)
+    const appliedJobs = await appliedJobUseCase.execute(userId)
     return res
       .status(200)
       .json({
         success: true,
-        jobIds,
+        appliedJobs,
         message: 'Fetched Applied JobIDs successfully'
       })
   } catch (error) {

@@ -13,8 +13,8 @@ export default class JobApplyRepository extends IJobApplyRepository {
   }
 
   async findAppliedJobIdsByUser (userId) {
-    const applications = await JobApplyModel.find({ userID :userId }).select('jobId')
-    return applications.map(app => app.jobId.toString())
+    const applications = await JobApplyModel.find({ userID :userId }).select('jobId').populate('jobId employerId').lean()
+    return applications
   }
 
   async findByEmployerId (employerId) {

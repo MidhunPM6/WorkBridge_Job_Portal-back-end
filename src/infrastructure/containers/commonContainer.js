@@ -13,6 +13,7 @@ import ProfileEntity from '../../domain/entities/candidate/ProfileEntity.js'
 import MessageEntity from '../../domain/entities/common/MessageEntity.js'
 import MessageRepository from '../repositories/common/messageRepository.js'
 import SaveMessageUseCase from '../../application/useCase/commomUseCase/saveMessageUseCase.js'
+import FetchChatHistoryUseCase from '../../application/useCase/commomUseCase/fetchChatHistoryUseCase.js'
 
 
 
@@ -49,7 +50,8 @@ const commonContainer = () => {
       profileRepository,
       profileEntity
     ),
-    saveMessageUseCase: new SaveMessageUseCase(messageRepository, messageEntity)
+    saveMessageUseCase: new SaveMessageUseCase(messageRepository, messageEntity),
+    fetchChatHistoryUseCase: new FetchChatHistoryUseCase(messageRepository, messageEntity),
   }
 }
 

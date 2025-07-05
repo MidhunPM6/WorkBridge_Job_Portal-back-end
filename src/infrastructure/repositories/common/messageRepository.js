@@ -10,4 +10,8 @@ export default class MessageRepository extends IMessageRepository {
         })
         return await saveMessage.save()
     }
+
+    async fetchChatHistory(senderId, receiverId) {
+        return await Message.find({$or: [{sender: senderId, receiver: receiverId}, {sender: receiverId, receiver: senderId}]})
+    }
 }

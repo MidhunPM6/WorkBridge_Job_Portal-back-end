@@ -31,8 +31,13 @@ export default class MessageEntity {
       throw new Error('Invalid updatedAt date')
     }
   }
-  
+
   static create (data) {
+    const message = new MessageEntity(data)
+    return message
+  }
+
+static rehydrate (data) {
     const message = new MessageEntity(data)
     return message
   }

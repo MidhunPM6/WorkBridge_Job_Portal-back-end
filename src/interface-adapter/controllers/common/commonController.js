@@ -2,7 +2,7 @@ import commonContainer from '../../../infrastructure/containers/commonContainer.
 import employerContainer from '../../../infrastructure/containers/employerContainer.js'
 
 const { fetchAllJobsUseCase } = employerContainer()
-const {profileUploadUseCase,fetchEmployerDataUseCase,fetchCandidateDataUseCase} = commonContainer()
+const {profileUploadUseCase,fetchEmployerDataUseCase,fetchCandidateDataUseCase,fetchChatHistoryUseCase} = commonContainer()
 
 // Profile Pic and Cover Pic Upload Controller
 export const profileFileUpload = async (req, res) => {
@@ -94,3 +94,25 @@ export const fetchCandidateData =async(req,res)=>{
     return res.status(500).json({ message: 'Internal server error' })
   }
 }
+
+// Fetch chat histroy controller 
+
+export const fetchChatHistoryController = async (req, res) => {
+  const senderId = req.userID
+  const recevierId = req.params.id
+
+  if (!senderId) {
+    return res.status(401).json({ message: 'Unauthorized or token missing' })
+  }
+  try {
+    const chatHistory = await fetchChatHistoryUseCase.execute(senderId, recevierId)
+    return res.status(200).json({
+      success: true,
+      chatHistory
+    })
+  } catch (error) {
+    console.error('Error fetching chat history:', error)
+    return res.status(500).json({ message: 'Internal server error' })
+  }
+  
+}  

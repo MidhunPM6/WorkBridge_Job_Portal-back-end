@@ -32,16 +32,20 @@ export default class ProfileRepository extends IProfileRepository {
   }
 
   async deleteResume (profileID) {
-    await ProfileModel.updateOne(
+    return ProfileModel.findOneAndUpdate(
       { _id: profileID },
-      { $unset: { resume: "" } }
-    );
+      { $unset: { resume: '' } },
+      { new: true }
+    )
   }
 
- async findAllProfiles() {
-     const profiles = await ProfileModel.find().lean().populate('userID')
-     
-    
-     return profiles
-   }
+  async findAllProfiles () {
+    const profiles = await ProfileModel.find().lean().populate('userID')
+
+    return profiles
+  }
+
+  async findAllCandidates () {
+    return await ProfileModel.find().lean().populate('userID')
+  }
 }

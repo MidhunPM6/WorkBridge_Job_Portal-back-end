@@ -5,11 +5,14 @@ export default class IProfileRepository {
   async findByID (profileEntity) {
     throw new Error('The method findByID not created')
   }
-   async updateById(userID,updatedData){
-      throw new Error("The method updateById not created");
-   }
-      
-   fetchAllProfiles(){
-      throw new Error("The method fetchAllProfiles not created");
-   }
+  async updateById (userID, updatedData) {
+    throw new Error('The method updateById not created')
+  }
+
+  fetchAllProfiles () {
+    throw new Error('The method fetchAllProfiles not created')
+  }
+  async findAllCandidates () {
+    throw new Error('findAllCandidates Method is not implemented')
+  }
 }

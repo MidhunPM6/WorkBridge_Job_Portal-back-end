@@ -7,6 +7,7 @@ import {
   employerProfileController,
   fetchCompanyProfileController,
   fetchApplicationsController,
+  getCandidatesController,
 } from '../../controllers/employer/employerController.js'
 import { verifyToken } from '../../../infrastructure/middleware/jwtVerifyMiddle.js'
 import { authorizeRoles } from '../../../infrastructure/middleware/authenticateUser.js'
@@ -54,6 +55,12 @@ router.get(
   verifyToken,
   authorizeRoles('employer'),
   fetchApplicationsController,
+)
+router.get(
+  '/getCandidates',
+  verifyToken,
+  authorizeRoles('employer'),
+  getCandidatesController,
 )
 
 export default router

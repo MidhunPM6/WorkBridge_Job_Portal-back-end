@@ -11,6 +11,10 @@ import CompanyProfileUseCase from '../../application/useCase/employer/companyPro
 import FetchCompanyProfileUseCase from '../../application/useCase/employer/fetchCompanyProfileUseCase.js'
 import JobApplyRepository from '../repositories/candidate/jobApplyRepository.js'
 import FetchApplicationUseCase from '../../application/useCase/employer/fetchApplicationUseCase.js'
+import GetCandidateUseCase from '../../application/useCase/employer/getCandidateUseCase.js'
+import ProfileEntity from '../../domain/entities/candidate/ProfileEntity.js'
+import ProfileRepository from '../repositories/candidate/profileRepository.js'
+
 
 
 
@@ -23,8 +27,10 @@ const employerContainer = () => {
   const jobPostRepository = new PostJobRepository()
   const companyProfileRepository = new CompanyProfileRepository()
   const jobApplyRepository = new JobApplyRepository()
+  const profileRepository = new ProfileRepository()
   const jobEntity = JobEntity
   const companyProfileEntity = CompanyProfileEntity
+  const profileEntity = ProfileEntity
 
   return {
     // Job posting use cases
@@ -37,7 +43,9 @@ const employerContainer = () => {
     // Company profile use cases
     companyProfileUseCase: new CompanyProfileUseCase(companyProfileRepository, companyProfileEntity),
     fetchCompanyProfileUseCase: new FetchCompanyProfileUseCase(companyProfileRepository, companyProfileEntity),
-    fetchApplicationsUseCase: new FetchApplicationUseCase(jobApplyRepository)
+    fetchApplicationsUseCase: new FetchApplicationUseCase(jobApplyRepository),
+    getCandidateUseCase : new GetCandidateUseCase(profileRepository, profileEntity)
+    
   }
 
 }

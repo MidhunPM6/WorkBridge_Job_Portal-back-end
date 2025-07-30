@@ -1,3 +1,4 @@
+import { create } from 'domain'
 import commonContainer from '../infrastructure/containers/commonContainer.js'
 
 const { saveMessageUseCase } = commonContainer()
@@ -12,7 +13,8 @@ export const socketHandlers = async (io, socket,connectedUsers) => {
     const messagePayload = {
       sender: fromUserId,
       receiver: toUserId,
-      message: message
+      message: message,
+      createdAt: new Date(),
     }
     await saveMessageUseCase.execute(messagePayload)
     console.log(messagePayload)

@@ -267,7 +267,7 @@ export const resumeUploadController = async (req, res) => {
     }
     return res
       .status(200)
-      .json({ success: true, message: 'Resume successfully uploaded' })
+      .json({ success: true, data:response, message: 'Resume successfully uploaded' })
   } catch (error) {
     console.error(error)
     return res

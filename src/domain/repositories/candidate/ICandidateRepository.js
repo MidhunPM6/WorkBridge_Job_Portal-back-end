@@ -23,4 +23,5 @@ export default class ICandidateRepository {
    async deletedAllByUserId(userID){
     throw new Error("deletedAllByUserId Method is not implemented");
    }
+
 }

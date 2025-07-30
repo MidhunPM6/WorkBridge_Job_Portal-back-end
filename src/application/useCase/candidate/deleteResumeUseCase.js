@@ -32,7 +32,7 @@ export default class DeleteResumeUseCase {
         rehydrateProfile.id
       )
     
-      return rehydrateProfile
+      return deleteResume
     } catch (error) {
       throw new Error(error.message)
     }

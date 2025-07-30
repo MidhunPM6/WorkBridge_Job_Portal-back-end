@@ -19,7 +19,8 @@ export default class LoginUseCase {
       } else if (role === 'employer') {
        account = await this.employerRepository.findByEmail(email)
       } else {
-        return res.status(400).json({ message: 'Invalid role specified' })
+      throw new Error("'Invalid role specified'");
+     
       }
       //   If user not found throw an error
       if (!account) {

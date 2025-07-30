@@ -15,7 +15,7 @@ export default class ExperienceRepository extends IExperienceRepository {
   }
 
   async getByUserId (userID) {
-    return ExperienceModel.find({ userID })
+    return ExperienceModel.find({ userID }).sort({ createdAt: -1 })
   }
   async deleteById (expID) {
     return await  ExperienceModel.findByIdAndDelete(expID)

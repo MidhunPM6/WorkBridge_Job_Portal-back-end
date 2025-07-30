@@ -8,7 +8,8 @@ const {
   deleteJobUseCase,
   companyProfileUseCase,
   fetchCompanyProfileUseCase,
-  fetchApplicationsUseCase
+  fetchApplicationsUseCase,
+  getCandidateUseCase
 } = employerContainer()
 
 export const employerJobPostController = async (req, res) => {
@@ -163,7 +164,6 @@ export const deleteJobController = async (req, res) => {
 // Employer profile creating and updating
 
 export const employerProfileController = async (req, res) => {
-  
   const userID = req.userID
   const {
     companyName,
@@ -186,8 +186,8 @@ export const employerProfileController = async (req, res) => {
     userID
   }
 
-  console.log(profileData);
-  
+  console.log(profileData)
+
   try {
     if (!profileData) {
       return res
@@ -195,27 +195,29 @@ export const employerProfileController = async (req, res) => {
         .json({ success: false, message: 'All fields are required' })
     }
     const response = await companyProfileUseCase.execute(profileData)
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Updated Sucessfully',
-        profile: response
-      })
+    return res.status(200).json({
+      success: true,
+      message: 'Updated Sucessfully',
+      profile: response
+    })
   } catch (error) {
     console.error('Error creating employer profile:', error)
     return res.status(500).json({ message: 'Internal server error' })
   }
 }
 
-export const fetchCompanyProfileController=async(req,res)=>{
-      const userID = req.userID
-    
+export const fetchCompanyProfileController = async (req, res) => {
+  const userID = req.userID
+
   try {
     const response = await fetchCompanyProfileUseCase.execute(userID)
     return res
       .status(200)
-      .json({ success: true, message: 'Fetched Successfully', profile: response })
+      .json({
+        success: true,
+        message: 'Fetched Successfully',
+        profile: response
+      })
   } catch (error) {
     console.error('Error creating employer profile:', error)
     return res.status(500).json({ message: 'Internal server error' })
@@ -235,10 +237,26 @@ export const fetchApplicationsController = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Applications fetched successfully',
-      data:applications
+      data: applications
     })
   } catch (error) {
     console.error('Error fetching applications:', error)
     return res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
+export const getCandidatesController = async (req, res) => {
+
+  try {
+    const response = await getCandidateUseCase.execute()
+    return res
+      .status(200)
+      .json({
+        success: true,
+        response,
+        message: 'Fetched Candidate Data successfully '
+      })
+  } catch (error) {
+    return res.status(501).json({ success: false, message: 'Server Error' })
   }
 }

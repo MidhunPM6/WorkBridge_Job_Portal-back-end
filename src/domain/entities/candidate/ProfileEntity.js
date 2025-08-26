@@ -7,7 +7,7 @@ export default class ProfileEntity {
     portfolio,
     linkedin,
     about,
-    skills = [],
+    skills ,
     userID,
     resume,
     createdAt,

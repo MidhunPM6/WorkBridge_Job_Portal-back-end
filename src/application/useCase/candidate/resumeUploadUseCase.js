@@ -32,7 +32,8 @@ export default class ResumeUploadUseCase {
       // Save the public url to corresponding repository
       const profileEntityPartial = this.profileEntity
         .createPartial({ resume: publicUrl })
-        .toDTO()
+        
+      console.info(profileEntityPartial)
 
       const uploadedResume = this.profileRepository.updateById(
         userID,
@@ -40,7 +41,7 @@ export default class ResumeUploadUseCase {
       )
       return uploadedResume
     } catch (error) {
-      console.error(error.message)
+      console.error(error.message) 
       throw new Error(error.message)
     }
   }

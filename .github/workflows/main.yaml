@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
@@ -52,24 +52,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-
-      - name: Setup gcloud CLI
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          version: 'latest'
-
-      - name: Deploy to Cloud Run
+      - name: Trigger Render Deploy
         run: |
-          gcloud run deploy ${{ secrets.CLOUD_RUN_SERVICE_NAME }} \
-            --image=docker.io/${{ secrets.DOCKER_USERNAME }}/workbridge-backend:latest \
-            --platform=managed \
-            --region=${{ secrets.GCP_REGION }} \
-            --allow-unauthenticated \
-            --timeout=600 \
-            --service-account midhun-997@stone-semiotics-460105-q4.iam.gserviceaccount.com \
-            --set-env-vars=JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }},GCP_SA_KEY=${{ secrets.GCP_SA_KEY }},OAUTH_TOKEN_URL=${{ secrets.OAUTH_TOKEN_URL }},GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},REDIRECT_URI=${{ secrets.REDIRECT_URI }},GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }},GCP_BUCKET_NAME=${{ secrets.GCP_BUCKET_NAME }},NODEMAILER_USER=${{ secrets.NODEMAILER_USER }},MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }},MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}
+          curl -X POST \
+          -H "Accept: application/json" \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -d '' \
+          https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys
+
+ 

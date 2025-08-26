@@ -18,5 +18,5 @@ export default class IApplyJobRepository {
   // }
   async findByEmployerId (employerId) {
     throw new Error('Method not implemented')
-  } 
+  }           
 }

@@ -22,7 +22,7 @@ class OAuthService {
           redirect_uri: this.redirectUri,
           code_verifier: codeVerifier
         }),
-        {
+        { 
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }
       )

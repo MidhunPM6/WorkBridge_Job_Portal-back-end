@@ -27,7 +27,9 @@ const jobSchema = new mongoose.Schema({
     
   },
   userID :{
-    type :String,
+    type :mongoose.Schema.Types.ObjectId,
+    ref: 'Employer',   
+    required: true
     
   }
  

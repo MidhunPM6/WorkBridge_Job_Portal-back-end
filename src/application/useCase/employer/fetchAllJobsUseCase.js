@@ -7,7 +7,7 @@ export default class FetchAllJobsUseCase {
   async execute() {
     try {
       const jobs = await this.jobPostRepository.fetchAllJobs();
-      
+      console.log(jobs);
 
       const rehydratedJobs = jobs.map(job => this.jobEntity.rehydrate({...job, id: job._id}));
       // Remove the _id field from each job object

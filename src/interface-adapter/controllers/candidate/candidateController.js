@@ -1,3 +1,4 @@
+import { log } from 'console'
 import candidateContainer from '../../../infrastructure/containers/candidateContainer.js'
 
 const {
@@ -57,13 +58,14 @@ export const personalProfile = async (req, res) => {
 
 // Posting experiance details
 export const experienceController = async (req, res) => {
+  
   if (!req.userID) {
     return res
       .status(401)
       .json({ message: 'The user ID is required for authorization' })
   }
-  if (req.body === null) {
-    return res.status(400).json({ message: 'The data passed may be null' })
+  if (!req.body) {
+    return res.status(400).json({ message: 'All feilds are required' })
   }
 
   try {
@@ -361,7 +363,8 @@ export const verifyOtpController = async (req, res) => {
 //  Controller to manage the Delete candidate account
 export const deleteAccountController = async (req, res) => {
   const userID = req.userID
-
+  console.log('userID:', userID);
+  
   if (!userID) {
     return res.status(401).json({
       success: false,

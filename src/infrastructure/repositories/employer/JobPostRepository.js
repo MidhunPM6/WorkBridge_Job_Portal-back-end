@@ -16,7 +16,7 @@ export default class PostJobRepository extends IPostJobRepository {
     return await jobPost.save()
   }
   async fetchAllJobs () {
-    const jobs = await JobPost.find().sort({ createdAt: -1 }).lean()
+    const jobs = await JobPost.find().sort({ createdAt: -1 }).populate('userID').lean()
     return jobs
   }
 

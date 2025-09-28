@@ -16,16 +16,14 @@ export default class ExperienceUseCase {
       // Checking with Entity and retrive DTO object,then save to database
       const experienceData = { ...data, userID }
       const experienceEntityObj = this.experienceEntity.create(experienceData)
-
       const experienceDTO = experienceEntityObj.toDTO() // Convert to DTO object
-    
-
       const addedData = await this.experienceRepository.create(experienceDTO)
-      if(!addedData){
+      const rehydratedData = this.experienceEntity.rehydrate(addedData)
+      if(!rehydratedData){
         throw new Error("Data not saved ,Something went wrong");
         
       }
-      return addedData // return the saved data to controller 
+      return rehydratedData // return the saved data to controller 
     } catch (error) {
       console.error(error.message)
       throw new Error(error.message)

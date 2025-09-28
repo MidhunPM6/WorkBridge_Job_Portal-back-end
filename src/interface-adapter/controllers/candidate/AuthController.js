@@ -34,7 +34,6 @@ export const loginController = async (req, res) => {
     const candidateData = await loginUseCase.execute(email, password, role)
 
     const { token, account } = candidateData
-   
 
     res.cookie('jwt', token, {
       httpOnly: true,
@@ -58,9 +57,11 @@ export const loginController = async (req, res) => {
 // Google authentication using PKCE + OAuth 2.0
 export const OAuthController = async (req, res) => {
   const { code, codeVerifier, role } = req.body
- 
+
   if (!code || !codeVerifier || !role) {
-    return res.status(400).json({ success: false, message: 'Missing required fields' })
+    return res
+      .status(400)
+      .json({ success: false, message: 'Missing required fields' })
   }
   try {
     const response = await OAuthUsecase.execute(code, codeVerifier, role)
@@ -74,7 +75,9 @@ export const OAuthController = async (req, res) => {
       maxAge: 12000000
     })
 
-    return res.status(200).json({ success: true, User, message: 'Login Successful' })
+    return res
+      .status(200)
+      .json({ success: true, User, message: 'Login Successful' })
   } catch (error) {
     console.error(error)
     return res.status(500).json({ success: false, message: 'Server Error' })
@@ -83,14 +86,7 @@ export const OAuthController = async (req, res) => {
 
 //  Logout Controller
 export const logoutController = async (req, res) => {
-  const token = req.cookies.jwt
-  console.log(token)
-
   try {
-    if (!token) {
-      return res.status(400).json({ message: 'Token not yet received' })
-    }
-
     const response = await logoutUseCase.execute()
     console.log(response.message)
     res.clearCookie('jwt', {
@@ -98,7 +94,7 @@ export const logoutController = async (req, res) => {
       secure: true,
       sameSite: 'None'
     })
-
+    
     return res.status(200).json(response.message)
   } catch (error) {
     console.error(error.message)

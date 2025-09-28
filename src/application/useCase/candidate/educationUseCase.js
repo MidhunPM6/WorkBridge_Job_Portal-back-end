@@ -13,14 +13,18 @@ export default class EducationUseCase {
       //  Create the object by passing through Entity
       const educationEntityObj = this.educationEntity.create(data)
       const educationDTO = educationEntityObj.toDTO() // Convert to DTO object
-      const savedData = await this.educationRepository.create(educationDTO) // Save the data into database
-      if (!savedData) {
+      const savedData = await this.educationRepository.create(educationDTO) 
+      const rehydratedData = this.educationEntity.rehydrate(savedData)
+      console.log(rehydratedData);
+      // Save the data into database
+      if (!rehydratedData) {
         throw new Error('Something went wrong, Data not saved ')
       }
-      return savedData // retrun the saved data from the database
+      return rehydratedData // retrun the saved data from the database
     } catch (error) {
       console.error(error.message)
       throw new Error(error.message)
     }
   }
 }
+   

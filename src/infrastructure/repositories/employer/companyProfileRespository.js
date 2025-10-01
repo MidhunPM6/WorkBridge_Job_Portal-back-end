@@ -9,6 +9,8 @@ export default class CompanyProfileRepository extends ICompanyProfileRepository 
   }
 
   async findById (userID) {
+    
+    
     const profile = await companyProfileModel.findOne({ userID })
     return profile ? profile.toObject() : null
   }

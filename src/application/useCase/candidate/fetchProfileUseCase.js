@@ -25,7 +25,7 @@ export default class FetchProfieUseCase {
       return fullData
              
       
-    } catch (error) {
+    } catch (error) { 
       throw new Error(error.message)
     }
   }

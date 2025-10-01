@@ -195,6 +195,7 @@ export const employerProfileController = async (req, res) => {
         .json({ success: false, message: 'All fields are required' })
     }
     const response = await companyProfileUseCase.execute(profileData)
+   
     return res.status(200).json({
       success: true,
       message: 'Updated Sucessfully',
@@ -208,9 +209,16 @@ export const employerProfileController = async (req, res) => {
 
 export const fetchCompanyProfileController = async (req, res) => {
   const userID = req.userID
+ console.log(userID);
+ 
 
   try {
     const response = await fetchCompanyProfileUseCase.execute(userID)
+
+    if(!response){
+      return res.status(200).json({success:true,message:'Profile not found',profile:null}, )
+    }
+
     return res
       .status(200)
       .json({
@@ -260,3 +268,4 @@ export const getCandidatesController = async (req, res) => {
     return res.status(501).json({ success: false, message: 'Server Error' })
   }
 }
+ 

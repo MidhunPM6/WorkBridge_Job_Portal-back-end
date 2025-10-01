@@ -10,7 +10,10 @@ export default class fetchCompanyProfileUseCase {
     }
     try {
       const profile = await this.companyProfileRepository.findById(userID)
-      const data = this.companyProfileEntity.rehydrate(profile).toDTO()
+      if (!profile) {
+        return null
+      }
+      const data = this.companyProfileEntity.rehydrate(profile).toDTO()  
       if (!data) {
         throw new Error('Data not found.Try again later.')
       }
@@ -20,4 +23,5 @@ export default class fetchCompanyProfileUseCase {
       throw new Error(error.message)
     }
   }
-}
+} 
+   

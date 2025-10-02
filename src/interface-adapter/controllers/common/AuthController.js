@@ -56,12 +56,13 @@ export const loginController = async (req, res) => {
 
 // Google authentication using PKCE + OAuth 2.0
 export const OAuthController = async (req, res) => {
-
-  const {googleToken,role} = req.body 
-  if(!googleToken || !role){
-    return res.status(401).json({success : false , message : "Token and role must be required"})
+  const { googleToken, role } = req.body
+  if (!googleToken || !role) {
+    return res
+      .status(401)
+      .json({ success: false, message: 'Token and role must be required' })
   }
-  
+
   try {
     const response = await OAuthUsecase.execute(googleToken, role)
     const { token, User } = response
@@ -92,7 +93,7 @@ export const logoutController = async (req, res) => {
       secure: true,
       sameSite: 'None'
     })
-    
+
     return res.status(200).json(response.message)
   } catch (error) {
     console.error(error.message)

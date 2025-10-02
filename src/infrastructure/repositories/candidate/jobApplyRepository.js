@@ -5,7 +5,7 @@ import IJobApplyRepository from '../../../domain/repositories/candidate/IApplyJo
 export default class JobApplyRepository extends IJobApplyRepository {
   async save (jobApplyData) {
     const jobApply = new JobApplyModel(jobApplyData)
-    return await jobApply.save()
+    return (await jobApply.save()).populate('jobId employerId')
   }
 
   async findById (jobId, userID) {

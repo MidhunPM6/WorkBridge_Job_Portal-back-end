@@ -80,10 +80,8 @@ export const fetchMyJobsController = async (req, res) => {
 
   try {
     const jobs = await fetchMyJobsUseCase.execute(userID)
-    if (!jobs || jobs.length === 0) {
-      return res
-        .status(404)
-        .json({ message: 'No jobs found for this employer' })
+     if(!jobs){
+      return res.status(200).json({success:true,message:'No were jobs founded',profile:null}, )
     }
     return res.status(200).json({
       success: true,

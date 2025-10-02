@@ -1,5 +1,4 @@
 import { Server } from 'socket.io'
-import cors from 'cors'
 import { socketHandlers } from '../../interface-adapter/socketHandlers.js'
 import { socketAuthMiddleware } from '../middleware/socketioAuth.js'
 

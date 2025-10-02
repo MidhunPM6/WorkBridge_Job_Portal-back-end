@@ -10,9 +10,7 @@ export default class FetchMyJobsUseCase {
       }
 
       const jobs = await this.jobRepository.findByEmployerId(employerId)
-      if (!jobs || jobs.length === 0) {
-        return []
-      }
+      if(!jobs) return null
       return jobs.map(job => this.jobEntity.rehydrate({...job, id: job._id}))
     } catch (error) {
       console.error('Error fetching jobs:', error)

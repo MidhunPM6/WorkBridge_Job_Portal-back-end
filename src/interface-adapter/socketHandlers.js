@@ -27,4 +27,14 @@ export const socketHandlers = async (io, socket,connectedUsers) => {
       io.to(senderSocketId).emit('receive_message', messagePayload)
     }
   })
+
+  socket.on('application-shortlist',async(data)=>{
+        const {candidateId,status,jobId,jobTitle}=data
+        console.log(candidateId,status);
+         const candidateSocketId = connectedUsers[candidateId]
+       io.to(candidateSocketId).emit('job-notification', {
+        candidateId,status,jobId,jobTitle,message:'Shortlisted'
+       })
+  })
 }
+ 

@@ -15,19 +15,17 @@ export default class OAuthUseCase {
     this.employerEntity = employerEntity
   }
 
-  async execute (code, codeVerifier, role) {
+  async execute (googleToken,role) {
     try {
-      if (!code || !codeVerifier || !role) {
-        throw new Error('Code, codeVerifier, and role are missing')
-      }
+      
 
       // Fetch Google user from OAuth service
-      const googleUser = await this.OauthService.handleOAuth(code, codeVerifier)
+      const googleUser = await this.OauthService.handleOAuth(googleToken)
       if (!googleUser) {
         throw new Error('Failed to retrieve user info')
       }
 
-      const { email, name, picture } = googleUser.user
+      const { email, name, picture } = googleUser
 
       // Set repository and entity based on the role
       let repository, entity, User

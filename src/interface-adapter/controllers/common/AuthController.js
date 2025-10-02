@@ -56,16 +56,14 @@ export const loginController = async (req, res) => {
 
 // Google authentication using PKCE + OAuth 2.0
 export const OAuthController = async (req, res) => {
-  const { code, codeVerifier, role } = req.body
 
-  if (!code || !codeVerifier || !role) {
-    return res
-      .status(400)
-      .json({ success: false, message: 'Missing required fields' })
+  const {googleToken,role} = req.body 
+  if(!googleToken || !role){
+    return res.status(401).json({success : false , message : "Token and role must be required"})
   }
+  
   try {
-    const response = await OAuthUsecase.execute(code, codeVerifier, role)
-
+    const response = await OAuthUsecase.execute(googleToken, role)
     const { token, User } = response
 
     res.cookie('jwt', token, {

@@ -98,7 +98,7 @@ export const fetchCandidateData =async(req,res)=>{
 // Fetch chat histroy controller 
 
 export const fetchChatHistoryController = async (req, res) => {
-  const senderId = req.userID
+  const senderId = req.userID 
   const recevierId = req.params.id
 
   if (!senderId) {

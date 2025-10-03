@@ -1,6 +1,6 @@
 import JobApplyModel from '../../database/canditateModels/jobApplyModel.js'
-
 import IJobApplyRepository from '../../../domain/repositories/candidate/IApplyJobRepository.js'
+import mongoose from 'mongoose'
 
 export default class JobApplyRepository extends IJobApplyRepository {
   async save (jobApplyData) {
@@ -13,19 +13,31 @@ export default class JobApplyRepository extends IJobApplyRepository {
   }
 
   async findAppliedJobIdsByUser (userId) {
-    const applications = await JobApplyModel.find({ userID :userId }).select('jobId').populate('jobId employerId').lean()
+    const applications = await JobApplyModel.find({ userID: userId })
+      .select('jobId')
+      .populate('jobId employerId')
+      .lean()
     return applications
   }
 
   async findByEmployerId (employerId) {
-    const jobs = await JobApplyModel.find({ employerId }).populate('jobId userID profileId educationIds experienceIds').sort({ createdAt: -1 }).lean()
+    const jobs = await JobApplyModel.find({ employerId })
+      .populate('jobId userID profileId educationIds experienceIds')
+      .sort({ createdAt: -1 })
+      .lean()
     return jobs
   }
-  // async findAll() {
-  //     return await JobApplyModel.find().populate('jobId userId employerId');
-  // }
 
-  // async deleteById(id) {
-  //     return await JobApplyModel.findByIdAndDelete(id);
-  // }
+  async updateApplicationStatus (jobId, userID, status) {
+    const updateStatus = await JobApplyModel.updateOne(
+      {
+        jobId: jobId,
+        userID: userID
+      },
+      {
+        $set: { status }
+      }
+    )
+    return updateStatus
+  }
 }

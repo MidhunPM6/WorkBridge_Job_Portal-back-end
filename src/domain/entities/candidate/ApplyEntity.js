@@ -1,13 +1,14 @@
 import mongoose from 'mongoose'
 
 export default class ApplyEntity {
-  constructor (employerId, jobId, userID, profileId, educationIds, experienceIds, createdAt, updatedAt) {
+  constructor (employerId, jobId, userID, profileId, educationIds, experienceIds, status,createdAt, updatedAt) {
     this.employerId = employerId
     this.jobId = jobId
     this.userID = userID
     this.profileId = profileId
     this.educationIds = educationIds
     this.experienceIds = experienceIds
+    this.status = status || null
     this.createdAt = createdAt || new Date().toString()
     this.updatedAt = updatedAt || new Date().toString()
 
@@ -28,25 +29,29 @@ export default class ApplyEntity {
       throw new Error('Invalid profile ID')
     }
    
-  } 
+    
+  }  
     isValidObjectId(id) {
     return mongoose.Types.ObjectId.isValid(id);
   }
 
-  static create (employerId, jobId, userID, profileId, educationIds, experienceIds) {
-    return new ApplyEntity(employerId, jobId, userID, profileId, educationIds, experienceIds)
+  static create (employerId, jobId, userID, profileId, educationIds, experienceIds,status) {
+    return new ApplyEntity(employerId, jobId, userID, profileId, educationIds, experienceIds,status)
   }
+
 
   toDto () {
     return {
       employerId: this.employerId,
-      jobId: this.jobId,
+      jobId: this.jobId, 
       userID: this.userID,
       profileId: this.profileId,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       educationIds: this.educationIds,
-      experienceIds: this.experienceIds
-    }
+      experienceIds: this.experienceIds,  
+      status:this.status || null
+    }  
   }
 }
+  

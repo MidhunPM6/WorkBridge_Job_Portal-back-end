@@ -13,10 +13,14 @@ export default class IApplyJobRepository {
   //     throw new Error('Method not implemented');
   // }
 
-  // async deleteById(id) {
+  // async deleteById(id) { 
   //     throw new Error('Method not implemented');
   // }
   async findByEmployerId (employerId) {
     throw new Error('Method not implemented')
-  }           
+  }
+
+  async updateApplicationStatus (jobId, userId, status) {
+    throw new Error('Method not implemented')
+  }
 }

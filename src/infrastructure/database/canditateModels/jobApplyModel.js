@@ -33,7 +33,12 @@ const jobApplySchema = new mongoose.Schema(
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'Experience',
       required: true
-    }
+    },
+    status : {
+      type : String,
+      default : 'pending'
+    },
+
   },
   { timestamps: true }
 )

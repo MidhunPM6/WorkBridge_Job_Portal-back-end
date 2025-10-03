@@ -18,12 +18,13 @@ export const createSocketServer = server => {
     console.log('a user connected');
     
     connectedUsers[socket.user.userID] = socket.id
-
+   
     socketHandlers(io, socket,connectedUsers)
 
     socket.on('disconnect', () => {
       console.log('a user disconnected')
       delete connectedUsers[socket.user.userID]
     })
-  })
-}
+  }) 
+} 
+  

@@ -1,9 +1,15 @@
-import { create } from 'domain'
+
 import commonContainer from '../infrastructure/containers/commonContainer.js'
+import employerContainer from '../infrastructure/containers/employerContainer.js'
+
 
 const { saveMessageUseCase } = commonContainer()
+const {updateApplicationStatusUseCase} =employerContainer()
 
 export const socketHandlers = async (io, socket,connectedUsers) => {
+
+  console.log(connectedUsers);
+  
 
   socket.on('send-message', async ({ toUserId, message }) => {
     const fromUserId = socket.user.userID
@@ -28,13 +34,18 @@ export const socketHandlers = async (io, socket,connectedUsers) => {
     }
   })
 
-  socket.on('application-shortlist',async(data)=>{
+  socket.on('application-status',async(data)=>{
         const {candidateId,status,jobId,jobTitle}=data
         console.log(candidateId,status);
          const candidateSocketId = connectedUsers[candidateId]
        io.to(candidateSocketId).emit('job-notification', {
-        candidateId,status,jobId,jobTitle,message:'Shortlisted'
+        candidateId,status,jobId,jobTitle,message:`${status === 'shortlisted' ? 'Shortlisted' : 'Rejected'}`
        })
+       console.log('This is workin');
+       
+
+       await updateApplicationStatusUseCase.execute(jobId,candidateId,status)
+       
   })
 }
  

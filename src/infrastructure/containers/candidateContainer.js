@@ -1,5 +1,3 @@
-
-
 import CandidateRepository from '../repositories/candidate/candidateRepository.js'
 import GCPStorageService from '../services/gcpService.js'
 import PasswordServices from '../services/passwordfService.js'

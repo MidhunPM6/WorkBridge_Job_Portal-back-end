@@ -36,8 +36,7 @@ const jobApplySchema = new mongoose.Schema(
     },
     status : {
       type : String,
-      default : 'pending'
-    },
+    }, 
 
   },
   { timestamps: true }

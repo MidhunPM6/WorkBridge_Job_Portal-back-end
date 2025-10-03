@@ -1,10 +1,11 @@
 import JobApplyModel from '../../database/canditateModels/jobApplyModel.js'
 import IJobApplyRepository from '../../../domain/repositories/candidate/IApplyJobRepository.js'
-import mongoose from 'mongoose'
 
 export default class JobApplyRepository extends IJobApplyRepository {
-  async save (jobApplyData) {
-    const jobApply = new JobApplyModel(jobApplyData)
+  async save (jobApplyData,status) {
+    const data = {...jobApplyData,status}
+
+    const jobApply = new JobApplyModel(data)
     return (await jobApply.save()).populate('jobId employerId')
   }
 
@@ -15,7 +16,7 @@ export default class JobApplyRepository extends IJobApplyRepository {
   async findAppliedJobIdsByUser (userId) {
     const applications = await JobApplyModel.find({ userID: userId })
       .select('jobId')
-      .populate('jobId employerId')
+      .populate('jobId employerId status')
       .lean()
     return applications
   }

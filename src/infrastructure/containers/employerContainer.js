@@ -14,7 +14,7 @@ import FetchApplicationUseCase from '../../application/useCase/employer/fetchApp
 import GetCandidateUseCase from '../../application/useCase/employer/getCandidateUseCase.js'
 import ProfileEntity from '../../domain/entities/candidate/ProfileEntity.js'
 import ProfileRepository from '../repositories/candidate/profileRepository.js'
-import UpdateApplicationStatusUseCase from '../../application//useCase//employer/UpdateApplicationStatusUseCase.js'
+import UpdateApplicationStatusUseCase from '../../application/useCase/employer/updateApplicationStatusUseCase.js'
 
 
 

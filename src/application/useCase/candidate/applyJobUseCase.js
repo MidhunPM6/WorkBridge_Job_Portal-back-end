@@ -63,7 +63,7 @@ export default class ApplyJobUseCase {
       console.log(applyEntity)
 
       // Save the apply entity to the repository
-      const savedApply = await this.appliedJobRepository.save(applyEntity)
+      const savedApply = await this.appliedJobRepository.save(applyEntity,'pending')
       // Return the saved apply entity
       return savedApply
     } catch (error) {

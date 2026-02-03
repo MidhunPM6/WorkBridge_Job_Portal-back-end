@@ -80,8 +80,10 @@ export const fetchMyJobsController = async (req, res) => {
 
   try {
     const jobs = await fetchMyJobsUseCase.execute(userID)
-     if(!jobs){
-      return res.status(200).json({success:true,message:'No were jobs founded',profile:null}, )
+    if (!jobs) {
+      return res
+        .status(200)
+        .json({ success: true, message: 'No were jobs founded', profile: null })
     }
     return res.status(200).json({
       success: true,
@@ -193,7 +195,7 @@ export const employerProfileController = async (req, res) => {
         .json({ success: false, message: 'All fields are required' })
     }
     const response = await companyProfileUseCase.execute(profileData)
-   
+
     return res.status(200).json({
       success: true,
       message: 'Updated Sucessfully',
@@ -206,24 +208,27 @@ export const employerProfileController = async (req, res) => {
 }
 
 export const fetchCompanyProfileController = async (req, res) => {
-  const userID = req.userID
- console.log(userID);
- 
+ let userID
+ if(req.userRole === 'candidate'){
+  userID = req.query.companyId
+ }else{
+  userID = req.userID
+ }
 
   try {
     const response = await fetchCompanyProfileUseCase.execute(userID)
 
-    if(!response){
-      return res.status(200).json({success:true,message:'Profile not found',profile:null}, )
+    if (!response) {
+      return res
+        .status(200)
+        .json({ success: true, message: 'Profile not found', profile: null })
     }
-
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Fetched Successfully',
-        profile: response
-      })
+ 
+    return res.status(200).json({
+      success: true,
+      message: 'Fetched Successfully',
+      profile: response
+    })
   } catch (error) {
     console.error('Error creating employer profile:', error)
     return res.status(500).json({ message: 'Internal server error' })
@@ -252,18 +257,14 @@ export const fetchApplicationsController = async (req, res) => {
 }
 
 export const getCandidatesController = async (req, res) => {
-
   try {
     const response = await getCandidateUseCase.execute()
-    return res
-      .status(200)
-      .json({
-        success: true,
-        response,
-        message: 'Fetched Candidate Data successfully '
-      })
+    return res.status(200).json({
+      success: true,
+      response,
+      message: 'Fetched Candidate Data successfully '
+    })
   } catch (error) {
     return res.status(501).json({ success: false, message: 'Server Error' })
   }
 }
- 

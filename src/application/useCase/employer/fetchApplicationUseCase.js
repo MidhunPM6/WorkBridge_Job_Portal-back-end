@@ -12,6 +12,7 @@ export default class FetchApplicationUseCase {
       if (!jobs || jobs.length === 0) {
         return []
       }
+      console.log(jobs)
 
 
       return {
@@ -22,12 +23,13 @@ export default class FetchApplicationUseCase {
             profileData: job.profileId,
             educationData: job.educationIds,
             experienceData: job.experienceIds,
+            status:job.status,
             createdAt: job.createdAt,
             updatedAt: job.updatedAt
           }
         }),
       }  
-      return job
+      
     } catch (error) {
       console.error('Error fetching jobs:', error)
       throw new Error(error.message)

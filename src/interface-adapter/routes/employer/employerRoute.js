@@ -47,7 +47,7 @@ router.post(
 router.get(
   '/profileData',
   verifyToken,
-  authorizeRoles('employer'),
+  authorizeRoles('employer','candidate'),
   fetchCompanyProfileController
 )
 router.get(
@@ -59,7 +59,7 @@ router.get(
 router.get(
   '/getCandidates',
   verifyToken,
-  authorizeRoles('employer'),
+  authorizeRoles('employer','candidate'),
   getCandidatesController,
 )
 

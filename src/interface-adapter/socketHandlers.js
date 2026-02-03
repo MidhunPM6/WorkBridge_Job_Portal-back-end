@@ -1,15 +1,11 @@
-
 import commonContainer from '../infrastructure/containers/commonContainer.js'
 import employerContainer from '../infrastructure/containers/employerContainer.js'
 
-
 const { saveMessageUseCase } = commonContainer()
-const {updateApplicationStatusUseCase} =employerContainer()
+const { updateApplicationStatusUseCase } = employerContainer()
 
-export const socketHandlers = async (io, socket,connectedUsers) => {
-
-  console.log(connectedUsers);
-  
+export const socketHandlers = async (io, socket, connectedUsers) => {
+  console.log(connectedUsers)
 
   socket.on('send-message', async ({ toUserId, message }) => {
     const fromUserId = socket.user.userID
@@ -20,7 +16,7 @@ export const socketHandlers = async (io, socket,connectedUsers) => {
       sender: fromUserId,
       receiver: toUserId,
       message: message,
-      createdAt: new Date(),
+      createdAt: new Date()
     }
     await saveMessageUseCase.execute(messagePayload)
     console.log(messagePayload)
@@ -34,18 +30,19 @@ export const socketHandlers = async (io, socket,connectedUsers) => {
     }
   })
 
-  socket.on('application-status',async(data)=>{
-        const {candidateId,status,jobId,jobTitle}=data
-        console.log(candidateId,status);
-         const candidateSocketId = connectedUsers[candidateId]
-       io.to(candidateSocketId).emit('job-notification', {
-        candidateId,status,jobId,jobTitle,message:`${status === 'shortlisted' ? 'Shortlisted' : 'Rejected'}`
-       })
-       console.log('This is workin');
-       
-
-       await updateApplicationStatusUseCase.execute(jobId,candidateId,status)
-       
+  socket.on('application-status', async data => {
+    const { candidateId, status, jobId, jobTitle } = data
+    console.log(candidateId, status)
+    await updateApplicationStatusUseCase.execute(jobId, candidateId, status)
+    const candidateSocketId = connectedUsers[candidateId]
+    if (candidateSocketId) {
+      io.to(candidateSocketId).emit('job-notification', {
+        candidateId,
+        status,
+        jobId,
+        jobTitle,
+        message: `${status === 'shortlisted' ? 'Shortlisted' : 'Rejected'}`
+      })
+    }
   })
 }
- 

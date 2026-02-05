@@ -52,4 +52,20 @@ export default class PostJobRepository extends IPostJobRepository {
     }
     return JobPost.findByIdAndDelete(jobId)
   }
+
+  async searchJobs(searchData) {
+   
+    const query = {}
+
+    if (searchData.title && searchData.title.trim() !== '') {
+      query.title = { $regex: searchData.title, $options: 'i' }
+    }
+
+    if (searchData.location && searchData.location.trim() !== '') {
+      query.location = { $regex: searchData.location, $options: 'i' }
+    }
+
+    const jobs = await JobPost.find(query).sort({ createdAt: -1 }).lean().populate('userID')
+    return jobs
+  }
 }

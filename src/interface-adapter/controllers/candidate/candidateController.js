@@ -17,9 +17,9 @@ const {
   deleteAccountUseCase,
   deleteResumeUseCase,
   applyJobUseCase,
-  appliedJobUseCase
+  appliedJobUseCase,
+  jobSearchUseCase
 } = candidateContainer()
-
 
 // Method to excute the personal details
 export const personalProfile = async (req, res) => {
@@ -43,7 +43,6 @@ export const personalProfile = async (req, res) => {
       skills,
       req.userID
     )
-  
 
     return res
       .status(200)
@@ -58,7 +57,6 @@ export const personalProfile = async (req, res) => {
 
 // Posting experiance details
 export const experienceController = async (req, res) => {
-  
   if (!req.userID) {
     return res
       .status(401)
@@ -269,7 +267,11 @@ export const resumeUploadController = async (req, res) => {
     }
     return res
       .status(200)
-      .json({ success: true, data:response, message: 'Resume successfully uploaded' })
+      .json({
+        success: true,
+        data: response,
+        message: 'Resume successfully uploaded'
+      })
   } catch (error) {
     console.error(error)
     return res
@@ -363,8 +365,8 @@ export const verifyOtpController = async (req, res) => {
 //  Controller to manage the Delete candidate account
 export const deleteAccountController = async (req, res) => {
   const userID = req.userID
-  console.log('userID:', userID);
-  
+  console.log('userID:', userID)
+
   if (!userID) {
     return res.status(401).json({
       success: false,
@@ -453,18 +455,38 @@ export const getAppliedJobsController = async (req, res) => {
         .json({ success: false, message: 'Invalid or Unauthorized Token' })
     }
     const appliedJobs = await appliedJobUseCase.execute(userId)
-    return res
-      .status(200)
-      .json({
-        success: true,
-        appliedJobs,
-        message: 'Fetched Applied JobIDs successfully'
-      })
+    return res.status(200).json({
+      success: true,
+      appliedJobs,
+      message: 'Fetched Applied JobIDs successfully'
+    })
   } catch (error) {
     console.error(error.message)
 
     return res
       .status(500)
       .json({ success: false, message: error || 'Server Error' })
+  }
+}
+
+export const searchJobsController = async (req, res) => {
+  const searchParams = req.body
+  try {
+    const results = await jobSearchUseCase.execute(searchParams)
+    if (!results) {
+      return res.status(400).json({
+        sucess: false
+      })
+    }
+    return res.status(200).json({
+      success: true,
+      jobs: results,
+      message: 'Job search successful'
+    })
+  } catch (error) {
+    return res.status(500).json({
+      sucess: false,
+      message: 'Internal server error'
+    })
   }
 }

@@ -30,11 +30,8 @@ import ApplyEntity from '../../domain/entities/candidate/ApplyEntity.js'
 import AppliedJobUseCase from '../../application/useCase/candidate/appliedJobsUseCase.js'
 import EmployerRepository from '../repositories/employer/employerRepository.js'
 import EmployerEntity from '../../domain/entities/employer/EmployerEnitity.js'
-
-
-
-
-  
+import JobPostRepository from '../repositories/employer/JobPostRepository.js'
+import JobSearchUseCase from '../../application/useCase/candidate/jobSearchUseCase.js'
 
 const candidateContainer = () => {
   const candidateRepository = new CandidateRepository()
@@ -46,7 +43,7 @@ const candidateContainer = () => {
   const otpRepository = new OtpRepository()
   const emailOtpService = new EmailOtpService()
   const jobApplyRepository = new JobApplyRepository()
- 
+  const jobPostRepository = new JobPostRepository()
   const employerRepository = new EmployerRepository()
 
   const candidateEntity = CandidateEntity
@@ -55,14 +52,8 @@ const candidateContainer = () => {
   const educationEntity = EducationEntity
   const applyEntity = ApplyEntity
   const employerEntity = EmployerEntity
-  
 
   return {
-   
-
-    
-   
-
     profileUseCase: new ProfileUseCase(
       profileEntity,
       profileRepository,
@@ -122,16 +113,16 @@ const candidateContainer = () => {
       profileRepository,
       profileEntity,
       candidateEntity
-    )
-    ,
+    ),
     applyJobUseCase: new ApplyJobUseCase(
       jobApplyRepository,
       profileRepository,
       applyEntity,
       educationRepository,
-      experienceRepository,
+      experienceRepository
     ),
-    appliedJobUseCase: new AppliedJobUseCase(jobApplyRepository)
+    appliedJobUseCase: new AppliedJobUseCase(jobApplyRepository),
+    jobSearchUseCase : new JobSearchUseCase(jobPostRepository)
   }
 }
 export default candidateContainer

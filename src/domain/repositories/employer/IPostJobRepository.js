@@ -20,4 +20,8 @@ export default class IPostJobRepository {
   delete (jobId) {
     throw new Error('The method delete is required')
   }
+  searchJobs(searchData){
+    throw new Error("The method is required");
+    
+  }
 }

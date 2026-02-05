@@ -15,7 +15,8 @@ import {
   deleteAccountController,
   deleteResumeController,
   applyJobController,
-  getAppliedJobsController
+  getAppliedJobsController,
+  searchJobsController
 } from '../../controllers/candidate/candidateController.js'
 import {uploadImage, uploadPDF} from '../../../infrastructure/storage/multerStorage.js'
 import { verifyToken } from '../../../infrastructure/middleware/jwtVerifyMiddle.js'
@@ -49,5 +50,9 @@ router.delete('/education/:id', verifyToken, authorizeRoles('candidate'), delete
 // Apply for a job
 router.post('/applyJob', verifyToken, authorizeRoles('candidate'), applyJobController)
 router.get("/appliedJobs", verifyToken, authorizeRoles('candidate'),getAppliedJobsController);
+
+// Managing Jobs 
+
+router.post("/jobs/search", verifyToken, authorizeRoles('candidate'),searchJobsController);
 
 export default router 
